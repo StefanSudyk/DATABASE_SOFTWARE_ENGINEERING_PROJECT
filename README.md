@@ -1,2 +1,2 @@
 # DATABASE_SOFTWARE_ENGINEERING_PROJECT
-Creating a project with team for our University Course: Databases and Software Engineering
+Project created for our University Courses: Database and Software Engineering at Rzeszów University of Technology 
