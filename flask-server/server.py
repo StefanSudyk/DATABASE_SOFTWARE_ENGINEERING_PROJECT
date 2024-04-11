@@ -1,12 +1,24 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
+"""
+Ustawienia w mysql workbench zróbcie tak by były podobne do moich. 
+Po odpaleniu connectora zróbcie poniższe w terminalu:
 
-@app.route("/members")
-def members():
-    return {"members": ["Member1", "Member2", "Member3"]}
+cd flask-server
+ python
+    >>>from app import app
+    >>>from app import db
+    >>>db.create_all()
+    
+To odpali i stworzy wam przez pythona pierwszą tabele, która znajduje sie poniżej.
+"""
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:password@localhost/housedb"
 
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-if __name__ == "__main__":
-    app.run(debug=True)
+db = SQLAlchemy(app)
+
+app.app_context().push()
