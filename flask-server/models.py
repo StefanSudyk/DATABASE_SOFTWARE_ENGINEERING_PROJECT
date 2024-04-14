@@ -1,4 +1,4 @@
-from server import db
+from app import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func
 
@@ -24,10 +24,10 @@ class Nieruchomosc(db.Model):
     #IDK czy tak z ta cena ale dalem ze do 2 dokladnosc miejsc
     cena = db.Column(db.Float(precision = 2))
     metraz = db.Column(db.Float)
-    otoczenie = db.Column(db.String)
-    standard_wykonczenia = db.Column(db.String)
-    stan = db.Column(db.String)
-    rynek = db.Column(db.String)
+    otoczenie = db.Column(db.String(20))
+    standard_wykonczenia = db.Column(db.String(20))
+    stan = db.Column(db.String(30))
+    rynek = db.Column(db.String(20))
 
     def __init__(self, id_wlasciciela, tytul, cena, metraz, otoczenie, standard_wykonczenia, stan, rynek):
         self.id_wlasciciela = id_wlasciciela
@@ -48,7 +48,7 @@ class Adres(db.Model):
     miejscowosc = db.Column(db.String(100))
     ulica = db.Column(db.String(100))
     kod_pocztowy = db.Column(db.String(20))
-    wspolrzedne = db.Column(db.Integer(30))
+    wspolrzedne = db.Column(db.Integer)
     
     def __init__(self, id, wojewodztwo, powiat, gmina, miejscowosc, ulica, kod_pocztowy, wspolrzedne):
         self.id = id
@@ -67,8 +67,8 @@ class Wnetrze(db.Model):
     ilosc_garaz = db.Column(db.Integer)
     ilosc_balkon = db.Column(db.Integer)
     ilosc_pieter = db.Column(db.Integer)
-    rodzaj_ogrzewania = db.Column(db.String)
-    opis = db.Column(db.String)
+    rodzaj_ogrzewania = db.Column(db.String(30))
+    opis = db.Column(db.String(500))
 
     def __init__(self, id, ilosc_pokoi, ilosc_lazienek, ilosc_garaz, ilosc_balkon, ilosc_pieter, rodzaj_ogrzewania, opis):
         self.id = id
