@@ -1,9 +1,10 @@
 from app import db
+from flask_login_ import UserMixin
 
 
 # TODO: określić architekture bd
 
-class Uzytkownik(db.Model):
+class Uzytkownik(db.Model, UserMixin):
     id = db.Column(db.Integer, unique=True, primary_key=True)
     imie = db.Column(db.String(20))
     nazwisko = db.Column(db.String(20))
