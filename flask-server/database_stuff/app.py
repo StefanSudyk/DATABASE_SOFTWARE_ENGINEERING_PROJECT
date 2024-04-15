@@ -2,19 +2,6 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-"""
-Ustawienia w mysql workbench zróbcie tak by były podobne do moich. 
-Po odpaleniu connectora zróbcie poniższe w terminalu:
-
-cd flask-server
- python
-    >>>from app import app
-    >>>from app import db
-    >>>db.create_all()
-    
-To odpali i stworzy wam przez pythona pierwszą tabele, która znajduje sie poniżej.
-"""
-
 db = SQLAlchemy()
 
 def create_app():
@@ -23,11 +10,14 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:password@localhost/housedb"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
+
     db.init_app(app)
-
-    from routes import register_routes
-    register_routes(app, db)
-
+    from views import views
+    from auth import auth
+    
+    app.register_blueprint(views, url_prefix='/')
+    app.register_blueprint(auth, url_prefix='/')
+    
     migrate = Migrate(app, db)
     #app.app_context().push()
     return app
