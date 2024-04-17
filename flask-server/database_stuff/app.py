@@ -1,8 +1,9 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-
 db = SQLAlchemy()
+
+
 
 def create_app():
 
@@ -19,7 +20,7 @@ def create_app():
     app.register_blueprint(auth, url_prefix='/')
     
     migrate = Migrate(app, db)
-    #app.app_context().push()
+    app.app_context().push()
     return app
     
 '''
