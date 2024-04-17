@@ -1,21 +1,25 @@
 from app import db
-from flask_login_ import UserMixin
+from flask_login import UserMixin
 
 
-# TODO: określić architekture bd
-
-class Uzytkownik(db.Model, UserMixin):
+"""
+tworzy tabele
+from run import flask_app
+from app import db
+db.create_all()
+"""
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, unique=True, primary_key=True)
-    imie = db.Column(db.String(20))
-    nazwisko = db.Column(db.String(20))
-    numer_telefonu = db.Column(db.String(9))
-    haslo = db.Column(db.String(20))
+    first_name = db.Column(db.String(20))
+    last_name = db.Column(db.String(20))
+    phone_number = db.Column(db.String(9))
+    password = db.Column(db.String(20))
 
-    def __init__(self, imie, nazwisko, numer_telefonu, haslo):
-        self.imie = imie
-        self.nazwisko = nazwisko
-        self.numer_telefonu = numer_telefonu
-        self.haslo = haslo
+    def __init__(self, first_name, last_name, phone_number, password):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.phone_number = phone_number
+        self.password = password
 
 
 class Nieruchomosc(db.Model):
