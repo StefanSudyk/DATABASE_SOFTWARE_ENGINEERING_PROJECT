@@ -1,13 +1,14 @@
 from app import db
 from flask_login import UserMixin
 
-
 """
 tworzy tabele
 from run import flask_app
 from app import db
 db.create_all()
 """
+
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, unique=True, primary_key=True)
     first_name = db.Column(db.String(20))
