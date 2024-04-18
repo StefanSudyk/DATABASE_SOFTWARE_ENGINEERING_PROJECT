@@ -13,7 +13,7 @@ mydb_connector = mysql.connector.connect(
 )
 
 my_curosr = mydb_connector.cursor()
-
+#my_curosr.execute("DROP DATABASE IF EXISTS housedb")
 my_curosr.execute("CREATE DATABASE housedb")
 
 my_curosr.execute("SHOW DATABASES")

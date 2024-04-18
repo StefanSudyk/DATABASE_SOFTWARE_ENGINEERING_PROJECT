@@ -4,84 +4,84 @@ from sqlalchemy.sql import func
 
 # TODO: określić architekture bd
 
-class Uzytkownik(db.Model):
-    id_uzytkownika = db.Column(db.Integer, unique=True, primary_key=True)
-    imie = db.Column(db.String(20))
-    nazwisko = db.Column(db.String(20))
-    numer_telefonu = db.Column(db.String(9))
-    haslo = db.Column(db.String(20))
-    nieruchomosci = db.relationship('Nieruchomosc', backref='wlasciciel', lazy=True)
+class User(db.Model):
+    id_user = db.Column(db.Integer, unique=True, primary_key=True)
+    name = db.Column(db.String(20))
+    surname = db.Column(db.String(20))
+    phone_number = db.Column(db.String(9))
+    password = db.Column(db.String(20))
+    properties = db.relationship('Property', backref='owner', lazy=True)
 
-    def __init__(self, id_uzytkownika, imie, nazwisko, numer_telefonu, haslo):
-        self.id_uzytkownika = id_uzytkownika
-        self.imie = imie
-        self.nazwisko = nazwisko
-        self.numer_telefonu = numer_telefonu
-        self.haslo = haslo
+    def __init__(self, id_user, name, surname, phone_number, password):
+        self.id_user = id_user
+        self.name = name
+        self.surname = surname
+        self.phone_number = phone_number
+        self.password = password
 
 
-class Nieruchomosc(db.Model):
-    id_nieruchomosci = db.Column(db.Integer, unique=True, primary_key=True)
-    id_wlasciciela = db.Column(db.Integer, db.ForeignKey('uzytkownik.id_uzytkownika')) 
-    tytul = db.Column(db.String(100))
+class Property(db.Model):
+    id_property = db.Column(db.Integer, unique=True, primary_key=True)
+    id_owner = db.Column(db.Integer, db.ForeignKey('user.id_user')) 
+    title = db.Column(db.String(100))
     #IDK czy tak z ta cena ale dalem ze do 2 dokladnosc miejsc
-    cena = db.Column(db.Float(precision = 2))
-    metraz = db.Column(db.Float)
-    otoczenie = db.Column(db.String(20))
-    standard_wykonczenia = db.Column(db.String(20))
-    stan = db.Column(db.String(30))
-    rynek = db.Column(db.String(20))
-    adres = db.relationship('Adres', uselist=False, backref='nieruchomosc', lazy=True) #uselist=false do relacji jeden do jednego
-    wnetrze = db.relationship('Wnetrze', uselist=False, backref='nieruchomosc', lazy=True)
+    price = db.Column(db.Float(precision = 2))
+    square_footage = db.Column(db.Float)
+    surroundings = db.Column(db.String(20))
+    finishing_standard = db.Column(db.String(20))
+    condition = db.Column(db.String(30))
+    market = db.Column(db.String(20))
+    address = db.relationship('Address', uselist=False, backref='property', lazy=True) #uselist=false do relacji jeden do jednego
+    inside = db.relationship('Inside', uselist=False, backref='property', lazy=True)
 
-    def __init__(self, id_nieruchomosci, id_wlasciciela, tytul, cena, metraz, otoczenie, standard_wykonczenia, stan, rynek):
-        self.id_nieruchomosci = id_nieruchomosci
-        self.id_wlasciciela = id_wlasciciela
-        self.tytul = tytul
-        self.cena = cena
-        self.metraz = metraz
-        self.otoczenie = otoczenie
-        self.standard_wykonczenia = standard_wykonczenia
-        self.stan = stan
-        self.rynek = rynek
+    def __init__(self, id_property, id_owner, title, price, square_footage, surroundings, finishing_standard, condition, market):
+        self.id_property = id_property
+        self.id_owner = id_owner
+        self.title = title
+        self.price = price
+        self.square_footage = square_footage
+        self.surroundings = surroundings
+        self.finishing_standard = finishing_standard
+        self.condition = condition
+        self.market = market
 
 
-class Adres(db.Model):
-    id_nieruchomosci = db.Column(db.Integer, db.ForeignKey('nieruchomosc.id_nieruchomosci'), primary_key=True)
-    wojewodztwo = db.Column(db.String(30))
-    powiat = db.Column(db.String(100))
-    gmina = db.Column(db.String(100))
-    miejscowosc = db.Column(db.String(100))
-    ulica = db.Column(db.String(100))
-    kod_pocztowy = db.Column(db.String(20))
-    wspolrzedne = db.Column(db.Integer)
+class Address(db.Model):
+    id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'), primary_key=True)
+    province = db.Column(db.String(30))
+    county = db.Column(db.String(100))
+    district = db.Column(db.String(100))
+    locality = db.Column(db.String(100))
+    street = db.Column(db.String(100))
+    zip_code = db.Column(db.String(20))
+    coordinates= db.Column(db.Integer)
     
-    def __init__(self, id_nieruchomosci, wojewodztwo, powiat, gmina, miejscowosc, ulica, kod_pocztowy, wspolrzedne):
-        self.id_nieruchomosci = id_nieruchomosci
-        self.wojewodztwo = wojewodztwo
-        self.powiat = powiat
-        self.gmina = gmina
-        self.miejscowosc = miejscowosc
-        self.ulica = ulica
-        self.kod_pocztowy = kod_pocztowy
-        self.wspolrzedne = wspolrzedne
+    def __init__(self, id_property, province, county, district, locality, street, zip_code, coordinates):
+        self.id_property = id_property
+        self.province = province
+        self.county = county
+        self.district = district
+        self.locality = locality
+        self.street = street
+        self.zip_code = zip_code
+        self.coordinates = coordinates
 
-class Wnetrze(db.Model):
-    id_nieruchomosci = db.Column(db.Integer, db.ForeignKey('nieruchomosc.id_nieruchomosci'), primary_key=True)
-    ilosc_pokoi = db.Column(db.Integer)
-    ilosc_lazienek = db.Column(db.Integer)
-    ilosc_garaz = db.Column(db.Integer)
-    ilosc_balkon = db.Column(db.Integer)
-    ilosc_pieter = db.Column(db.Integer)
-    rodzaj_ogrzewania = db.Column(db.String(30))
-    opis = db.Column(db.String(500))
+class Inside(db.Model):
+    id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'), primary_key=True)
+    nr_rooms = db.Column(db.Integer)
+    nr_bathrooms = db.Column(db.Integer)
+    nr_garages = db.Column(db.Integer)
+    nr_balconies = db.Column(db.Integer)
+    nr_floors = db.Column(db.Integer)
+    type_of_heating = db.Column(db.String(30))
+    description = db.Column(db.String(500))
 
-    def __init__(self, id_nieruchomosci, ilosc_pokoi, ilosc_lazienek, ilosc_garaz, ilosc_balkon, ilosc_pieter, rodzaj_ogrzewania, opis):
-        self.id_nieruchomosci = id_nieruchomosci
-        self.ilosc_pokoi = ilosc_pokoi
-        self.ilosc_lazienek = ilosc_lazienek
-        self.ilosc_garaz = ilosc_garaz
-        self.ilosc_balkon = ilosc_balkon
-        self.ilosc_pieter = ilosc_pieter
-        self.rodzaj_ogrzewania = rodzaj_ogrzewania
-        self.opis = opis
+    def __init__(self, id_property, nr_rooms, nr_bathrooms, nr_garages, nr_balconies, nr_floors, type_of_heating, description):
+        self.id_property = id_property
+        self.nr_rooms = nr_rooms
+        self.nr_bathrooms = nr_bathrooms
+        self.nr_garages = nr_garages
+        self.nr_balconies = nr_balconies
+        self.nr_floors = nr_floors
+        self.type_of_heating = type_of_heating
+        self.description = description
