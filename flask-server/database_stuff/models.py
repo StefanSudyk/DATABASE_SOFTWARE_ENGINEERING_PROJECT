@@ -26,7 +26,7 @@ class Property(db.Model):
     title = db.Column(db.String(100))
     #IDK czy tak z ta cena ale dalem ze do 2 dokladnosc miejsc
     price = db.Column(db.Float(precision = 2))
-    square_footage = db.Column(db.Float)
+    square_metrage = db.Column(db.Float)
     surroundings = db.Column(db.String(20))
     finishing_standard = db.Column(db.String(20))
     condition = db.Column(db.String(30))
@@ -34,12 +34,12 @@ class Property(db.Model):
     address = db.relationship('Address', uselist=False, backref='property', lazy=True) #uselist=false do relacji jeden do jednego
     inside = db.relationship('Inside', uselist=False, backref='property', lazy=True)
 
-    def __init__(self, id_property, id_owner, title, price, square_footage, surroundings, finishing_standard, condition, market):
+    def __init__(self, id_property, id_owner, title, price, square_metrage, surroundings, finishing_standard, condition, market):
         self.id_property = id_property
         self.id_owner = id_owner
         self.title = title
         self.price = price
-        self.square_footage = square_footage
+        self.square_metrage = square_metrage
         self.surroundings = surroundings
         self.finishing_standard = finishing_standard
         self.condition = condition
