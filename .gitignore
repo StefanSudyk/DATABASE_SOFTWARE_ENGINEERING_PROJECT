@@ -1,2 +1,4 @@
 /flask-server/__pycache__
 /flask-server/migrations
+/flask-server/database_stuff/__pycache__
+/flask-server/database_stuff/migrations
