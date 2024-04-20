@@ -1,8 +1,14 @@
 from app import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func
-
+import enum
+from sqlalchemy import Enum
 # TODO: określić architekture bd
+
+class UserType(enum.Enum):
+    ADMIN = "Admin"
+    USER = "User"
+    COMPANY = "Company"
 
 class User(db.Model):
     id_user = db.Column(db.Integer, unique=True, primary_key=True)
@@ -12,19 +18,19 @@ class User(db.Model):
     phone_number = db.Column(db.String(9))
     password = db.Column(db.String(20))
     email = db.Column(db.String(50))
-    type = db.Column(db.String(50))
+    usertype = db.Column(db.Enum(UserType))
     properties = db.relationship('Property', backref='owner', lazy=True)
 
-    def __init__(self, id_user,id_company, name, surname, phone_number, password,email, type):
+    def __init__(self, id_user,id_company, name, surname, phone_number, password,email, usertype):
         self.id_user = id_user
         self.id_company = id_company
         self.name = name
         self.surname = surname
         self.phone_number = phone_number
         self.password = password
-        self.email = password
-        self.type = type
-
+        self.email = email
+        self.usertype = usertype
+   
 class Favourite(db.Model):
     id_favourite = db.Column(db.Integer, unique=True, primary_key=True)
     id_user = db.Column(db.Integer)
@@ -33,7 +39,13 @@ class Favourite(db.Model):
     def __init__(self, id_favourite, id_user, id_property):
         self.id_favourite = id_favourite
         self.id_user = id_user
-        self.id_property = id_favourite
+        self.id_property = id_property
+
+class Company_Type(enum.Enum):
+    DEVELOPER = "Developer"
+    ESTATE_AGENCY = "Estate agency"
+ 
+
 class Company(db.Model):
     id_company = db.Column(db.Integer, unique=True, primary_key=True)
     cp_name = db.Column(db.String(255))
@@ -43,7 +55,7 @@ class Company(db.Model):
     street = db.Column(db.String(30))
     city = db.Column(db.String(30))
     house_number = db.Column(db.String(30))
-    cp_type = db.Column(db.String(50))
+    cp_type = db.Column(db.Enum(Company_Type))
 
     def __init__(self, id_company, cp_name,REGON, NIP,postal_code, street, city, house_number, cp_type):
         self.id_company = id_company
@@ -117,6 +129,23 @@ class Photo(db.Model):
         self.address_photo = address_photo
         self.description_photo = description_photo
 
+class Heatinig(enum.Enum):
+    LACK = "Lack"
+    HEAT_PUMP = "Heat pump"
+    FURNACE = "Furnace"
+    ECO_PEA_STOVE = "Eco-pea stove"
+    GAS_FURNACE = "Gas furnace"
+    ELECTRIC_HEATING="Electric heating"
+    SOLAR_PANELS = "Solar panels"
+
+class Condition(enum.Enum):
+    FORMALITIES = "Formalities"
+    ZERO_CONDITION = "Zero condition"
+    OPEN_BASIC_CONDITION = "Open basic condition"
+    CLOSE_BASIC_CONDITION = "Close basic condition"
+    FINISHING_WORKS = "Finishing works"
+    FINISHED = "Finished"
+
 class Inside(db.Model):
     id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'), primary_key=True)
     id_infrastructure = db.Column(db.Integer)
@@ -127,11 +156,11 @@ class Inside(db.Model):
     nr_garages = db.Column(db.Integer)
     nr_balconies = db.Column(db.Integer)
     nr_floors = db.Column(db.Integer)
-    type_of_heating = db.Column(db.String(30))
-    condition = db.Column(db.String(30))
+    type_of_heating = db.Column(db.Enum(Heatinig))
+    condition_ = db.Column(db.Enum(Condition))
     description = db.Column(db.String(500))
 
-    def __init__(self, id_property, nr_rooms, nr_bathrooms,basement,attic, nr_garages, nr_balconies, nr_floors, type_of_heating,condition, description):
+    def __init__(self, id_property, nr_rooms, nr_bathrooms,basement,attic, nr_garages, nr_balconies, nr_floors, type_of_heating,condition_, description):
         self.id_property = id_property
         self.nr_rooms = nr_rooms
         self.nr_bathrooms = nr_bathrooms
@@ -141,7 +170,7 @@ class Inside(db.Model):
         self.nr_balconies = nr_balconies
         self.nr_floors = nr_floors
         self.type_of_heating = type_of_heating
-        self.condition = condition
+        self.condition_ = condition_
         self.description = description
 
 class Infrastructure(db.Model):
@@ -163,4 +192,14 @@ class Infrastructure(db.Model):
         self.school_distance = school_distance
         self.bicycle_rack = bicycle_rack
         self.car_parking_space = car_parking_space
-        
+    
+class Room(db.Model):
+    id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'), primary_key=True)
+    id_room = db.Column(db.Integer)
+    room_metrage = db.Column(db.Float)
+
+    def __init__(self, id_property, id_room, room_metrage):
+        self.id_property = id_property
+        self.id_room = id_room
+        self.room_metrage = room_metrage
+
