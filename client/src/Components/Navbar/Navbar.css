@@ -1,0 +1,61 @@
+
+.navbar{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #374967;
+    padding: 13px 2%;
+    color:white;
+    text-shadow: black;
+
+
+}
+.logo{
+    width: 300px;
+    cursor: pointer;
+    margin-right:auto;
+}
+.ul{
+    flex: 1;
+    list-style: none;
+    align-items:right;
+}
+
+ul li{
+    display:inline-block;
+    margin: 10px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.navbar_text:hover{
+    color:rgb(236, 236, 236);
+}
+.ogloszenie{
+    margin-left:1%;
+    margin-right:0%;
+    width: 100px;
+    cursor: pointer;
+    /* tutaj nie uzyte zdjecie*/
+}
+
+
+.DodajOgloszenie{
+    
+    border: 3px solid white;
+    border-radius: 1cap;
+    padding-top:5px;
+    padding-bottom:5px;
+    padding-left:10px;
+    padding-right: 10px;
+    
+    
+    
+}
+.DodajOgloszenie:hover{
+    color:#ff8c00;
+    border: 3px solid #ff8c00;
+    background-color:#374967;
+}
