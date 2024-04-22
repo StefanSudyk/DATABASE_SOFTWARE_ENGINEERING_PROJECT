@@ -202,34 +202,3 @@ class Room(db.Model):
         self.id_property = id_property
         self.id_room = id_room
         self.room_metrage = room_metrage
-
-
-class Infrastructure(db.Model):
-    id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'), primary_key=True)
-    shop_distance = db.Column(db.Integer)
-    park_distance = db.Column(db.Integer)
-    playground_distance = db.Column(db.Integer)
-    kindergarden_distance = db.Column(db.Integer)
-    school_distance = db.Column(db.Integer)
-    bicycle_rack = db.Column(db.Boolean)
-    car_parking_space = db.Column(db.Boolean)
-
-    def __init__(self, id_property, shop_distance, park_dostance, playground_distance, kindergarden_distance, school_distance, bicycle_rack, car_parking_space):
-        self.id_property = id_property
-        self.shop_distance = shop_distance
-        self.park_distance = park_dostance
-        self.playground_distance = playground_distance
-        self.kindergarden_distance = kindergarden_distance
-        self.school_distance = school_distance
-        self.bicycle_rack = bicycle_rack
-        self.car_parking_space = car_parking_space
-    
-class Room(db.Model):
-    id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'), primary_key=True)
-    id_room = db.Column(db.Integer)
-    room_metrage = db.Column(db.Float)
-
-    def __init__(self, id_property, id_room, room_metrage):
-        self.id_property = id_property
-        self.id_room = id_room
-        self.room_metrage = room_metrage
