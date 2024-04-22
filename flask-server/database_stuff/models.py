@@ -202,4 +202,3 @@ class Room(db.Model):
         self.id_property = id_property
         self.id_room = id_room
         self.room_metrage = room_metrage
-
