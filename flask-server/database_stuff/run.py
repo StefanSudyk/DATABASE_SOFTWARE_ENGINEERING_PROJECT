@@ -20,4 +20,5 @@ if __name__ == '__main__':
     api.add_resource(GetUser, "/get/<int:user_id>")
     api.add_resource(PostUser, '/post')
     api.add_resource(DeleteUser, '/delete/<int:user_id>')
+    api.add_resource(GetAllUsers, '/get')
     flask_app.run(debug=True)
