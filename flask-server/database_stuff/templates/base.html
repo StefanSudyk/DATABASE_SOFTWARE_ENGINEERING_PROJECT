@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {% endblock %}</title>
+</head>
+<body>
+    <h1>Flats&Homes</h1> <p><a href="{{ url_for('auth.login') }}">Log in</a></p>    <p><a href="{{ url_for('auth.logout') }}">Log out</a></p>   <p><a href="{{ url_for('auth.signup') }}">Sign up</a></p>   <p><a href="{{ url_for('views.user') }}">User panel</a></p>
+    {% block content %} 
+    <!-- hej -->
+    {% endblock %}
+</body>
+</html>
