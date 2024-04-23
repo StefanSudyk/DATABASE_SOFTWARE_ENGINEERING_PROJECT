@@ -18,7 +18,7 @@ class UserType(str, enum.Enum):
 class User(db.Model):
     # TODO - poprawić tabele id_company, wyjebalem ja - zmieniony __init__
     id_user = db.Column(db.Integer, unique=True, primary_key=True)
-    id_company = db.Column(db.Integer)
+    id_company = db.Column(db.Integer, db.ForeignKey('company.id_company'), unique=True)
     name = db.Column(db.String(20))
     surname = db.Column(db.String(20))
     phone_number = db.Column(db.String(9))
@@ -26,6 +26,7 @@ class User(db.Model):
     email = db.Column(db.String(50))
     usertype = db.Column(db.Enum(UserType))
     properties = db.relationship('Property', backref='owner', lazy=True)
+    favourites = db.relationship('Favourite', backref='user', lazy=True)
 
     def __init__(self, name, surname, phone_number, password, email, usertype):
         self.name = name
@@ -38,8 +39,8 @@ class User(db.Model):
 
 class Favourite(db.Model):
     id_favourite = db.Column(db.Integer, unique=True, primary_key=True)
-    id_user = db.Column(db.Integer)
-    id_property = db.Column(db.Integer)
+    id_user = db.Column(db.Integer, db.ForeignKey('user.id_user'))
+    id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'))
 
     def __init__(self, id_favourite, id_user, id_property):
         self.id_favourite = id_favourite
@@ -62,6 +63,7 @@ class Company(db.Model):
     city = db.Column(db.String(30))
     house_number = db.Column(db.String(30))
     cp_type = db.Column(db.Enum(Company_Type))
+    user = db.relationship("User", uselist=False, backref="company")
 
     def __init__(self, id_company, cp_name, REGON, NIP, postal_code, street, city, house_number, cp_type):
         self.id_company = id_company
@@ -77,7 +79,7 @@ class Company(db.Model):
 
 class Property(db.Model):
     id_property = db.Column(db.Integer, unique=True, primary_key=True)
-    id_owner = db.Column(db.Integer, db.ForeignKey('user.id_user'))
+    id_owner = db.Column(db.Integer, db.ForeignKey('user.id_user'), unique=True)
     title = db.Column(db.String(100))
     #IDK czy tak z ta cena ale dalem ze do 2 dokladnosc miejsc
     price = db.Column(db.Float(precision=2))
@@ -89,9 +91,12 @@ class Property(db.Model):
     publication_date = db.Column(db.Date)
     p_p_meter = db.Column(db.Float)
     sponsored = db.Column(db.Boolean)
-    address = db.relationship('Address', uselist=False, backref='property',
-                              lazy=True)  #uselist=false do relacji jeden do jednego
+    address = db.relationship('Address', uselist=False, backref='property', lazy=True)  #uselist=false do relacji jeden do jednego
     inside = db.relationship('Inside', uselist=False, backref='property', lazy=True)
+    infrastructure = db.relationship('Infrastructure', uselist=False, backref='property', lazy=True)
+    photos = db.relationship('Photo', backref='property', lazy=True)
+    rooms = db.relationship('Room', backref='property', lazy=True)
+    favourites = db.relationship('Favourite', backref='property', lazy=True)
 
     def __init__(self, id_property, id_owner, title, price, square_metrage, finishing_standard, condition, market,
                  publication_date, p_p_meter, sposored):
@@ -109,7 +114,7 @@ class Property(db.Model):
 
 
 class Address(db.Model):
-    id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'), primary_key=True)
+    id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'), primary_key=True, unique=True)
     county = db.Column(db.String(20))
     region = db.Column(db.String(20))
     district = db.Column(db.String(20))
@@ -162,7 +167,7 @@ class Condition(enum.Enum):
 
 
 class Inside(db.Model):
-    id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'), primary_key=True)
+    id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'), primary_key=True, unique=True)
     id_infrastructure = db.Column(db.Integer)
     nr_rooms = db.Column(db.Integer)
     nr_bathrooms = db.Column(db.Integer)
@@ -191,7 +196,7 @@ class Inside(db.Model):
 
 
 class Infrastructure(db.Model):
-    id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'), primary_key=True)
+    id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'), primary_key=True, unique=True)
     shop_distance = db.Column(db.Integer)
     park_distance = db.Column(db.Integer)
     playground_distance = db.Column(db.Integer)
@@ -213,8 +218,8 @@ class Infrastructure(db.Model):
 
 
 class Room(db.Model):
-    id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'), primary_key=True)
-    id_room = db.Column(db.Integer, unique=True, primary_key=True)
+    id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'))
+    id_room = db.Column(db.Integer, primary_key=True)
     room_metrage = db.Column(db.Float)
 
     def __init__(self, id_property, id_room, room_metrage):
