@@ -1,16 +1,22 @@
 from app import db
-from flask_login import UserMixin
-from sqlalchemy.sql import func
 import enum
-from sqlalchemy import Enum
-# TODO: określić architekture bd
+
+"""
+python
+from run import flask_app
+from app import db
+db.drop_all()
+db.create_all()
+"""
 
 class UserType(enum.Enum):
     ADMIN = "Admin"
     USER = "User"
     COMPANY = "Company"
 
+
 class User(db.Model):
+    # TODO - poprawić tabele id_company, wyjebalem ja - zmieniony __init__
     id_user = db.Column(db.Integer, unique=True, primary_key=True)
     id_company = db.Column(db.Integer)
     name = db.Column(db.String(20))
@@ -21,16 +27,15 @@ class User(db.Model):
     usertype = db.Column(db.Enum(UserType))
     properties = db.relationship('Property', backref='owner', lazy=True)
 
-    def __init__(self, id_user,id_company, name, surname, phone_number, password,email, usertype):
-        self.id_user = id_user
-        self.id_company = id_company
+    def __init__(self, name, surname, phone_number, password, email, usertype):
         self.name = name
         self.surname = surname
         self.phone_number = phone_number
         self.password = password
         self.email = email
         self.usertype = usertype
-   
+
+
 class Favourite(db.Model):
     id_favourite = db.Column(db.Integer, unique=True, primary_key=True)
     id_user = db.Column(db.Integer)
@@ -41,10 +46,11 @@ class Favourite(db.Model):
         self.id_user = id_user
         self.id_property = id_property
 
+
 class Company_Type(enum.Enum):
     DEVELOPER = "Developer"
     ESTATE_AGENCY = "Estate agency"
- 
+
 
 class Company(db.Model):
     id_company = db.Column(db.Integer, unique=True, primary_key=True)
@@ -57,7 +63,7 @@ class Company(db.Model):
     house_number = db.Column(db.String(30))
     cp_type = db.Column(db.Enum(Company_Type))
 
-    def __init__(self, id_company, cp_name,REGON, NIP,postal_code, street, city, house_number, cp_type):
+    def __init__(self, id_company, cp_name, REGON, NIP, postal_code, street, city, house_number, cp_type):
         self.id_company = id_company
         self.cp_name = cp_name
         self.REGON = REGON
@@ -68,12 +74,13 @@ class Company(db.Model):
         self.house_number = house_number
         self.cp_type = cp_type
 
+
 class Property(db.Model):
     id_property = db.Column(db.Integer, unique=True, primary_key=True)
-    id_owner = db.Column(db.Integer, db.ForeignKey('user.id_user')) 
+    id_owner = db.Column(db.Integer, db.ForeignKey('user.id_user'))
     title = db.Column(db.String(100))
     #IDK czy tak z ta cena ale dalem ze do 2 dokladnosc miejsc
-    price = db.Column(db.Float(precision = 2))
+    price = db.Column(db.Float(precision=2))
     square_metrage = db.Column(db.Float)
     #surroundings = db.Column(db.String(20))
     finishing_standard = db.Column(db.String(20))
@@ -82,10 +89,12 @@ class Property(db.Model):
     publication_date = db.Column(db.Date)
     p_p_meter = db.Column(db.Float)
     sponsored = db.Column(db.Boolean)
-    address = db.relationship('Address', uselist=False, backref='property', lazy=True) #uselist=false do relacji jeden do jednego
+    address = db.relationship('Address', uselist=False, backref='property',
+                              lazy=True)  #uselist=false do relacji jeden do jednego
     inside = db.relationship('Inside', uselist=False, backref='property', lazy=True)
 
-    def __init__(self, id_property, id_owner, title, price, square_metrage,finishing_standard, condition, market, publication_date, p_p_meter, sposored):
+    def __init__(self, id_property, id_owner, title, price, square_metrage, finishing_standard, condition, market,
+                 publication_date, p_p_meter, sposored):
         self.id_property = id_property
         self.id_owner = id_owner
         self.title = title
@@ -98,6 +107,7 @@ class Property(db.Model):
         self.p_p_meter = p_p_meter
         self.sponsored = sposored
 
+
 class Address(db.Model):
     id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'), primary_key=True)
     county = db.Column(db.String(20))
@@ -107,9 +117,9 @@ class Address(db.Model):
     street = db.Column(db.String(30))
     postal_code = db.Column(db.String(20))
     house_number = db.Column(db.String(6))
-    coordinates= db.Column(db.Integer)
-    
-    def __init__(self, id_property, county,region, district, locality, street, postal_code, house_number, coordinates):
+    coordinates = db.Column(db.Integer)
+
+    def __init__(self, id_property, county, region, district, locality, street, postal_code, house_number, coordinates):
         self.id_property = id_property
         self.county = county
         self.region = region
@@ -119,6 +129,8 @@ class Address(db.Model):
         self.postal_code = postal_code
         self.house_number = house_number
         self.coordinates = coordinates
+
+
 class Photo(db.Model):
     id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'), primary_key=True)
     address_photo = db.Column(db.String(100))
@@ -129,14 +141,16 @@ class Photo(db.Model):
         self.address_photo = address_photo
         self.description_photo = description_photo
 
+
 class Heatinig(enum.Enum):
     LACK = "Lack"
     HEAT_PUMP = "Heat pump"
     FURNACE = "Furnace"
     ECO_PEA_STOVE = "Eco-pea stove"
     GAS_FURNACE = "Gas furnace"
-    ELECTRIC_HEATING="Electric heating"
+    ELECTRIC_HEATING = "Electric heating"
     SOLAR_PANELS = "Solar panels"
+
 
 class Condition(enum.Enum):
     FORMALITIES = "Formalities"
@@ -145,6 +159,7 @@ class Condition(enum.Enum):
     CLOSE_BASIC_CONDITION = "Close basic condition"
     FINISHING_WORKS = "Finishing works"
     FINISHED = "Finished"
+
 
 class Inside(db.Model):
     id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'), primary_key=True)
@@ -160,7 +175,8 @@ class Inside(db.Model):
     condition_ = db.Column(db.Enum(Condition))
     description = db.Column(db.String(500))
 
-    def __init__(self, id_property, nr_rooms, nr_bathrooms,basement,attic, nr_garages, nr_balconies, nr_floors, type_of_heating,condition_, description):
+    def __init__(self, id_property, nr_rooms, nr_bathrooms, basement, attic, nr_garages, nr_balconies, nr_floors,
+                 type_of_heating, condition_, description):
         self.id_property = id_property
         self.nr_rooms = nr_rooms
         self.nr_bathrooms = nr_bathrooms
@@ -173,6 +189,7 @@ class Inside(db.Model):
         self.condition_ = condition_
         self.description = description
 
+
 class Infrastructure(db.Model):
     id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'), primary_key=True)
     shop_distance = db.Column(db.Integer)
@@ -183,7 +200,8 @@ class Infrastructure(db.Model):
     bicycle_rack = db.Column(db.Boolean)
     car_parking_space = db.Column(db.Boolean)
 
-    def __init__(self, id_property, shop_distance, park_dostance, playground_distance, kindergarden_distance, school_distance, bicycle_rack, car_parking_space):
+    def __init__(self, id_property, shop_distance, park_dostance, playground_distance, kindergarden_distance,
+                 school_distance, bicycle_rack, car_parking_space):
         self.id_property = id_property
         self.shop_distance = shop_distance
         self.park_distance = park_dostance
@@ -192,7 +210,8 @@ class Infrastructure(db.Model):
         self.school_distance = school_distance
         self.bicycle_rack = bicycle_rack
         self.car_parking_space = car_parking_space
-    
+
+
 class Room(db.Model):
     id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'), primary_key=True)
     id_room = db.Column(db.Integer)
