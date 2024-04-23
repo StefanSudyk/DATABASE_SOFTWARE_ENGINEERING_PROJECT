@@ -9,10 +9,10 @@ db.drop_all()
 db.create_all()
 """
 
-class UserType(enum.Enum):
-    ADMIN = "Admin"
-    USER = "User"
-    COMPANY = "Company"
+class UserType(str, enum.Enum):
+    ADMIN = 'Admin'
+    USER = 'User'
+    COMPANY = 'Company'
 
 
 class User(db.Model):
@@ -214,7 +214,7 @@ class Infrastructure(db.Model):
 
 class Room(db.Model):
     id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'), primary_key=True)
-    id_room = db.Column(db.Integer)
+    id_room = db.Column(db.Integer, unique=True, primary_key=True)
     room_metrage = db.Column(db.Float)
 
     def __init__(self, id_property, id_room, room_metrage):
