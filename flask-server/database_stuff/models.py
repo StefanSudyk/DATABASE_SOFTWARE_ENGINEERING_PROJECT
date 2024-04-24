@@ -9,10 +9,10 @@ db.drop_all()
 db.create_all()
 """
 
-class UserType(enum.Enum):
-    ADMIN = "Admin"
-    USER = "User"
-    COMPANY = "Company"
+class UserType(str, enum.Enum):
+    ADMIN = 'Admin'
+    USER = 'User'
+    COMPANY = 'Company'
 
 
 class User(db.Model):
