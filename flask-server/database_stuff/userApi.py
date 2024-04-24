@@ -1,8 +1,15 @@
 from flask import jsonify, Response
-from flask_restful import Resource, reqparse
+from flask_restful import Resource, reqparse, fields, marshal_with
 from models import *
 
-
+resource_postuser_fields = {
+    'name': fields.String,
+    'surname': fields.String,
+    'phone_number': fields.String,
+    'password': fields.String,
+    'email': fields.String,
+    'usertype': fields.String
+}
 
 class GetUser(Resource):
     def get(self, user_id):
@@ -18,8 +25,6 @@ class GetUser(Resource):
             'properties': user.properties
         })
     
-    
-
 
 class GetAllUsers(Resource):
         def get(self):
@@ -43,6 +48,8 @@ class GetAllUsers(Resource):
         
 
 class PostUser(Resource):
+
+    @marshal_with(resource_postuser_fields)
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('name', type=str, required=True, help='First name is essential')
