@@ -1,5 +1,8 @@
-from flask import Blueprint, render_template, url_for, request, redirect, session
+from flask import Blueprint, render_template, url_for, request, redirect, session, jsonify
 from app import db
+import requests
+
+base = "http://127.0.0.1:5000/"
 
 auth = Blueprint('auth', __name__, template_folder="templates", static_folder="static")
 
@@ -62,6 +65,17 @@ def signup():
 
         if not filled_form_correctly:
             return render_template("signup.html")
+        
+        data = {
+            'name': name,
+            'surname': surname,
+            'phone_number': phonenumber,
+            'password': password,
+            'email': email,
+            'usertype': usertype
+        }
+        
+        response = requests.post(base + 'post', json=data)
         
         session["phonenumber"] = phonenumber
 
