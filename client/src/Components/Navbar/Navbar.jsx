@@ -22,10 +22,11 @@ const Navbar = ({ isLoggedIn }) => {
           )}
      
        
-        <li className='DodajOgloszenie'>
-          <Link to="/Dodaj_ogloszenie"> Dodaj ogłoszenie </Link></li>
+        <li>
+          <Link to="/Dodaj_ogloszenie" className='DodajOgloszenie'> Dodaj ogłoszenie </Link>
+        </li>
 
-        {/*<img src={ogloszenie}  className='logo'/> nie uzyte zdjecie, jako przycisk*/}
+       
       </ul>
       
 

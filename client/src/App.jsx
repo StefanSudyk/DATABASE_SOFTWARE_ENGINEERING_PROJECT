@@ -1,11 +1,11 @@
 import React from 'react'
 import Navbar from '../src/Components/Navbar/Navbar.jsx'
 import {BrowserRouter, Routes, Route} from "react-router-dom"
-import WyswtlApi from './Components/Pages/WyswtlApi.jsx';
-import Zaloguj from './Components/Pages/Zaloguj.jsx'
-import Wyloguj from './Components/Pages/Wyloguj.jsx'
-import Strona_glowna from './Components/Pages/Strona_glowna.jsx'
-import Dodaj_ogloszenie from './Components/Pages/Dodaj_ogloszenie.jsx'
+import WyswtlApi from './Components/Pages/WyswtlApi/WyswtlApi.jsx';
+import Zaloguj from './Components/Pages/Zaloguj/Zaloguj.jsx'
+import Wyloguj from './Components/Pages/Wyloguj/Wyloguj.jsx'
+import Strona_glowna from './Components/Pages/Strona_glowna/Strona_glowna.jsx'
+import Dodaj_ogloszenie from './Components/Pages/Dodaj_ogloszenie/Dodaj_ogloszenie.jsx'
 
 
 const App = () => {
