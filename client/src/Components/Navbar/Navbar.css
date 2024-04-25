@@ -10,6 +10,7 @@
     text-shadow: black;
     position: fixed;
     z-index:1000;
+    max-height: min-content;
 
 
 }
