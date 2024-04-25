@@ -1,9 +1,9 @@
 import React from 'react'
-
+import './Dodaj_ogloszenie.css'
 const Dodaj_ogloszenie = () => {
   return (
-    <div>
-       <div>
+    <div className='chuj'>
+       <div >
         dodaj ogloszenie
       </div>
       

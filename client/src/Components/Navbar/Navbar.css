@@ -9,6 +9,7 @@
     color:white;
     text-shadow: black;
     position: fixed;
+    z-index:1000;
 
 
 }
