@@ -5,6 +5,7 @@ import WyswtlApi from './Components/Pages/WyswtlApi.jsx';
 import Zaloguj from './Components/Pages/Zaloguj.jsx'
 import Wyloguj from './Components/Pages/Wyloguj.jsx'
 import Strona_glowna from './Components/Pages/Strona_glowna.jsx'
+import Dodaj_ogloszenie from './Components/Pages/Dodaj_ogloszenie.jsx'
 
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
       <Route path="Test_API" element={<WyswtlApi/>} />
       <Route path="Zaloguj" element={<Zaloguj/>}/>
       <Route path="Wyloguj" element={<Wyloguj/>}/>
+      <Route path="Dodaj_ogloszenie" element={<Dodaj_ogloszenie/>}/>
     </Routes>
     
       </BrowserRouter>
