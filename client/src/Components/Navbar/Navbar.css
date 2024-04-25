@@ -13,9 +13,10 @@
 
 }
 .logo{
+    
     width: 300px;
     cursor: pointer;
-    margin-right:auto;
+   
 }
 .ul{
     flex: 1;
@@ -61,11 +62,10 @@ ul li{
     color:#ff8c00;
     border: 3px solid #ff8c00;
     background-color:#374967;
+    
 }
 
-a{
-    
-    
+a{ 
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
