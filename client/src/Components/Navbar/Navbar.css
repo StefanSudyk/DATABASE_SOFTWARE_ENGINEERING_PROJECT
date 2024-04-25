@@ -20,6 +20,7 @@
     flex: 1;
     list-style: none;
     align-items:right;
+    text-decoration: none;
 }
 
 ul li{
@@ -28,6 +29,7 @@ ul li{
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
+    
 }
 
 .navbar_text:hover{
@@ -58,4 +60,18 @@ ul li{
     color:#ff8c00;
     border: 3px solid #ff8c00;
     background-color:#374967;
+}
+
+a{
+    
+    
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+
+}
+a:hover{
+    color:rgb(236, 236, 236);
 }

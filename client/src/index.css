@@ -8,7 +8,7 @@
   font-size:xx-large;
 }
 
-.container{
+.background{
   width: 100vw;
   min-height: 100vh;
   background-image:url("src/assets/bg_main_picture.png") ;
