@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 const Strona_glowna = () => {
   return (
     <div>

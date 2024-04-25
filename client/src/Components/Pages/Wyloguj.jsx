@@ -1,22 +1,16 @@
 import React from 'react'
 
+
 const Wyloguj = () => {
   return (
     <div>
+        strona glowna     
       <div>
-        Wyloguj
-      </div>
+      strona glowna
+      </div>  
       <div>
-        Wyloguj
-      </div>
-      <div>
-        Wyloguj
-      </div>
-      <div>
-        Wyloguj
-      </div>
-      
-
+      strona glowna
+      </div>  
     </div>
   )
 }
