@@ -22,7 +22,8 @@ const Navbar = ({ isLoggedIn }) => {
           )}
      
        
-        <li className='DodajOgloszenie'> Dodaj ogłoszenie</li>
+        <li className='DodajOgloszenie'>
+          <Link to="/Dodaj_ogloszenie"> Dodaj ogłoszenie </Link></li>
 
         {/*<img src={ogloszenie}  className='logo'/> nie uzyte zdjecie, jako przycisk*/}
       </ul>
