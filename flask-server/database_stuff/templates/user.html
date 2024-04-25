@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Flats&Homes - User{% endblock %}
+{% block content %} 
+<h3>Welcome, {{phone_number}}!</h3>
+<p><a href="{{ url_for('auth.logout') }}">Log out</a></p>    
+{% endblock %}

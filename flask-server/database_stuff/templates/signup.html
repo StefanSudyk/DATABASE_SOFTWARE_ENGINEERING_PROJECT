@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Flats&Homes - Sign up!{% endblock %}
+{% block content %} 
+<h3>Please fill up the form in order to sign up!</h3>
+<form action="#", method="post">
+    <p>Name:</p>
+    <p><input type="text" name="nm"/></p>
+    <p>Surname:</p>
+    <p><input type="text" name="snm"/></p>
+    <p>Phone number:</p>
+    <p><input type="text" name="phnum"/></p>
+    <p>E-mail address:</p>
+    <p><input type="email" name="email"/></p>
+    <label for="type">Type</label>
+    <select id="type" name="user_type">
+        <option value="Admin">Admin</option>
+        <option selected value="User">Private user</option>
+        <option value="Company">Company</option>
+    </select>
+    <p>Password:</p>
+    <p><input type="text" name="pswrd"/></p>
+    <p>Password again:</p>
+    <p><input type="text" name="pswrdag"/></p>
+    <p><input type="submit" value="submit"/></p>
+</form>  
+{% endblock %}
