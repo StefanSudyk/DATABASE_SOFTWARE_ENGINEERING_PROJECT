@@ -1,6 +1,8 @@
 from flask import jsonify, Response
 from flask_restful import Resource, reqparse, fields, marshal_with
 from models import *
+from userService import UserService
+import re
 
 resource_postuser_fields = {
     'name': fields.String,
@@ -56,23 +58,43 @@ class PostUser(Resource):
         parser.add_argument('surname', type=str, required=True, help='Last name is essential')
         parser.add_argument('phone_number', type=str, required=True, help='Phone numver is essential')
         parser.add_argument('password', type=str, required=True, help='Password is essential')
+        parser.add_argument('password_repeat', type=str, required=True, help='Entering password again is essential')
         parser.add_argument('email', type=str, required=True, help='Email is essential')
         parser.add_argument('usertype', type=str, required=True, help='Select user type') 
         args = parser.parse_args()
+        print(args)
+
+        ### WALIDACJA ###
+        is_ok = True
+
+        password = args['password']
+        password_repeat = args['password_repeat']
+        print("HASŁO: ", password)
+        print("HASŁO: ", password_repeat)
+
+        if not re.match(r'^\d{9}$', args['phone_number']):
+            is_ok = False
+            return Response("Phone number is not correct", status=500, mimetype='application/json')
+
+        if password != password_repeat:
+            is_ok = False
+            return Response("passwords have to match", status=500, mimetype='application/json')
+             
+        user_service = UserService()
+
+        if not user_service.is_email_unique(args['email']):
+            is_ok = False
+            return Response("there is an account with given email", status=500, mimetype='application/json')
         
-        new_user = User(
-            name=args['name'],
-            surname=args['surname'],
-            phone_number=args['phone_number'],
-            password=args['password'],
-            email=args['email'],
-            usertype=args['usertype']
-        )
-        db.session.add(new_user)
-        db.session.commit()
+        if not user_service.is_phone_number_unique(args['phone_number']):
+            is_ok = False
+            return Response("there is an account with given phone number", status=500, mimetype='application/json')
 
-        return Response("user added", status=201, mimetype='application/json')
-
+        if is_ok:
+            user_service.add_user(args)
+            return Response("user added", status=201, mimetype='application/json')
+        else:
+            return Response("something went wrong", status=500, mimetype='application/json')
 
 class DeleteUser(Resource):
     def delete(self, user_id):

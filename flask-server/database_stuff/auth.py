@@ -58,19 +58,14 @@ def signup():
         print("password: ", password)
         print("password again: ", password_repeat)
     
-        if password == password_repeat:
-            filled_form_correctly = True
-
         #przechywcone dane o uzytkowniku
-
-        if not filled_form_correctly:
-            return render_template("signup.html")
         
         data = {
             'name': name,
             'surname': surname,
             'phone_number': phonenumber,
             'password': password,
+            'password_repeat': password_repeat,
             'email': email,
             'usertype': usertype
         }
