@@ -1,0 +1,68 @@
+.writing-name{
+  margin-top: 2%;
+  margin-bottom: 1%;
+  margin-left: 3%;
+}
+
+#stylish{
+  color: black;
+  font-family: 'Poppins';
+  font-size: 34;
+}
+#undertitle{
+  color: black;
+  font-family: 'Poppins';
+  font-size: 34;
+}
+
+.first-row-postcard{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.second-row-postcard{
+  margin-top: 1.5%;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  font-size: medium;
+}
+
+.text-photos{
+
+  color: aliceblue;
+  right: 50px;
+}
+
+.photo-warsaw{
+  margin-right: 1.5%; 
+  margin-left: 1.5%; 
+}
+.photo-wroclaw{
+  margin-right: 1.5%; 
+  margin-left: 1.5%; 
+}
+
+.photo-poznan{
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.picture-up-row{
+  max-width: 800px;
+  max-height: 500px;
+  min-width: 30%;
+  min-height: 30%;
+}
+
+.picture-down-row{
+  min-width: 20%;
+  min-height: 20%;
+  max-width: 500px;
+  max-height: 300px;
+}
+
+img{
+  border-radius: 10%;
+}
