@@ -1,101 +1,17 @@
 import React from 'react'
 import './Strona_glowna.css'
+import Postcard from '../../Postcard/Postcard.jsx'
 
 const Strona_glowna = () => {
   return (
     <div className='hello'>
-      
-    <div>
-      pierwszy
-      </div>
-      
-    <div>
-      strona glowna
-      </div>  
-      
-    <div>
-      strona glowna
-      </div>  
-      
-    <div>
-      strona glowna
-      </div>    
+  
       <div>
-      strona glowna
+        hello
       </div>
-      
-    <div>
-      strona glowna
-      </div>  
-      
-    <div>
-      strona glowna
-      </div>  
-      
-    <div>
-      strona glowna
-      </div>   
-      <div>
-      strona glowna
+        <div>
+        <Postcard/>
       </div>
-      
-    <div>
-      strona glowna
-      </div>  
-      
-    <div>
-      strona glowna
-      </div>  
-      
-    <div>
-      strona glowna
-      </div>   
-      <div>
-      strona glowna
-      </div>
-      
-    <div>
-      strona glowna
-      </div>  
-      
-    <div>
-      strona glowna
-      </div>  
-      
-    <div>
-      strona glowna
-      </div>   
-      <div>
-      strona glowna
-      </div>
-      
-    <div>
-      strona glowna
-      </div>  
-      
-    <div>
-      strona glowna
-      </div>  
-      
-    <div>
-      strona glowna
-      </div>   
-      <div>
-      strona glowna
-      </div>
-      
-    <div>
-      strona glowna
-      </div>  
-      
-    <div>
-      strona glowna
-      </div>  
-      
-    <div>
-      strona glowna
-      </div>   
-
     </div>
   )
 }
