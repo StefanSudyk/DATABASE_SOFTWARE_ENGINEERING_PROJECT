@@ -1,0 +1,113 @@
+form{
+    font-family: 'Poppins', sans-serif;
+}
+.form-body{
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: bisque;
+    padding: 10px;
+}
+.form-container{
+    max-width: 1300px;
+    width: 100%;
+    background-color: white;
+    padding: 25px 30px;
+    border-radius: 5px;
+}
+.form-container .form-title{
+    font-size: 50px;
+    font-weight: 600;
+}
+.form-container form .form-podstawoweDane{
+    display: flex;
+    flex-wrap: wrap;
+}
+form .form-podstawoweDane .input-box{
+    width: calc(100% / 2 - 20px);
+    margin: 20px 20px 50px 0;
+}
+.form-podstawoweDane .input-box .details{
+    font-weight: 500;
+    display: block;
+}
+.form-podstawoweDane .input-box input{
+    height: 70px;
+    width: 100%;
+    outline: none;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    padding-left: 15px;
+    border-bottom-width: 4px;
+    border-right-width: 4px;
+}
+.form-podstawoweDane .input-box input:focus,
+.form-podstawoweDane .input-box input:valid{
+    border-color: #176199;
+}
+form .form-standardWykonczenia .standardWykonczenia-title{
+    font-weight: 500;
+}
+form .form-standardWykonczenia .standardWykonczenia-category{
+    width: 80%;
+    margin: 14px 0;
+    display: flex;
+    justify-content: space-between;
+}
+.form-standardWykonczenia .standardWykonczenia-category label{
+    display: flex;
+    align-items: center;
+}
+.form-standardWykonczenia .standardWykonczenia-category .dot{
+    height: 30px;
+    width: 30px;
+    background: #d9d9d9;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 5px solid transparent;
+    transition: all 1s ease;
+}
+#standardWykonczenia-Dom:checked ~ .standardWykonczenia-category label .one,
+#standardWykonczenia-Szeregowka:checked ~ .standardWykonczenia-category label .two,
+#standardWykonczenia-Mieszkanie:checked ~ .standardWykonczenia-category label .three{
+    border-color: #d9d9d9;
+    background: #176199;
+}
+form input[type="radio"]{
+    display: none;
+}
+form .button{
+    height: 70px;
+    margin: 45px 0;
+}
+form .button input{
+    height: 70px;
+    width: 100%;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    font-size: 40px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    background: linear-gradient(135deg, #3a85d6, #374967);
+}
+form .button input:hover{
+    background: linear-gradient(-135deg, #3a85d6, #374967);
+}
+@media (max-width: 1400px) {
+    .form-container{
+        max-width: 100%;
+    }
+    form .form-podstawoweDane .input-box{
+        width: 100%;
+        margin: 20px 20px 50px 0;
+    }
+    form .form-standardWykonczenia .standardWykonczenia-category{
+        width: 100%;
+    }
+    .form-container form .form-podstawoweDane{
+        max-height: 500px;
+        overflow-y: scroll;
+    }
+}
