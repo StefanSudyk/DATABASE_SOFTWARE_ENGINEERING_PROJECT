@@ -1,5 +1,5 @@
 import { useState } from "react"
-
+import './Form.css'
 export const Form = () => {
     /* to nie
     const [porperty, setProperty] = useState({
@@ -73,100 +73,134 @@ export const Form = () => {
        
     }}
     >
+        <div className="form-podstawowe">
         <h1>
             Podstawowe dane:
         </h1>
-        <div>
+        <div className="titlee">
+            <p>Tytuł ogłoszenia</p>
             <input onChange={(e) => {setTitle(e.target.value)}} type="text" name="title" placeholder="Tytuł"/>
         </div>
         <div>
+            <p>Cena</p>
             <input onChange={(e) => {setPrice(e.target.value)}} type="number" name="price" placeholder="Cena"/>
         </div>
         <div>
+            <p>Powierzchnia w m^2</p>
             <input onChange={(e) => {setSquareMetrage(e.target.value)}} type="number" name="squareMetrage" placeholder="Powierzchnia (m2)"/>
         </div>
         <div>
+            <p>Standard wykończenia</p>
             <input onChange={(e) => {setFinishingStandard(e.target.value)}} type="text" name="finishingStandard" placeholder="Dom/Szeregówka/Mieszkanie"/>
         </div>
         <div>
+            <p>Rynek</p>
             <input onChange={(e) => {setMarket(e.target.value)}} type="text" name="market" placeholder="Wtórny/Pierwotny"/>
         </div>
         <div>
+            <p>Data dodania ogłoszenia--z automatu</p>
             <input onChange={(e) => {setPublicationDate(e.target.value)}} type="date" name="publicationDate" placeholder="Data->teraz"/>
         </div>
         <div>
+            <p>Cena za m^2--tez z automatu</p>
             <input onChange={(e) => {setPpMeter(e.target.value)}} type="number" name="ppMeter" placeholder="Cena za metr kw"/>
         </div>
         <div>
+            <p>Sponsorowane</p>
             <select onChange={(e) => {setSponsored(e.target.value)}}  name="sponsored">
                 <option value={'sponsoredNone'}>Sponsorowane</option>
                 <option value={'sponsoredYes'}>Tak</option>
                 <option value={'sponsoredNo'}>Nie</option>
             </select>
         </div>
-        
+        </div>
+        <div className="form-multimedia">
         <h1>
             Multimedia:
         </h1>
             Podobno nie dzialaja to nie ma B)
+        </div>
+        <div className="form-adres">
         <h1>
             Adres:                                  
         </h1>
         <div>
+            <p>Kraj</p>
             <input onChange={(e) => {setCountry(e.target.value)}} type="text" name="country" placeholder="Kraj"/>
         </div>
         <div>
+            <p>Województwo</p>
             <input onChange={(e) => {setRegion(e.target.value)}} type="text" name="region" placeholder="Województwo"/>
         </div>
         <div>
+            <p>Gmina</p>
             <input onChange={(e) => {setDistrict(e.target.value)}} type="text" name="district" placeholder="Gmina"/>
         </div>
         <div>
+            <p>Miejscowość</p>
             <input onChange={(e) => {setLocality(e.target.value)}} type="text" name="locality" placeholder="Miejscowość"/>
         </div>
         <div>
+            <p>Ulica</p>
             <input onChange={(e) => {setStreet(e.target.value)}} type="text" name="street" placeholder="Ulica"/>
         </div>
         <div>
+            <p>Kod pocztowy</p>
             <input onChange={(e) => {setPostalCode(e.target.value)}} type="text" name="postalCode" placeholder="Kod pocztowy"/>
         </div>
         <div>
+            <p>Numer domu</p>
             <input onChange={(e) => {setHouseNumber(e.target.value)}} type="number" name="houseNumber" placeholder="Numer domu"/>
         </div>
         <div>
+            <p>Kordy??</p>
             <input onChange={(e) => {setCoordinates(e.target.value)}} type="text" name="coordinates" placeholder="Kordy X/Y"/>
         </div>
-
+        </div>
+        <div className="form-wnetrze">
         <h1>
             Wnętrze:
         </h1>
         <div>
+            <p>Liczba pomieszczeń</p>
             <input onChange={(e) => {setNrRooms(e.target.value)}} type="number" name="nrRooms" placeholder="Liczba pomieszczeń"/>
         </div>
         <div>
+            <p>Liczba łazienek</p>
             <input onChange={(e) => {setNrBathrooms(e.target.value)}} type="number" name="nrBathrooms" placeholder="Liczba łazienek"/>
         </div>
-        <select onChange={(e) => {setBasement(e.target.value)}}  name="basement">
-                <option value={'basementNone'}>Posiada piwnicę</option>
-                <option value={'basementYes'}>Tak</option>
-                <option value={'basementNo'}>Nie</option>
-        </select>
-        <select onChange={(e) => {setAttic(e.target.value)}}  name="attic">
-                <option value={'atticNone'}>Posiada strych</option>
-                <option value={'atticYes'}>Tak</option>
-                <option value={'atticNo'}>Nie</option>
-        </select>
         <div>
+            <p>Liczba garaży</p>
             <input onChange={(e) => {setNrGarages(e.target.value)}} type="number" name="nrGarages" placeholder="Liczba garaży"/>
         </div>
         <div>
+            <p>Liczba balkonów</p>
             <input onChange={(e) => {setNrBalconies(e.target.value)}} type="number" name="nrBalconies" placeholder="Liczba balkonów"/>
         </div>
         <div>
+            <p>Liczba pięter</p>
             <input onChange={(e) => {setNrFloors(e.target.value)}} type="number" name="nrFloors" placeholder="Liczba pięter"/>
         </div>
+        <div>
+        <p>Posiada piwnicę</p>
+        <select onChange={(e) => {setBasement(e.target.value)}}  name="basement">
+                <option value={'basementNone'}>---</option>
+                <option value={'basementYes'}>Tak</option>
+                <option value={'basementNo'}>Nie</option>
+        </select>
+        </div>
+        <div>
+        <p>Posiada strych</p>
+        <select onChange={(e) => {setAttic(e.target.value)}}  name="attic">
+                <option value={'atticNone'}>---</option>
+                <option value={'atticYes'}>Tak</option>
+                <option value={'atticNo'}>Nie</option>
+        </select>
+        </div>
+        <div>
+            <p>Rodzaj ogrzewania</p>
         <select onChange={(e) => {setTypeOfHeating(e.target.value)}}  name="typeOfHeating">
-                <option value={'heatingNone'}>Rodzaj ogrzewania</option>
+                <option value={'heatingNone'}>---</option>
                 <option value={'heatingBrak'}>Brak</option>
                 <option value={'heatingPompaCiepla'}>Pompa ciepła</option>
                 <option value={'heatingPiec'}>Piec</option>
@@ -175,9 +209,11 @@ export const Form = () => {
                 <option value={'heatingOgrzewanieElektryczne'}>Ogrzewanie elektryczne</option>
                 <option value={'heatingKolektorySloneczne'}>Kolektory słoneczne</option>
         </select>
+        </div>
         <div>
+            <p>Kondycja?</p>
         <select onChange={(e) => {setConditionInside(e.target.value)}}  name="conditionInside">
-                <option value={'conditionNone'}>Kondycja</option>
+                <option value={'conditionNone'}>---</option>
                 <option value={'conditionFormalnosciPrzed'}>Formalności przed</option>
                 <option value={'conditionStanZerowy'}>Stan zerowy</option>
                 <option value={'conditionStanSurowyOtwarty'}>Stan surowy otwarty</option>
@@ -187,39 +223,48 @@ export const Form = () => {
         </select>
         </div>
         <div>
+            <p>Opis ogłoszenia</p>
             <input onChange={(e) => {setDescription(e.target.value)}} type="text" name="description" placeholder="Opis"/>
         </div>
-
+        </div>
+        <div className="form-infrastruktura">
         <h1>Infrastruktura:</h1>
         <div>
+            <p>Odległość do sklepu(w metrach)</p>
             <input onChange={(e) => {setShopDistance(e.target.value)}} type="number" name="shopDistance" placeholder="Odległość do sklepu"/>
         </div>
         <div>
+            <p>Odległość do parku(w metrach)</p>
             <input onChange={(e) => {setParkDistance(e.target.value)}} type="number" name="parkDistance" placeholder="Odległość do parku"/>
         </div>
         <div>
+            <p>Odległość do placu zabaw(w metrach)</p>
             <input onChange={(e) => {setPlaygroundDistance(e.target.value)}} type="number" name="playgroundDistance" placeholder="Odległość do placu zabaw"/>
         </div>
         <div>
+            <p>Odległość do przedszkola(w metrach)</p>
             <input onChange={(e) => {setKindergardenDistance(e.target.value)}} type="number" name="kindergartenDistance" placeholder="Odległość do przedszkola"/>
         </div>
         <div>
+            <p>Odległość do szkoły(w metrach)</p>
             <input onChange={(e) => {setSchoolDistance(e.target.value)}} type="number" name="schoolDistance" placeholder="Odległość do szkoły"/>
         </div>
         <div>
-        
+            <p>Stojak na rowery</p>
         <select onChange={(e) => {setBicycleRack(e.target.value)}}  name="bicycleRack">
-                <option value={'bicycleRackNone'}>Stojak na rowery</option>
+                <option value={'bicycleRackNone'}>---</option>
                 <option value={'bicycleRackYes'}>Tak</option>
                 <option value={'bicycleRackNo'}>Nie</option>
         </select>
         </div>
         <div>
+            <p>Miejsce parkingowe</p>
         <select onChange={(e) => {setCarParkingSpace(e.target.value)}}  name="carParkingSpace">
-                <option value={'carParkingSpaceNone'}>Miejsce parkingowe</option>
+                <option value={'carParkingSpaceNone'}>---</option>
                 <option value={'carParkingSpaceYes'}>Tak</option>
                 <option value={'carParkingSpaceNo'}>Nie</option>
         </select>
+        </div>
         </div>
         <button type="submit">Dodaj</button>
     </form>
