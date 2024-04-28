@@ -9,7 +9,7 @@ const Strona_glowna = () => {
       <div>
         hello
       </div>
-        <div>
+      <div className='postcard'>
         <Postcard/>
       </div>
     </div>
