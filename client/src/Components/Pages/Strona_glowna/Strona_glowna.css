@@ -2,3 +2,8 @@
    position: sticky;
    padding-top:6%;
 }
+.postcard{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
