@@ -1,4 +1,5 @@
 from models import db, User
+import re
 
 class UserService:
     def is_email_unique(self, email):
