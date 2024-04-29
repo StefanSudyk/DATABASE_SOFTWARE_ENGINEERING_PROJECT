@@ -3,6 +3,7 @@ from flask_restful import Resource, reqparse, fields, marshal_with
 from models import *
 from userService import UserService
 import re
+from flask_restful import abort
 
 resource_postuser_fields = {
     'name': fields.String,
@@ -73,56 +74,43 @@ class PostUser(Resource):
         print("HASŁO: ", password)
         print("HASŁO: ", password_repeat)
 
-
         if not args['name'].isalpha():
             is_ok = False
-            print("First name must contain only letters")
-            return "First name must contain only letters",401
-
+            abort(401, message="First name must contain only letters")
+            
         if not args['surname'].isalpha():
             is_ok = False
-            print("First name must contain only letters")
-            return "First name must contain only letters",401
+            abort(401, message="Surname must contain only letters")
         
         if not re.match(r'^\d{9}$', args['phone_number']):
             is_ok = False
-            print("Wrong phone number")
-            #return Response("Phone number is not correct", status=500, mimetype='application/json')
-            return "Wrong phone number", 401
-        
+            abort(401, message="Phone number is not correct, use format 123456789.")
+
         if len(password) < 8:
             is_ok = False
-            print("Password must be at least 8 characters long")
-            return "Password must be at least 8 characters long", 401
+            abort(401, message="Password must be at least 8 characters long")
         
         if password != password_repeat:
             is_ok = False
-            print("Passwords have to match")
-            #return Response("passwords have to match", status=500, mimetype='application/json')
-            return "Passwords have to match", 401
+            abort(401, message="Passwords have to match")
              
-        if'@' not in args['email']:
+        if '@' not in args['email']:
             is_ok = False
-            print("Invalid emial address")
-            return "Invalid emial address", 401
+            abort(401, message="Invalid email address")
 
         if not user_service.is_email_unique(args['email']):
             is_ok = False
-            print("there is an account with given email")
-            #return Response("there is an account with given email", status=500, mimetype='application/json')
-            return "There is an account with given email", 401
-        
+            abort(401, message="There is an account with given email")
+
         if not user_service.is_phone_number_unique(args['phone_number']):
             is_ok = False
-            print("There is an account with given phone number")
-            #return Response("there is an account with given phone number", status=500, mimetype='application/json')
-            return "There is an account with given phone number", 401
+            abort(401, message="There is an account with given phone number")
         
         if is_ok:
             user_service.add_user(args)
             return Response("user added", status=201, mimetype='application/json')
         else:
-            return Response("something went wrong", status=500, mimetype='application/json')
+            abort(501, message="something went wrong")
 
 class DeleteUser(Resource):
     def delete(self, user_id):

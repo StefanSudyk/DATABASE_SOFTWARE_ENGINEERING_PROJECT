@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for, request, redirect, session, jsonify
+from flask import Blueprint, render_template, url_for, request, redirect, session, jsonify, flash
 from app import db
 import requests
 
@@ -38,7 +38,6 @@ def logout():
 
 @auth.route('/signup', methods=["POST", "GET"])
 def signup():
-    filled_form_correctly = False #trzeba będzie sprawdzić czy użytkownik wklepał poprawnie dane
 
     if request.method == "POST":
         name = request.form["nm"]
@@ -57,8 +56,6 @@ def signup():
         print("usertype: ", usertype)
         print("password: ", password)
         print("password again: ", password_repeat)
-    
-        #przechywcone dane o uzytkowniku
         
         data = {
             'name': name,
@@ -72,18 +69,19 @@ def signup():
         
         response = requests.post(base + 'post', json=data)
         
-        session["phonenumber"] = phonenumber
+        if response.status_code == 401 or response.status_code == 501:
+            message = response.json()["message"]
+            flash(message, 'error')
+            return redirect(url_for('auth.signup'))
 
-        if usertype == "Company":
-            return redirect(url_for("auth.companyinfo"))
-
-        return redirect(url_for("views.user"))
+        flash("Konto zostało utworzone!", 'info')
+        return redirect(url_for("auth.login"))
         
     else:
         return render_template('signup.html')
 
 
-@auth.route('/signup/companyinfo', methods=["POST", "GET"])
+@auth.route('/companyinfo', methods=["POST", "GET"])
 def companyinfo():
     filled_form_correctly = True #trzeba będzie sprawdzić czy użytkownik wklepał poprawnie dane
 
