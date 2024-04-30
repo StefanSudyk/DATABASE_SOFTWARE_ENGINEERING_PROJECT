@@ -52,6 +52,14 @@ class GetAllUsers(Resource):
 
 class PostUser(Resource):
 
+    '''z tym marshal_with chodzi o to ze robi sie dicitonary gdzie po lewej stronie
+    sa nazwy zmiennych a po prawej ich typ i to co przekaze sie do jsona przy wywolaniu np
+    response = requests.post(base + 'postcompany', json=data) musi scisle odpowiadac temu co
+    w tym dictionary resource_postuser_fields.
+    
+    marshal_with nie wiem jak działa ale wiem ze jakos łączy to co się przesyła w requeście
+    z tym żeby parser to przyjął'''
+
     @marshal_with(resource_postuser_fields)
     def post(self):
         parser = reqparse.RequestParser()
@@ -63,16 +71,10 @@ class PostUser(Resource):
         parser.add_argument('email', type=str, required=True, help='Email is essential')
         parser.add_argument('usertype', type=str, required=True, help='Select user type') 
         args = parser.parse_args()
-        print(args)
-
+     
         ### WALIDACJA ###
         is_ok = True
         user_service = UserService()
-
-        password = args['password']
-        password_repeat = args['password_repeat']
-        print("HASŁO: ", password)
-        print("HASŁO: ", password_repeat)
 
         if not args['name'].isalpha():
             is_ok = False
@@ -86,11 +88,11 @@ class PostUser(Resource):
             is_ok = False
             abort(401, message="Phone number is not correct, use format 123456789.")
 
-        if len(password) < 8:
+        if len(args['password']) < 8:
             is_ok = False
             abort(401, message="Password must be at least 8 characters long")
         
-        if password != password_repeat:
+        if args['password'] != args['password_repeat']:
             is_ok = False
             abort(401, message="Passwords have to match")
              

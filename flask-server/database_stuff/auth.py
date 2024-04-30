@@ -49,13 +49,17 @@ def signup():
         password_repeat = request.form["pswrdag"]
 
         #sprawdzamy czy przechwycono dane z formularza
-        print("name: ", name)
-        print("surname: ", surname)
-        print("phone number: ", phonenumber)
-        print("email: ", email)
-        print("usertype: ", usertype)
-        print("password: ", password)
-        print("password again: ", password_repeat)
+        # print("name: ", name)
+        # print("surname: ", surname)
+        # print("phone number: ", phonenumber)
+        # print("email: ", email)
+        # print("usertype: ", usertype)
+        # print("password: ", password)
+        # print("password again: ", password_repeat)
+
+        '''
+        jak będzie front to domyslnie będzie ustawienie usertype = private user
+        '''
         
         data = {
             'name': name,
@@ -83,17 +87,16 @@ def signup():
 
 @auth.route('/companyinfo', methods=["POST", "GET"])
 def companyinfo():
-    filled_form_correctly = True #trzeba będzie sprawdzić czy użytkownik wklepał poprawnie dane
 
     if request.method == "POST":
-        cp_name = request.form["cnm"]
-        REGON = request.form["reg"]
+        cp_name = request.form["cnm"] #nazwa firmy
+        REGON = request.form["reg"] 
         NIP = request.form["nip"]
         postal_code = request.form["pst"]
         street = request.form["strt"]
         city = request.form["city"]
         house_number = request.form["strtnum"]
-        cp_type = request.form["cp_type"]
+        cp_type = request.form["cp_type"] #typ firmy - deweloper lub biuro nieruchomości
 
         #sprawdzamy czy przechwycono dane z formularza
         print("cp_name: ", cp_name)
@@ -106,12 +109,26 @@ def companyinfo():
         print("company type: ", cp_type)
 
         #przechwycone dane o firmie
+        data = {
+            'cp_name': cp_name,
+            'REGON': REGON,
+            'NIP': NIP,
+            'postal_code': postal_code,
+            'street': street,
+            'city': city,
+            'house_number': house_number,
+            'cp_type': cp_type
+        }
 
-        if filled_form_correctly:
-            #przeslij do bazy i guess
-            return redirect(url_for("views.user"))
-        else:
-            return render_template('companyinfo.html')
+        response = requests.post(base + 'postcompany', json=data)
+        
+        if response.status_code == 401 or response.status_code == 501:
+            message = response.json()["message"]
+            flash(message, 'error')
+            return redirect(url_for('auth.companyinfo'))
+
+        flash("Dane o firmie zostały przypisane!", 'info')
+        return redirect(url_for("views.user"))
         
     else:
         return render_template('companyinfo.html')
