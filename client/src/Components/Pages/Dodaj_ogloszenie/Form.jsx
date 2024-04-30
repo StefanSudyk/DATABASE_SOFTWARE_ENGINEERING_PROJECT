@@ -43,7 +43,7 @@ export const Form = () => {
     const [carParkingSpace, setCarParkingSpace ] = useState("");
 return(
 
-    <><div className='kurwa'></div>
+    <>
     <div className='form-body'>
         <div className='form-container'>
             <div className='form-title'>DODAJ OGŁOSZENIE</div>
