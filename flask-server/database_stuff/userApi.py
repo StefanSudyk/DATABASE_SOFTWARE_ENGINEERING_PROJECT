@@ -49,6 +49,12 @@ class Validation(Resource):
             return False
         return True
 
+    def usertype_validation(self, usertype):
+        usertype_list = ['Admin', 'User', 'Company']
+        if usertype not in usertype_list:
+            abort(401, message="Invalid usertype")
+            return False
+        return True
 
     def is_email_unique(self, email):
         user_service = UserService()
@@ -71,35 +77,22 @@ class Validation(Resource):
 
 class GetUser(Resource):
     def get(self, user_id):
-        user = User.query.get_or_404(user_id)
-        return jsonify({
-            'id_user': user.id_user,
-            'id_company': user.id_company,
-            'name': user.name,
-            'surname': user.surname,
-            'phone_number': user.phone_number,
-            'email': user.email,
-            'usertype': user.usertype,
-            'properties': user.properties
-        })
+        user_service = UserService()
+        try:
+            user = User.query.get_or_404(user_id)
+            user_service.get_user(user)
+        except Exception as e:
+            return Response('Error: user not find. '+str(e), status=501, mimetype='application/json')
 
 
 class GetAllUsers(Resource):
     def get(self):
+        user_service = UserService()
         try:
             users = User.query.all()
             if users == []:
                 return Response("No user", status=500, mimetype='application/json')
-            return jsonify([{
-                'id_user': user.id_user,
-                'id_company': user.id_company,
-                'name': user.name,
-                'surname': user.surname,
-                'phone_number': user.phone_number,
-                'email': user.email,
-                'usertype': user.usertype,
-                'properties': user.properties
-            } for user in users])
+            user_service.get_all_users(users)
         except Exception as e:
             return Response('Error: no users. ' + str(e), status=501, mimetype='application/json')
 
@@ -139,6 +132,8 @@ class PostUser(Resource):
         print(check, "email uniq")
         check = validator.is_phone_number_unique(args['phone_number'])
         print(check, "number uniq")
+        check = validator.usertype_validation(args['usertype'])
+        print(check, "usertype val")
 
         if check:
             user_service.add_user(args)
@@ -159,37 +154,53 @@ class EditUserInformation(Resource):
         parser.add_argument('surname', type=str)
         parser.add_argument('phone_number', type=str)
         parser.add_argument('password', type=str)
+        parser.add_argument('password_repeat', type=str)
         parser.add_argument('email', type=str)
         parser.add_argument('usertype', type=enum)
 
         args = parser.parse_args()
+        validator = Validation()
+        user_service = UserService()
 
         match action:
             case "name":
-                user.name = args['name']
+                if validator.name_surname_validation(args['name']):
+                    user.name = args['name']
+                    user_service.patch_user()
             case "surname":
-                user.surname = args['surname']
+                if validator.name_surname_validation(args['surname']):
+                    user.surname = args['surname']
+                    user_service.patch_user()
             case "phone_number":
-                user.phone_number = args['phone_number']
+                if (validator.phone_number_validation(args['phone_number'])
+                        and validator.is_phone_number_unique(args['phone_number'])):
+                    user.phone_number = args['phone_number']
+                    user_service.patch_user()
             case "password":
-                user.password = args['password']
+                if (validator.password_len_validation(args['password']) and
+                validator.compare_password_validation(args['password'], args['password_repeat'])):
+                    user.password = args['password']
+                    user_service.patch_user()
             case "email":
-                user.email = args['email']
+                if validator.email_validation(args['email']) and validator.is_email_unique(args['email']):
+                    user.email = args['email']
+                    user_service.patch_user()
             case "usertype":
-                user.usertype = args['usertype']
+                if validator.usertype_validation(args['usertype']):
+                    user.usertype = args['usertype']
+                    user_service.patch_user()
             case _:
                 return Response("Invalid action", status=400, mimetype='application/json')
 
-        db.session.commit()
         return Response("User data edited", status=200, mimetype='application/json')
 
 
 class DeleteUser(Resource):
     def delete(self, user_id):
+        user_service = UserService()
         try:
             user = User.query.get_or_404(user_id)
-            db.session.delete(user)
-            db.session.commit()
+            user_service.delete_user(user)
             return Response("user deleted", status=200, mimetype='application/json')
         except Exception as e:
             return Response('Error: no user to delete. ' + str(e), status=501, mimetype='application/json')
