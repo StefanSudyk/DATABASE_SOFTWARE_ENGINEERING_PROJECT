@@ -12,6 +12,7 @@
   font-family: 'Poppins';
   font-size: 30px;
 }
+
 #undertitle{
   color: black;
   font-family: 'Poppins';
@@ -87,7 +88,7 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transitions for both transform and box-shadow */
   border: 1px solid transparent; /* Initially, no border */
   display: inherit;
-  width: 300px;
+  width:  60%;
   height: 200px;
 }
 
