@@ -1,0 +1,42 @@
+.footer-bg{
+  background-color: #6D819E;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+  width: 80%;
+}
+
+.logo{
+  border-style: solid;
+  border: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-name{
+  font-family: 'Poppins';
+  font-style: normal;
+  font-size: 34px;
+}
+
+.right-column{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.column-elements{
+  display: flex;
+  height: 80%;
+  width: 80%;
+}
