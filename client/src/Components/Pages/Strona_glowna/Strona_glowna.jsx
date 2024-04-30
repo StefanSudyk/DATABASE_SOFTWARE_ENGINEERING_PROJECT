@@ -1,9 +1,8 @@
 import React from 'react'
 import './Strona_glowna.css'
 import main_bg from '../../../assets/bg_main_picture.png'
-
-
-
+import { Promowane } from './Promowane'
+import { Popularne } from './Popularne'
 const Strona_glowna = () => {
   return (
     <div className='glowna_strona'>
@@ -16,16 +15,17 @@ const Strona_glowna = () => {
               <div className='oferty_przydzielone'>
                Oferty zostały przydzielone na podstawie twojej lokalizacji 
               </div>
+              <Promowane/>
             </div>
         </div>
     
       
     <div>
-      strona glowna
+      <Popularne/>
       </div>  
       
-    <div>
-      strona glowna
+    <div className='oddziel-to'>
+      
       </div>  
       
     <div>
@@ -43,69 +43,7 @@ const Strona_glowna = () => {
       strona glowna
       </div>  
       
-    <div>
-      strona glowna
-      </div>   
-      <div>
-      strona glowna
-      </div>
-      
-    <div>
-      strona glowna
-      </div>  
-      
-    <div>
-      strona glowna
-      </div>  
-      
-    <div>
-      strona glowna
-      </div>   
-      <div>
-      strona glowna
-      </div>
-      
-    <div>
-      strona glowna
-      </div>  
-      
-    <div>
-      strona glowna
-      </div>  
-      
-    <div>
-      strona glowna
-      </div>   
-      <div>
-      strona glowna
-      </div>
-      
-    <div>
-      strona glowna
-      </div>  
-      
-    <div>
-      strona glowna
-      </div>  
-      
-    <div>
-      strona glowna
-      </div>   
-      <div>
-      strona glowna
-      </div>
-      
-    <div>
-      strona glowna
-      </div>  
-      
-    <div>
-      strona glowna
-      </div>  
-      
-    <div>
-      strona glowna
-      </div>   
+    
 
     </div>
   )
