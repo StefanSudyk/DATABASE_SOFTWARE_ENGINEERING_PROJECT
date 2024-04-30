@@ -14,6 +14,8 @@ class UserService:
         print(existing_user)
         return existing_user is None
     
+    '''typ user_data to niby <class 'flask_restful.reqparse.Namespace'>
+    ale w praktyce działa jak dictionary chyba'''
     def add_user(self, user_data):
         new_user = User(
             name=user_data['name'],
