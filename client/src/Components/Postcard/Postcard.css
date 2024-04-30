@@ -126,13 +126,6 @@
   -webkit-user-select: none;
 }
 
-.Images-postcard{
-  display:block;
-  border-radius: 5%;
-  width: 100%;
-  height: 100%;
-}
-
 /*Animation mouse hover */
 
 .box-photo-down-row:hover {
