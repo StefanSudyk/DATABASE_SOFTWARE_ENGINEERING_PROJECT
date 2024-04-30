@@ -34,12 +34,3 @@
     font-weight: 500;
     color: #717171;
 }
-.hello{
-   position: sticky;
-   padding-top:6%;
-}
-.postcard{
-   display: flex;
-   align-items: center;
-   justify-content: center;
-}
