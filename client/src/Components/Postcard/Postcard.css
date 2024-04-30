@@ -7,16 +7,19 @@
   padding-bottom: 1.5%;
 }
 
-#stylish{
-  color: black;
-  font-family: 'Poppins';
-  font-size: 30px;
-}
 
+#stylish{
+  margin-left: 2%;
+  margin-top: 1%;
+  font-family: 'Poppins' ;
+  font-weight: 600;
+}
 #undertitle{
-  color: black;
-  font-family: 'Poppins';
-  font-size: 18px;
+  margin-top: -0.5%;
+  margin-left: 2.1%;
+  font-size: 55%;
+  font-weight: 500;
+  color: #717171;
 }
 
 .main-photos-box{
