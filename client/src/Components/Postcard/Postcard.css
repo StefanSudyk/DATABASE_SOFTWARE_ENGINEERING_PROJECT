@@ -1,0 +1,132 @@
+.postcard-main-box{
+  width: 1024px;
+  height: 600px;
+}
+
+.writing-name{
+  padding-bottom: 1.5%;
+}
+
+#stylish{
+  color: black;
+  font-family: 'Poppins';
+  font-size: 30px;
+}
+#undertitle{
+  color: black;
+  font-family: 'Poppins';
+  font-size: 18px;
+}
+
+.main-photos-box{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.first-row-postcard{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  height: 80%;
+  gap: 0.5%;
+}
+
+.box-photo-up-row{
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transitions for both transform and box-shadow */
+  border: 3px solid transparent; /* Initially, no border */
+}
+
+.photo-warsaw{
+  display: inherit;
+  width: 80%;
+  height: 80%;
+  margin-inline: 1.5%;
+  padding-inline: 1.5%;
+}
+
+.photo-wroclaw{
+  display: inherit;
+  width: 80%;
+  height: 80%;
+  margin-inline: 1.5%;
+  padding-inline: 1.5%;
+}
+
+
+.second-row-postcard{
+  margin-top: 1.5%;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  align-content: space-around;
+  gap: 1%;
+  width: 90%;
+  height: 90%;
+  
+}
+
+.box-photo-down-row{
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transitions for both transform and box-shadow */
+  border: 1px solid transparent; /* Initially, no border */
+  display: inherit;
+  width: 300px;
+  height: 200px;
+}
+
+.photo-gdansk{
+  display: inherit;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-poznan{
+  display: inherit;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-cracow{
+  display: inherit;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.text-photos{
+  color: white;
+  font-size: 30px;
+  position: absolute;
+  left:50%;
+  top: 10%;
+  transform: translate(-50%, -50%);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  /* Wyłącz zaznaczanie tekstu tylko dla konkretnego elementu */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+img{
+  display:block;
+  border-radius: 5%;
+  width: 100%;
+  height: 100%;
+}
+
+/*Animation mouse hover */
+
+.box-photo-down-row:hover {
+  transform: scale(1.05); /* Slightly enlarge the image on hover */
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Add a white shadow/border on hover */
+}
+
+.box-photo-up-row:hover {
+  transform: scale(1.05); /* Slightly enlarge the image on hover */
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Add a white shadow/border on hover */
+}
