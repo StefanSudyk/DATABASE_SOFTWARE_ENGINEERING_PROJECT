@@ -5,11 +5,11 @@ export const FormRej = () => {
     const [imie, setImie] = useState("");
     const [nazwisko, setNazwisko] = useState("");
     const [haslo, setHaslo] = useState("");
-
+    const [hasloDwa, setHasloDwa] = useState("");
     return (
     <form onSubmit={(e) => {
         e.preventDefault();
-        console.log("Dane rejestracji: ",{nrTel, imie, nazwisko, haslo});
+        console.log("Dane rejestracji: ",{nrTel, imie, nazwisko, haslo, hasloDwa});
     }}
     >
         <h1>
@@ -20,6 +20,9 @@ export const FormRej = () => {
         </div>
         <div>
             <input onChange={(e) => {setHaslo(e.target.value)}} type="password" name="haslo" placeholder="Hasło"/>
+        </div>
+        <div>
+            <input onChange={(e) => {setHasloDwa(e.target.value)}} type="password" name="hasloDwa" placeholder="Hasło 2"/>
         </div>
         <div>
             <input onChange={(e) => {setImie(e.target.value)}} type="text" name="imie" placeholder="Imie"/>
