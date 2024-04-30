@@ -1,6 +1,7 @@
 import React from 'react'
 import './Strona_glowna.css'
 import Postcard from '../../Postcard/Postcard.jsx'
+import Footer from '../../Footer/Footer.jsx'
 
 const Strona_glowna = () => {
   return (
@@ -12,6 +13,9 @@ const Strona_glowna = () => {
       <div className='postcard'>
         <Postcard/>
       </div>
+      <footer>
+        <Footer/>
+      </footer>
     </div>
   )
 }
