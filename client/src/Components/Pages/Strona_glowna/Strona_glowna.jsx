@@ -3,6 +3,8 @@ import './Strona_glowna.css'
 import main_bg from '../../../assets/bg_main_picture.png'
 import { Promowane } from './Promowane'
 import { Popularne } from './Popularne'
+import Postcard from '../../Postcard/Postcard.jsx'
+
 const Strona_glowna = () => {
   return (
     <div className='glowna_strona'>
@@ -15,7 +17,7 @@ const Strona_glowna = () => {
     
       
     <div className='whatever'>
-      <Popularne/>
+      <Postcard/>
       </div>  
       
     <div className='oddziel-to'>
@@ -33,7 +35,7 @@ const Strona_glowna = () => {
       strona glowna
       </div>  
       
-    <div>
+    <div className='footer'>
       strona glowna
       </div>  
       
