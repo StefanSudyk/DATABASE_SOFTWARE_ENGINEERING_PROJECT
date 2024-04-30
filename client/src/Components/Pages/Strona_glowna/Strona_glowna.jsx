@@ -1,6 +1,9 @@
 import React from 'react'
 import './Strona_glowna.css'
 import main_bg from '../../../assets/bg_main_picture.png'
+
+
+
 const Strona_glowna = () => {
   return (
     <div className='glowna_strona'>
