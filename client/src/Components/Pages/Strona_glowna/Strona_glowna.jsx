@@ -9,18 +9,12 @@ const Strona_glowna = () => {
         <div className='kontener_bg_photo'>
           <img src={main_bg}  className='main_bg'/>
             <div className='white_bg_first_page'>
-              <div className="promowane_ogloszenia">
-                Promowane ogłoszenia
-              </div>
-              <div className='oferty_przydzielone'>
-               Oferty zostały przydzielone na podstawie twojej lokalizacji 
-              </div>
               <Promowane/>
             </div>
         </div>
     
       
-    <div>
+    <div className='whatever'>
       <Popularne/>
       </div>  
       
