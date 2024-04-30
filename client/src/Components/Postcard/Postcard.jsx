@@ -12,10 +12,10 @@ const postcard = () => {
     <div className='postcard-main-box'>
       <div className='writing-name'>
           <div className='popular-location-title'>
-              <h1 id='stylish'>Popularne lokalizacje</h1>
+              <div id='stylish'>Popularne lokalizacje</div>
           </div>
           <div className='popular-location-undertitle'>
-              <h6 id ='undertitle'>Najpopularniejsze miasta w Polsce</h6>
+              <div id ='undertitle'>Najpopularniejsze miasta w Polsce</div>
           </div>
       </div>
       <div className="main-photos-box">
