@@ -10,7 +10,7 @@ const Wyloguj = () => {
         Wyloguj
       </div>
       <div>
-        Wyloguj
+        <button>Wyloguj</button>
       </div>
       <div>
         Wyloguj

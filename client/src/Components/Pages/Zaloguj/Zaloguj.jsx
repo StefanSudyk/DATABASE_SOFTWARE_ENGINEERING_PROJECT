@@ -1,21 +1,17 @@
 import React from 'react'
-
+import { Form } from './Form'
+import { FormRej } from './FormRej'
 const Zaloguj = () => {
   return (
     <div>
       <div>
-        zaloguj
+        a
       </div>
       <div>
         zaloguj
       </div>
-      <div>
-        zaloguj
-      </div>
-      <div>
-        zaloguj
-      </div>
-      
+      <Form/>
+      <FormRej/>
     </div>
   )
 }
