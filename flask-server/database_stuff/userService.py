@@ -1,4 +1,5 @@
 from models import db, User
+from flask import jsonify
 
 class UserService:
     def is_email_unique(self, email):
@@ -25,5 +26,34 @@ class UserService:
         db.session.add(new_user)
         db.session.commit()
 
-    def patch_user(self, user_data):
-        pass
+    def patch_user(self):
+        db.session.commit()
+
+    def delete_user(self, user):
+        db.session.delete(user)
+        db.session.commit()
+
+    def get_all_users(self, users):
+        return jsonify([{
+            'id_user': user.id_user,
+            'id_company': user.id_company,
+            'name': user.name,
+            'surname': user.surname,
+            'phone_number': user.phone_number,
+            'email': user.email,
+            'usertype': user.usertype,
+            'properties': user.properties
+        } for user in users])
+
+    def get_user(self, user):
+        return jsonify({
+            'id_user': user.id_user,
+            'id_company': user.id_company,
+            'name': user.name,
+            'surname': user.surname,
+            'phone_number': user.phone_number,
+            'email': user.email,
+            'usertype': user.usertype,
+            'properties': user.properties
+        })
+
