@@ -10,8 +10,8 @@ def index():
 
 @views.route('/user')
 def user():
-    if "usr_phnum" in session:
-        phnum = session["usr_phnum"]
-        return render_template('user.html', phone_number=phnum)
+    if "phonenumber" in session:
+        phonenumber = session["phonenumber"]
+        return render_template('user.html', phone_number=phonenumber)
     else:
         return redirect(url_for("auth.login"))
