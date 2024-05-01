@@ -1,8 +1,8 @@
 import React from 'react'
 import './Strona_glowna.css'
 import main_bg from '../../../assets/bg_main_picture.png'
-import { Promowane } from './Promowane'
-import { Popularne } from './Popularne'
+import { Promowane } from './Promowane/Promowane.jsx'
+import { Popularne } from './Popularne/Popularne.jsx'
 import Postcard from '../../Postcard/Postcard.jsx'
 
 const Strona_glowna = () => {

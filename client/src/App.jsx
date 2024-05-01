@@ -9,6 +9,7 @@ import Dodaj_ogloszenie from './Components/Pages/Dodaj_ogloszenie/Dodaj_ogloszen
 
 
 const App = () => {
+  
   const isLoggedIn = false;
   return (
      
