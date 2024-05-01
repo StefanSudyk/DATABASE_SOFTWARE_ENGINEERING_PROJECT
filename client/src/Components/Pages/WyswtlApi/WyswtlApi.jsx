@@ -1,37 +1,35 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import Axios from 'axios';
 
-const WyswtlApi = () => {
+
+const WyswietlApi = () => {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await Axios.get("http://127.0.0.1:5000/get/1");
+        setData(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <div>
-    
-      <div>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est officiis impedit, quos temporibus corrupti magnam? Odio tempora repudiandae quibusdam impedit aliquid molestiae et, quasi voluptatem, praesentium vel in sunt ipsam.
+      <div className='first_line'>
+        To jest pierwsza linijka
       </div>
-      <br/>
-      <div>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est officiis impedit, quos temporibus corrupti magnam? Odio tempora repudiandae quibusdam impedit aliquid molestiae et, quasi voluptatem, praesentium vel in sunt ipsam.
-      </div>
-      <br/>
-      <div>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est officiis impedit, quos temporibus corrupti magnam? Odio tempora repudiandae quibusdam impedit aliquid molestiae et, quasi voluptatem, praesentium vel in sunt ipsam.
-      </div>
-      <br/>
-      <div>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est officiis impedit, quos temporibus corrupti magnam? Odio tempora repudiandae quibusdam impedit aliquid molestiae et, quasi voluptatem, praesentium vel in sunt ipsam.
-      </div>
-      <br/>
-      <div>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est officiis impedit, quos temporibus corrupti magnam? Odio tempora repudiandae quibusdam impedit aliquid molestiae et, quasi voluptatem, praesentium vel in sunt ipsam.
-      </div>
-      <br/>
-      <div>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est officiis impedit, quos temporibus corrupti magnam? Odio tempora repudiandae quibusdam impedit aliquid molestiae et, quasi voluptatem, praesentium vel in sunt ipsam.
-      </div>
-      <br/>
-      
+      {data && (
+        <div>
+          <h2>Dane JSON:</h2>
+          <pre>{JSON.stringify(data, null, 2)}</pre>
+        </div>
+      )}
     </div>
-   
-  )
-}
+  );
+};
 
-export default WyswtlApi
+export default WyswietlApi;
