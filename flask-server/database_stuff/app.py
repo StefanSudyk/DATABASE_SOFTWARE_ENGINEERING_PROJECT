@@ -17,11 +17,11 @@ def create_app():
 
     from views import views
     from auth import auth
-    from prop import prop
+    from addProp import addProp
     
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
-    app.register_blueprint(prop, url_prefix='/')
+    app.register_blueprint(addProp, url_prefix='/')
     
     migrate = Migrate(app, db)
     app.app_context().push()
