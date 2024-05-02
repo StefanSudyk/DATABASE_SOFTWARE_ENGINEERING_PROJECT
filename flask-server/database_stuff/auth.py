@@ -117,3 +117,4 @@ def companyinfo():
         
     else:
         return render_template('companyinfo.html')
+
