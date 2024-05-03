@@ -4,17 +4,15 @@ from userApi import *
 
 
 
+
 flask_app = create_app()
 api = Api(flask_app)
+
+
 
 """
 Api musi być definiowane tutaj z serwerem bo inaczej się robi gówno i nie widzi requestów w ogóle 
 """
-
-
-# TODO - zrobić edycje i api dla reszty tabel
-
-
 
 if __name__ == '__main__':
     api.add_resource(GetUser, "/get/<int:user_id>")

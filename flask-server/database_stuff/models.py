@@ -1,5 +1,6 @@
 from app import db
 import enum
+from flask_login import UserMixin
 
 """
 python
@@ -9,13 +10,14 @@ db.drop_all()
 db.create_all()
 """
 
+
 class UserType(str, enum.Enum):
     ADMIN = 'Admin'
     USER = 'User'
     COMPANY = 'Company'
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     # TODO - poprawić tabele id_company, wyjebalem ja - zmieniony __init__
     id_user = db.Column(db.Integer, unique=True, primary_key=True)
     id_company = db.Column(db.Integer, db.ForeignKey('company.id_company'), unique=True)
@@ -25,16 +27,33 @@ class User(db.Model):
     password = db.Column(db.String(20))
     email = db.Column(db.String(50))
     usertype = db.Column(db.Enum(UserType))
+    is_active = False  # czy jest zalgowoany
     properties = db.relationship('Property', backref='owner', lazy=True)
     favourites = db.relationship('Favourite', backref='user', lazy=True)
 
-    def __init__(self, name, surname, phone_number, password, email, usertype):
+    def get_id(self):
+        return self.id_user
+
+    def serialize(self):
+        return {
+            'id_user' : self.id_user,
+            'name': self.name,
+            'surname': self.surname,
+            'phone_number': self.phone_number,
+            'password': self.password,
+            'email': self.email,
+            'usertype': self.usertype,
+            'is_active': self.is_active
+        }
+
+    def __init__(self, name, surname, phone_number, password, email, usertype, is_active):
         self.name = name
         self.surname = surname
         self.phone_number = phone_number
         self.password = password
         self.email = email
         self.usertype = usertype
+        self.is_active = is_active
 
 
 class Favourite(db.Model):
@@ -91,7 +110,8 @@ class Property(db.Model):
     publication_date = db.Column(db.Date)
     p_p_meter = db.Column(db.Float)
     sponsored = db.Column(db.Boolean)
-    address = db.relationship('Address', uselist=False, backref='property', lazy=True)  #uselist=false do relacji jeden do jednego
+    address = db.relationship('Address', uselist=False, backref='property',
+                              lazy=True)  #uselist=false do relacji jeden do jednego
     inside = db.relationship('Inside', uselist=False, backref='property', lazy=True)
     infrastructure = db.relationship('Infrastructure', uselist=False, backref='property', lazy=True)
     photos = db.relationship('Photo', backref='property', lazy=True)
