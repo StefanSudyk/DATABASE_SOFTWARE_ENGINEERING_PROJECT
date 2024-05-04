@@ -36,12 +36,9 @@ const Strona_glowna = () => {
       strona glowna
       </div>  
       
-    <div className='footer'>
-      strona glowna
-      </div>  
-      
-    
+    <Footer/>
 
+    
     </div>
   )
 }
