@@ -6,6 +6,7 @@ import Zaloguj from './Components/Pages/Zaloguj/Zaloguj.jsx'
 import Wyloguj from './Components/Pages/Wyloguj/Wyloguj.jsx'
 import Strona_glowna from './Components/Pages/Strona_glowna/Strona_glowna.jsx'
 import Dodaj_ogloszenie from './Components/Pages/Dodaj_ogloszenie/Dodaj_ogloszenie.jsx'
+import DaneDoWczytania from './Components/Card_apartment/DaneDoWczytania.jsx';
 
 
 const App = () => {
@@ -15,15 +16,18 @@ const App = () => {
      
     <BrowserRouter>
     <Navbar isLoggedIn={isLoggedIn}/>
+ 
     <Routes>
       <Route path="/" element={<Strona_glowna/>} />
       <Route path="Test_API" element={<WyswtlApi/>} />
+      
       <Route path="Zaloguj" element={<Zaloguj/>}/>
       <Route path="Wyloguj" element={<Wyloguj/>}/>
       <Route path="Dodaj_ogloszenie" element={<Dodaj_ogloszenie/>}/>
     </Routes>
     
       </BrowserRouter>
+      
   )
 }
 

@@ -1,0 +1,43 @@
+.card_apartment_block {
+    position: relative; /* Ustawienie kontenera karty na pozycję względną */
+    height: 280px;
+    min-height: 100%;
+    width: 280px;
+    min-width: 345px;
+    background-color: rgb(255, 255, 255);
+    
+   
+  
+  }
+  
+  .photo_card_template {
+    height: 280px;
+    width: 100%;
+    z-index: 0;
+    border-radius: 15px;
+  }
+  
+  .down_blue_block {
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background-color: #3C4E67;
+    position: absolute; /* Ustawienie bloku na pozycję absolutną */
+    bottom: 0; /* Umieszczenie bloku na dole */
+    left: 0; /* Ustawienie bloku na lewo */
+    width: 100%; /* Rozciągnięcie bloku na całą szerokość kontenera */
+    height: 80px; /* Wysokość bloku, możesz dostosować według potrzeb */
+    z-index: 1; /* Upewnij się, że blok jest przed obrazkiem */
+  }
+.Tekst_gorny{
+    color: white;
+    font-size: 25px;
+    font-weight: 700;
+    padding-left: 2%;
+    padding-top: 1%;
+}
+.Tekst_dolny{
+    color:white;
+    font-size: 20px;
+    padding-top: 0%;
+    padding-left: 2%;
+}

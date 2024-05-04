@@ -4,7 +4,7 @@ import main_bg from '../../../assets/bg_main_picture.png'
 import { Promowane } from './Promowane/Promowane.jsx'
 import { Popularne } from './Popularne/Popularne.jsx'
 import Postcard from '../../Postcard/Postcard.jsx'
-
+import Card_apartment from '../../Card_apartment/Card_apartment.jsx'
 const Strona_glowna = () => {
   return (
     <div className='glowna_strona'>
