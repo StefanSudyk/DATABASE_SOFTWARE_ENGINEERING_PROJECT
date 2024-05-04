@@ -1,11 +1,11 @@
 .footer-padding{
-  padding: 2% 5% 2%;
+  padding: 2% 2% 2%;
   background-color: #6D819E;
 }
 
 .footer-container{
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, auto));
+  grid-template-columns: repeat(auto-fit, minmax(300px, auto));
   gap: 2.5rem;
   justify-content: center;
   padding-bottom: 2%;
@@ -30,7 +30,7 @@
 
 .icons-footer{
   display: flex;
-  font-size: 2.5vh;
+  font-size: 20px;
   font-weight: 400;
   height: 100%;
   width: 100%;
@@ -81,5 +81,6 @@
 }
 
 #footer-copyright-text{
-  font-size: 16px;;
+  font-size: 16px;
+  font-weight: 300;
 }
