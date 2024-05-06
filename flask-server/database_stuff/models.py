@@ -67,7 +67,7 @@ class Favourite(db.Model):
         self.id_property = id_property
 
 
-class Company_Type(enum.Enum):
+class Company_Type(str,enum.Enum):
     DEVELOPER = "Developer"
     ESTATE_AGENCY = "Estate agency"
 
