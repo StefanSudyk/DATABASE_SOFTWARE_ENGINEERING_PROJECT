@@ -6,10 +6,10 @@ const DaneDoWczytania = () => {
     <div>
      
       <Card_apartment 
-        NazwaOkolicy="Centrum"
+        NazwaOkolicy="Baranówka"
         CenaMieszkania="400 000 zł"
         IloscMetrow="60 m²"
-        Miasto="Warszawa"
+        Miasto="Rzeszów"
         CenaMetrow="11 500"
       />
    
