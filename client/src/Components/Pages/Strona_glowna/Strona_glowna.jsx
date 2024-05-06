@@ -1,7 +1,7 @@
 import React from 'react'
 import './Strona_glowna.css'
 import main_bg from '../../../assets/bg_main_picture.png'
-import { Promowane } from './Promowane'
+import { Promowane } from './Promowane/Promowane'
 import { Popularne } from './Popularne'
 const Strona_glowna = () => {
   return (
@@ -9,12 +9,13 @@ const Strona_glowna = () => {
         <div className='kontener_bg_photo'>
           <img src={main_bg}  className='main_bg'/>
             <div className='white_bg_first_page'>
-              <Promowane/>
+           
             </div>
         </div>
     
-      
+       
     <div>
+    <Promowane/>
       <Popularne/>
       </div>  
       
