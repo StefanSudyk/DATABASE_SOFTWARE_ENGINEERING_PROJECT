@@ -12,6 +12,7 @@ export const Promowane = () => {
     Oferty zostały przydzielone na podstawie twojej lokalizacji      
     <div className='promowane_offer_block'>
       <div className='bloki_poszczegolne'>
+        
         <div className='ostatnie_zagniezdzenie_edycja_bloku_1'>
       <DaneDoWczytania/>
       </div>
@@ -23,9 +24,13 @@ export const Promowane = () => {
       </div>
       <div className='ostatnie_zagniezdzenie_edycja_bloku'>
       <DaneDoWczytania/>
+      </div>
+      <div className='ostatnie_zagniezdzenie_edycja_bloku'>
+      <DaneDoWczytania/>
+      </div>
+      </div>
       
-      </div>
-      </div>
+      
     </div>
     </div>
     </div>
