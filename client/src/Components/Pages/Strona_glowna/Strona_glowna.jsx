@@ -15,21 +15,13 @@ const Strona_glowna = () => {
             <div className='white_bg_first_page'>
             <Promowane/>
             </div>
-            
         </div>
     
-     
-    <div className='whatever'>
-      <Postcard/>
-      </div>  
-      
-    
-      
-    
-      
+        
+    <div className='Postcard_div'>
+    <Postcard/>
+    </div>  
     <Footer/>
-
-    
     </div>
   )
 }
