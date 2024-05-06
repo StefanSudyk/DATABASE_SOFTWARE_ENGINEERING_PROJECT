@@ -2,6 +2,7 @@ from app import db
 import enum
 from flask_login import UserMixin
 
+
 """
 python
 from run import flask_app
@@ -10,14 +11,13 @@ db.drop_all()
 db.create_all()
 """
 
-
 class UserType(str, enum.Enum):
     ADMIN = 'Admin'
     USER = 'User'
     COMPANY = 'Company'
 
-
 class User(db.Model, UserMixin):
+  
     # TODO - poprawić tabele id_company, wyjebalem ja - zmieniony __init__
     id_user = db.Column(db.Integer, unique=True, primary_key=True)
     id_company = db.Column(db.Integer, db.ForeignKey('company.id_company'), unique=True)
@@ -46,7 +46,7 @@ class User(db.Model, UserMixin):
             'is_active': self.is_active
         }
 
-    def __init__(self, name, surname, phone_number, password, email, usertype, is_active):
+    def __init__(self, name, surname, phone_number, password, email, usertype):
         self.name = name
         self.surname = surname
         self.phone_number = phone_number
@@ -112,6 +112,7 @@ class Property(db.Model):
     sponsored = db.Column(db.Boolean)
     address = db.relationship('Address', uselist=False, backref='property',
                               lazy=True)  #uselist=false do relacji jeden do jednego
+
     inside = db.relationship('Inside', uselist=False, backref='property', lazy=True)
     infrastructure = db.relationship('Infrastructure', uselist=False, backref='property', lazy=True)
     photos = db.relationship('Photo', backref='property', lazy=True)

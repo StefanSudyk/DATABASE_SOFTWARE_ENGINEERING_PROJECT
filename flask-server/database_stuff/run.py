@@ -20,4 +20,5 @@ if __name__ == '__main__':
     api.add_resource(DeleteUser, '/delete/<int:user_id>')
     api.add_resource(GetAllUsers, '/get')
     api.add_resource(EditUserInformation, '/patch/<int:user_id>/<string:action>')
+
     flask_app.run(debug=True)
