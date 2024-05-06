@@ -56,3 +56,4 @@ class UserService:
             'usertype': user.usertype,
             'properties': user.properties
         })
+  
