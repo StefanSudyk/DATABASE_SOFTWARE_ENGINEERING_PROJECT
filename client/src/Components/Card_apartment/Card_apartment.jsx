@@ -8,12 +8,12 @@ const Card_apartment = (props) => {
   const { NazwaOkolicy, CenaMieszkania, IloscMetrow,CenaMetrow, Miasto } = props;
 
   return (
-    <div className='card_apartment_calosc'>
+    <div className='card_apartment_calosc' >
     <div className='card_apartment_block'>
       <div className='inside_card'>
         <div className='down_blue_block'>
           <div className='Tekst_gorny'>{NazwaOkolicy} {Miasto}</div>
-          <div className='Tekst_dolny'>{CenaMieszkania}  {IloscMetrow} {CenaMetrow} PLN/m2 </div>
+          <div className='Tekst_dolny'>{CenaMieszkania} &nbsp;  {IloscMetrow}&nbsp;&nbsp; {CenaMetrow} PLN/m2 </div>
           
           
          

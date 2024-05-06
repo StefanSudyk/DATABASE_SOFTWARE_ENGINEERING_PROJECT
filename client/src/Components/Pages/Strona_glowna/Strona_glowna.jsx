@@ -23,20 +23,9 @@ const Strona_glowna = () => {
       <Postcard/>
       </div>  
       
-    <div className='oddziel-to'>
+    
       
-      </div>  
-      
-    <div>
-      strona glowna
-      </div>    
-      <div>
-      strona glowna
-      </div>
-      
-    <div>
-      strona glowna
-      </div>  
+    
       
     <Footer/>
 
