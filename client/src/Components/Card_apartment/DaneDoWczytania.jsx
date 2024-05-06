@@ -7,8 +7,8 @@ const DaneDoWczytania = () => {
      
       <Card_apartment 
         NazwaOkolicy="Baranówka"
-        CenaMieszkania="400 000 zł"
-        IloscMetrow="60 m²"
+        CenaMieszkania="400 000"
+        IloscMetrow="60"
         Miasto="Rzeszów"
         CenaMetrow="11 500"
       />

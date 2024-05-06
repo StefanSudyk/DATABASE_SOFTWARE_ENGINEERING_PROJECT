@@ -13,7 +13,7 @@ const Card_apartment = (props) => {
       <div className='inside_card'>
         <div className='down_blue_block'>
           <div className='Tekst_gorny'>{NazwaOkolicy}, {Miasto}</div>
-          <div className='Tekst_dolny'>{CenaMieszkania} &nbsp;  {IloscMetrow}&nbsp;&nbsp; {CenaMetrow} PLN/m2 </div>
+          <div className='Tekst_dolny'>{CenaMieszkania} PLN &nbsp;  {IloscMetrow} m²&nbsp;&nbsp; {CenaMetrow} PLN/m2 </div>
           
           
          
