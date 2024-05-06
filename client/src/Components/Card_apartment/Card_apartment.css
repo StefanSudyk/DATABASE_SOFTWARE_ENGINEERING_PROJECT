@@ -18,15 +18,15 @@
   }
   
   .down_blue_block {
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
     background-color: #3C4E67;
-    position: absolute; /* Ustawienie bloku na pozycję absolutną */
-    bottom: 0; /* Umieszczenie bloku na dole */
-    left: 0; /* Ustawienie bloku na lewo */
-    width: 100%; /* Rozciągnięcie bloku na całą szerokość kontenera */
-    height: 80px; /* Wysokość bloku, możesz dostosować według potrzeb */
-    z-index: 1; /* Upewnij się, że blok jest przed obrazkiem */
+    position: absolute; 
+    bottom: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 80px; 
+    z-index: 1; 
   }
 .Tekst_gorny{
     color: white;
@@ -37,7 +37,7 @@
 }
 .Tekst_dolny{
     color:white;
-    font-size: 20px;
-    padding-top: 0%;
+    font-size: 18px;
+    padding-top: 1%;
     padding-left: 2%;
 }
