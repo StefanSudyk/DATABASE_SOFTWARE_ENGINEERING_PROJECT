@@ -1,12 +1,12 @@
 .postcard-main-box{
   width: 100%;
   height: 100%;
+  padding-bottom: 1.5%;
 }
 
 .writing-name{
   padding-bottom: 1.5%;
 }
-
 
 #stylish{
   margin-left: 2%;
@@ -23,26 +23,24 @@
 }
 
 .main-photos-box{
+  width: 100%;
+  height: 90%;
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: center; 
+  flex-direction: column;
+}
+
+.photos-container{
+  width: 80%;
 }
 
 .first-row-postcard{
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80%;
-  height: 80%;
-  gap: 0.5%;
-}
-
-.picture-up-row{
-  display:block;
-  border-radius: 5%;
-  width: 100%;
-  height: 100%;
+  width: 100%; 
+  height: 45%;
+  padding-top: 1.5%;
+  box-sizing: content-box;
 }
 
 .box-photo-up-row{
@@ -51,32 +49,35 @@
   border: 3px solid transparent; /* Initially, no border */
 }
 
+.picture-up-row{
+  border-radius: 5%;
+  width: 100%;
+  height: 80%;
+}
+
 .photo-warsaw{
   display: inherit;
   width: 80%;
-  height: 80%;
-  margin-inline: 1.5%;
-  padding-inline: 1.5%;
+  height: 60%;
+  margin-inline: 1%;
+  padding-inline: 1%;
 }
 
 .photo-wroclaw{
   display: inherit;
   width: 80%;
-  height: 80%;
-  margin-inline: 1.5%;
-  padding-inline: 1.5%;
+  height: 60%;
+  margin-inline: 1%;
+  padding-inline: 1%;
 }
 
-
 .second-row-postcard{
-  margin-top: 1.5%;
   display: flex;
-  justify-content: center;
-  align-items: center; 
   align-content: space-around;
-  gap: 1%;
-  width: 90%;
-  height: 90%;
+  width: 100%;
+  height: 45%;
+  flex: 1;
+  box-sizing: content-box;
 }
 
 .picture-down-row{
@@ -84,6 +85,7 @@
   border-radius: 5%;
   width: 100%;
   height: 100%;
+  aspect-ratio: 3/2;
 }
 
 .box-photo-down-row{
@@ -91,32 +93,35 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transitions for both transform and box-shadow */
   border: 1px solid transparent; /* Initially, no border */
   display: inherit;
-  width:  60%;
-  height: 200px;
+  width: 100%;
+  height: 100%;
 }
 
 .photo-gdansk{
-  display: inherit;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  margin-inline: 1%;
+  padding-inline: 1%;
+  flex: 1;
 }
 
 .photo-poznan{
-  display: inherit;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  margin-inline: 1%;
+  padding-inline: 1%;
+  flex: 1;
 }
 
 .photo-cracow{
-  display: inherit;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  margin-inline: 1%;
+  padding-inline: 1%;
+  flex: 1;
 }
 
-.text-photos{
+.text-photos-up-row{
   color: white;
   font-size: 30px;
   position: absolute;
@@ -129,6 +134,18 @@
   -webkit-user-select: none;
 }
 
+.text-photos-down-row{
+  color: white;
+  font-size: 26px;
+  position: absolute;
+  left:50%;
+  top: 15%;
+  transform: translate(-50%, -50%);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  /* Wyłącz zaznaczanie tekstu tylko dla konkretnego elementu */
+  user-select: none;
+  -webkit-user-select: none;
+}
 
 /*Animation mouse hover */
 
