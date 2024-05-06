@@ -11,7 +11,7 @@ const Strona_glowna = () => {
         <div className='kontener_bg_photo'>
           <img src={main_bg}  className='main_bg'/>
             <div className='white_bg_first_page'>
-              <Promowane/>
+           
             </div>
         </div>
     
