@@ -5,6 +5,8 @@ import { Promowane } from './Promowane/Promowane.jsx'
 import { Popularne } from './Popularne/Popularne.jsx'
 import Postcard from '../../Postcard/Postcard.jsx'
 import Card_apartment from '../../Card_apartment/Card_apartment.jsx'
+import Footer from '../../Footer/Footer.jsx'
+
 const Strona_glowna = () => {
   return (
     <div className='glowna_strona'>
@@ -36,12 +38,9 @@ const Strona_glowna = () => {
       strona glowna
       </div>  
       
-    <div className='footer'>
-      strona glowna
-      </div>  
-      
-    
+    <Footer/>
 
+    
     </div>
   )
 }

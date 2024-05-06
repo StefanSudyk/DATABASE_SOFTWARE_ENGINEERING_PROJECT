@@ -19,10 +19,11 @@ const postcard = () => {
           </div>
       </div>
       <div className="main-photos-box">
+      <div className="photos-container">
         <div className='first-row-postcard'>
           <div className='photo-warsaw'>
               <div className='box-photo-up-row'>
-              <div className='text-photos'>
+              <div className='text-photos-up-row'>
                   Warszawa
                 </div>
                   <a href='https://www.youtube.com/'>
@@ -33,7 +34,7 @@ const postcard = () => {
           </div>
           <div className='photo-wroclaw'>
               <div className='box-photo-up-row'>
-              <div className='text-photos'>
+              <div className='text-photos-up-row'>
                   Wrocław
               </div>
                 <a href=''>
@@ -43,11 +44,9 @@ const postcard = () => {
           </div>
         </div>
       <div className="second-row-postcard">
-        {/* Tutaj powinno byc photo-gdansk, ale nie wiem dlaczego photo-gdansk nie działa w css jak to jest ten sam kod więc mamy 
-        photo-krakow, ponieważ to działa*/}
-          <div className='photo-krakow'>  
+          <div className='photo-gdansk'>  
               <div className='box-photo-down-row'>
-                <div className='text-photos'>
+                <div className='text-photos-down-row'>
                   Gdańsk
                 </div>
                   <a href=''>
@@ -57,7 +56,7 @@ const postcard = () => {
           </div>
           <div className='photo-poznan'>
               <div className='box-photo-down-row'>
-              <div className='text-photos'>
+              <div className='text-photos-down-row'>
                   Poznań
               </div>  
                   <a href=''>
@@ -67,7 +66,7 @@ const postcard = () => {
           </div>
           <div className='photo-cracow'>
               <div className='box-photo-down-row'>
-                <div className='text-photos'>
+                <div className='text-photos-down-row'>
                   Kraków
                 </div>
                   <a href=''>
@@ -75,6 +74,7 @@ const postcard = () => {
                   </a>
               </div>
           </div>
+        </div>
         </div>
         </div>
     </div>
