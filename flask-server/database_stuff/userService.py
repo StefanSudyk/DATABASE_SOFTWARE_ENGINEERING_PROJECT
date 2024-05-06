@@ -1,5 +1,5 @@
 from models import db, User
-import re
+from flask import jsonify
 
 class UserService:
     def is_email_unique(self, email):
@@ -14,8 +14,6 @@ class UserService:
         print(existing_user)
         return existing_user is None
     
-    '''typ user_data to niby <class 'flask_restful.reqparse.Namespace'>
-    ale w praktyce działa jak dictionary chyba'''
     def add_user(self, user_data):
         new_user = User(
             name=user_data['name'],
@@ -27,3 +25,35 @@ class UserService:
         )
         db.session.add(new_user)
         db.session.commit()
+
+    def patch_user(self):
+        db.session.commit()
+
+    def delete_user(self, user):
+        db.session.delete(user)
+        db.session.commit()
+
+    def get_all_users(self, users):
+        return jsonify([{
+            'id_user': user.id_user,
+            'id_company': user.id_company,
+            'name': user.name,
+            'surname': user.surname,
+            'phone_number': user.phone_number,
+            'email': user.email,
+            'usertype': user.usertype,
+            'properties': user.properties
+        } for user in users])
+
+    def get_user(self, user):
+        return jsonify({
+            'id_user': user.id_user,
+            'id_company': user.id_company,
+            'name': user.name,
+            'surname': user.surname,
+            'phone_number': user.phone_number,
+            'email': user.email,
+            'usertype': user.usertype,
+            'properties': user.properties
+        })
+  

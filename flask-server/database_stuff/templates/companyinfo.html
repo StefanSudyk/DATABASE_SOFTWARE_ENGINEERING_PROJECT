@@ -1,16 +1,9 @@
 {% extends "base.html" %}
 {% block title %}Flats&Homes - Sign up!{% endblock %}
 {% block content %} 
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for msg in messages %}
-            <p>{{msg}}</p>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
 <h3>Please fill up your company data</h3>
 <form action="#", method="post">
-    <p>Company name:</p>
+    <p>Comapny name:</p>
     <p><input type="text" name="cnm"/></p>
     <p>REGON:</p>
     <p><input type="text" name="reg"/></p>
