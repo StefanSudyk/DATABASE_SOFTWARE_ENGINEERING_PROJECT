@@ -31,12 +31,12 @@ const Footer = () => {
         </div>
         <div className='column-links-footer'>
         <p id='links-footer-text'>Informacje prawne</p>
-           <li> <Link to='https://pl.wikipedia.org/wiki/Regulamin'>Regulamin</Link></li>
-           <li> <Link to='https://pl.wikipedia.org/wiki/Polityka_prywatno%C5%9Bci'>Polityka prywatności</Link> </li>
+           <li> <Link to="/regulamin">Regulamin</Link></li>
+           <li> <Link to="/polityka_prywatności">Polityka prywatności</Link> </li>
         </div>
         <div className='column-links-footer'>
         <p id='links-footer-text'>Kontakt</p>
-            <li><Link to=''> Obsługa klienta </Link></li>
+            <li><Link to='obsluga_klienta'> Obsługa klienta </Link></li>
         </div>
     </div>
 
