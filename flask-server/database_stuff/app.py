@@ -2,6 +2,7 @@ from flask import Flask, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import timedelta
+from flask_cors import CORS
 
 db = SQLAlchemy()
 
@@ -12,6 +13,8 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.secret_key = "testkey"
     app.permanent_session_lifetime = timedelta(minutes=1)  # session data will be stored for given amount of time
+    
+    CORS(app) #do fetchowania na front
     
     db.init_app(app)
 
