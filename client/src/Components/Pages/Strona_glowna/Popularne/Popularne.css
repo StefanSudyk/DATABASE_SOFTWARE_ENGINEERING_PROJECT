@@ -1,0 +1,71 @@
+/* To nie jest 100% responsywne to jest nie wiadomo co  */
+
+
+.popularne-holder{
+padding: 21%;
+height: 100vh;
+width: 100%;
+margin-top: 300px;
+}
+.popularne-naglowek{
+    padding: 1%;
+    text-align: left;
+    font-size: 42px;
+    font-weight: 700;
+   
+    
+}
+.popularne-warszawa{
+
+    background-image: url(../../../assets/warszawa.jpg);
+    background-size: 100% 100%;
+}
+.popularne-wroclaw{
+    background-image: url(../../../assets/wroclaw.jpeg);
+    background-size: 100% 100%;
+}
+.popularne-gdansk{
+    background-image: url(../../../assets/gdansk.jpeg);
+    background-size: 100% 100%;
+}
+.popularne-poznan{
+    background-image: url(../../../assets/Poznan.jpg);
+    background-size: 100% 100%;
+}
+.popularne-krakow{
+    background-image: url(../../../assets/Krakow.jpg);
+    background-size: 100% 100%;
+}
+.popularne-gora{
+    width: 100%;
+    height: 40vh;
+    display: flex;
+    justify-content: space-around;
+   
+    
+}
+.popularne-dol{
+    margin-top: 7vh;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 30vh;
+}
+.gora{
+    text-align: right;
+    font-size: 42px;
+    font-weight: 700;
+    border: 1px solid black;
+    border-radius: 20px;
+    width: 45%;
+    background-color: bisque;
+}
+.gora:hover{
+    border-width: 5px;
+}
+.dol:hover{
+    border-width: 5px;
+}
+.dol{
+   
+}
