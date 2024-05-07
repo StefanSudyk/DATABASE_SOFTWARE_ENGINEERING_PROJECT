@@ -67,7 +67,7 @@ class Favourite(db.Model):
         self.id_property = id_property
 
 
-class Company_Type(str,enum.Enum):
+class Company_Type(str, enum.Enum):
     DEVELOPER = "Developer"
     ESTATE_AGENCY = "Estate agency"
 
@@ -84,8 +84,7 @@ class Company(db.Model):
     cp_type = db.Column(db.Enum(Company_Type))
     user = db.relationship("User", uselist=False, backref="company")
 
-    def __init__(self, id_company, cp_name, REGON, NIP, postal_code, street, city, house_number, cp_type):
-        self.id_company = id_company
+    def __init__(self, cp_name, REGON, NIP, postal_code, street, city, house_number, cp_type):
         self.cp_name = cp_name
         self.REGON = REGON
         self.NIP = NIP

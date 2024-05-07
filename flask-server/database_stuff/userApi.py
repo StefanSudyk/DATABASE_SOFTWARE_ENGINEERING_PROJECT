@@ -3,6 +3,7 @@ from flask_restful import Resource, reqparse, fields, marshal_with, abort
 from models import *
 from userService import UserService
 import re
+from flask_restful import abort
 
 resource_postuser_fields = {
     'name': fields.String,
@@ -99,6 +100,14 @@ class GetAllUsers(Resource):
 
 class PostUser(Resource):
 
+    '''z tym marshal_with chodzi o to ze robi sie dicitonary gdzie po lewej stronie
+    sa nazwy zmiennych a po prawej ich typ i to co przekaze sie do jsona przy wywolaniu np
+    response = requests.post(base + 'postcompany', json=data) musi scisle odpowiadac temu co
+    w tym dictionary resource_postuser_fields.
+    
+    marshal_with nie wiem jak działa ale wiem ze jakos łączy to co się przesyła w requeście
+    z tym żeby parser to przyjął'''
+
     @marshal_with(resource_postuser_fields)
     def post(self):
         parser = reqparse.RequestParser()
@@ -110,12 +119,11 @@ class PostUser(Resource):
         parser.add_argument('email', type=str, required=True, help='Email is essential')
         parser.add_argument('usertype', type=str, required=True, help='Select user type')
         args = parser.parse_args()
-        print(args)
-
+     
         ### WALIDACJA ###
         validator = Validation()
         user_service = UserService()
-
+        
         check = validator.name_surname_validation(args['name'])
         #print(check, "name")
         check = validator.name_surname_validation(args['surname'])
@@ -141,7 +149,7 @@ class PostUser(Resource):
         else:
             abort(501, message="something went wrong")
 
-
+            
 class EditUserInformation(Resource):
     """
         :parameter action - name/surname/phone_number/password/email/usertype
