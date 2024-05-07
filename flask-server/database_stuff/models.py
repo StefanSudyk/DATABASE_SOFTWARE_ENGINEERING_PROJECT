@@ -84,6 +84,19 @@ class Company(db.Model):
     cp_type = db.Column(db.Enum(Company_Type))
     user = db.relationship("User", uselist=False, backref="company")
 
+    def serialize(self):
+        return {
+            'id_company': self.id_company, 
+            'cp_name': self.cp_name,
+            'REGON': self.REGON,
+            'NIP': self.NIP,
+            'postal_code': self.postal_code,
+            'street': self.street,
+            'city': self.city,
+            'house_number': self.house_number,
+            'cp_type': self.cp_type
+        }
+
     def __init__(self, cp_name, REGON, NIP, postal_code, street, city, house_number, cp_type):
         self.cp_name = cp_name
         self.REGON = REGON
