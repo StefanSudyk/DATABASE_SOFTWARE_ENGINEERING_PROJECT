@@ -24,14 +24,3 @@ def create_app():
     migrate = Migrate(app, db)
     app.app_context().push()
     return app
-
-
-'''
-Żeby wymigrować zmiany w modelach do bazy to robicie tak
-jestescie w terminalu cmd/ps w katalogu flask-server
-piszecie: 
-    flask db migrate
-Powinno napisac ze sa jakies zmiany w tabelach chyba
-jak git to dajecie:
-    flask db upgrade
-'''
