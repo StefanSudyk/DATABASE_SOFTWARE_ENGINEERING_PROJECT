@@ -36,7 +36,7 @@ const Footer = () => {
         </div>
         <div className='column-links-footer'>
         <p id='links-footer-text'>Kontakt</p>
-            <li><Link to='obsluga_klienta'> Obsługa klienta </Link></li>
+            <li><Link to="/obsluga_klienta"> Obsługa klienta </Link></li>
         </div>
     </div>
 
