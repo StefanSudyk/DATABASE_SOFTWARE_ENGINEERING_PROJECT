@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, url_for, request, redirect, session, flash
 import requests
-from models import User
+from models import User, Company
 from werkzeug.security import check_password_hash
 from flask_login import login_user, logout_user, current_user
 
@@ -92,21 +92,20 @@ def signup():
 
 
 
-@auth.route('/signup/companyinfo', methods=["POST", "GET"])
+@auth.route('/companyinfo', methods=["POST", "GET"])
 def companyinfo():
-    filled_form_correctly = True  #trzeba będzie sprawdzić czy użytkownik wklepał poprawnie dane
-
     if request.method == "POST":
-        cp_name = request.form["cnm"]
-        REGON = request.form["reg"]
+        cp_name = request.form["cnm"] #nazwa firmy
+        REGON = request.form["reg"] 
         NIP = request.form["nip"]
         postal_code = request.form["pst"]
         street = request.form["strt"]
         city = request.form["city"]
         house_number = request.form["strtnum"]
-        cp_type = request.form["cp_type"]
+        cp_type = request.form["cp_type"]  # typ firmy - deweloper lub biuro nieruchomości
 
-        #sprawdzamy czy przechwycono dane z formularza
+        # sprawdzamy czy przechwycono dane z formularza
+
         print("cp_name: ", cp_name)
         print("REGON: ", REGON)
         print("NIP: ", NIP)
@@ -116,13 +115,27 @@ def companyinfo():
         print("house_number: ", house_number)
         print("company type: ", cp_type)
 
-        #przechwycone dane o firmie
+        # przechwycone dane o firmie
 
-        if filled_form_correctly:
-            #przeslij do bazy i guess
-            return redirect(url_for("views.user"))
-        else:
-            return render_template('companyinfo.html')
+        data = {
+            'cp_name': cp_name,
+            'REGON': REGON,
+            'NIP': NIP,
+            'postal_code': postal_code,
+            'street': street,
+            'city': city,
+            'house_number': house_number,
+            'cp_type': cp_type
+        }
 
+        response = requests.post(base + 'postcompany', json=data)
+
+        if response.status_code == 401 or response.status_code == 501:
+            message = response.json()["message"]
+            flash(message, 'error')
+            return redirect(url_for('auth.companyinfo'))
+
+        flash("Dane o firmie zostały przypisane!", 'info')
+        return redirect(url_for("views.user"))
     else:
         return render_template('companyinfo.html')
