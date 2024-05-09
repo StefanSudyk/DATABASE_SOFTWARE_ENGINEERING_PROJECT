@@ -1,9 +1,10 @@
-from flask import jsonify, Response
+from flask import jsonify, Response, request
 from flask_restful import Resource, reqparse, fields, marshal_with, abort
 from models import *
 from userService import UserService
 import re
 from flask_restful import abort
+from userFilters import filter_by_usertype, filter_by_surname, filter_by_name, sort_users_by_surname, sort_users_by_name
 
 resource_postuser_fields = {
     'name': fields.String,
@@ -89,11 +90,47 @@ class GetUser(Resource):
 class GetAllUsers(Resource):
     def get(self):
         user_service = UserService()
+
+        usertype_filter = request.args.get('usertype')
+        surname_filter = request.args.get('surname')
+        name_filter = request.args.get('name')
+        sort_by = request.args.get('sort')
         try:
-            users = User.query.all()
+
+            #filtrowanie typu uzytkownika czyli admin zwykly
+
+            if usertype_filter:
+                users = filter_by_usertype(usertype_filter)
+
+            #filtrowanie po nazwisku wyswietla tylko takich userow ktorzy maja okreslone nazwisko
+
+            elif surname_filter:
+                print("Filtrowanie po nazwisku")
+                users = filter_by_surname(surname_filter)
+            
+            #Sortowanie albo po imieniu albo po nazwisku alfabetycznie
+
+            elif sort_by == 'surname':
+                print("Po imieniu")
+                users = sort_users_by_surname()
+
+            elif sort_by == 'name':
+                print("Po imieniu")
+                users = sort_users_by_name()
+
+            #tak jak w nazwisku, wyswietla tylko tych ktorzy maja okreslone imie
+
+            elif name_filter:
+                users = filter_by_name(name_filter)
+
+            #jak nie ma ani sortowania ani filtrowania wyswietla wszytkich
+
+            else:
+                print("wszytko")
+                users = User.query.all()
             if users == []:
                 return Response("No user", status=500, mimetype='application/json')
-            user_service.get_all_users(users)
+            return user_service.get_all_users(users)
         except Exception as e:
             return Response('Error: no users. ' + str(e), status=501, mimetype='application/json')
 
@@ -118,7 +155,10 @@ class PostUser(Resource):
         parser.add_argument('password_repeat', type=str, required=True, help='Entering password again is essential')
         parser.add_argument('email', type=str, required=True, help='Email is essential')
         parser.add_argument('usertype', type=str, required=True, help='Select user type')
+        # to dodałem
+        parser.add_argument('is_active',type=bool, required=False, default=False)
         args = parser.parse_args()
+        print(args)
      
         ### WALIDACJA ###
         validator = Validation()
@@ -211,4 +251,4 @@ class DeleteUser(Resource):
             user_service.delete_user(user)
             return Response("user deleted", status=200, mimetype='application/json')
         except Exception as e:
-            return Response('Error: no user to delete. ' + str(e), status=501, mimetype='application/json')
+            return Response('Error: no user to delete. ' + str(e), status=500, mimetype='application/json')
