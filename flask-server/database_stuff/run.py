@@ -22,4 +22,5 @@ if __name__ == '__main__':
     api.add_resource(DeleteUser, '/delete/<int:user_id>')
     api.add_resource(GetAllUsers, '/get')
     api.add_resource(PostProperty, '/postProperty')
+    api.add_resource(GetAllProperty, '/getProperty')
     flask_app.run(debug=True)

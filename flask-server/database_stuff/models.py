@@ -98,8 +98,8 @@ class Property(db.Model):
     rooms = db.relationship('Room', backref='property', lazy=True)
     favourites = db.relationship('Favourite', backref='property', lazy=True)
 
-    def __init__(self, id_property, id_owner, title, price, square_metrage, finishing_standard, condition, market,
-                 publication_date, p_p_meter, sposored):
+    def __init__(self,id_property ,id_owner,  title, price, square_metrage, finishing_standard, condition, market,
+                 publication_date, p_p_meter, sponsored):
         self.id_property = id_property
         self.id_owner = id_owner
         self.title = title
@@ -110,7 +110,7 @@ class Property(db.Model):
         self.market = market
         self.publication_date = publication_date
         self.p_p_meter = p_p_meter
-        self.sponsored = sposored
+        self.sponsored = sponsored
 
 
 class Address(db.Model):
@@ -124,7 +124,7 @@ class Address(db.Model):
     house_number = db.Column(db.String(6))
     coordinates = db.Column(db.Integer)
 
-    def __init__(self, id_property, county, region, district, locality, street, postal_code, house_number, coordinates):
+    def __init__(self, id_property,county, region, district, locality, street, postal_code, house_number, coordinates):
         self.id_property = id_property
         self.county = county
         self.region = region
@@ -142,12 +142,12 @@ class Photo(db.Model):
     description_photo = db.Column(db.String(255))
 
     def __init__(self, id_property, address_photo, description_photo):
-        self.id_property = id_property
+        self.id_property=id_property
         self.address_photo = address_photo
         self.description_photo = description_photo
 
 
-class Heatinig(enum.Enum):
+class Heatinig(str,enum.Enum):
     LACK = "Lack"
     HEAT_PUMP = "Heat pump"
     FURNACE = "Furnace"
@@ -157,7 +157,7 @@ class Heatinig(enum.Enum):
     SOLAR_PANELS = "Solar panels"
 
 
-class Condition(enum.Enum):
+class Condition(str,enum.Enum):
     FORMALITIES = "Formalities"
     ZERO_CONDITION = "Zero condition"
     OPEN_BASIC_CONDITION = "Open basic condition"
@@ -182,7 +182,7 @@ class Inside(db.Model):
 
     def __init__(self, id_property, nr_rooms, nr_bathrooms, basement, attic, nr_garages, nr_balconies, nr_floors,
                  type_of_heating, condition_, description):
-        self.id_property = id_property
+        self.id_property=id_property
         self.nr_rooms = nr_rooms
         self.nr_bathrooms = nr_bathrooms
         self.basement = basement
@@ -205,11 +205,11 @@ class Infrastructure(db.Model):
     bicycle_rack = db.Column(db.Boolean)
     car_parking_space = db.Column(db.Boolean)
 
-    def __init__(self, id_property, shop_distance, park_dostance, playground_distance, kindergarden_distance,
+    def __init__(self, id_property, shop_distance, park_distance, playground_distance, kindergarden_distance,
                  school_distance, bicycle_rack, car_parking_space):
-        self.id_property = id_property
+        self.id_property=id_property
         self.shop_distance = shop_distance
-        self.park_distance = park_dostance
+        self.park_distance = park_distance
         self.playground_distance = playground_distance
         self.kindergarden_distance = kindergarden_distance
         self.school_distance = school_distance
@@ -222,7 +222,7 @@ class Room(db.Model):
     id_room = db.Column(db.Integer, primary_key=True)
     room_metrage = db.Column(db.Float)
 
-    def __init__(self, id_property, id_room, room_metrage):
-        self.id_property = id_property
+    def __init__(self,id_property, id_room, room_metrage):
+        self.id_property=id_property
         self.id_room = id_room
         self.room_metrage = room_metrage
