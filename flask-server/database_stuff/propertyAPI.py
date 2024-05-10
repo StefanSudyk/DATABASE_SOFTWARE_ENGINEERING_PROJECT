@@ -183,7 +183,7 @@ class PostProperty(Resource):
         parser.add_argument('bicycle_rack', type=bool, required=True, help='bicycle_rack is essential')
         parser.add_argument('car_parking_space', type=bool, required=True, help='car_parking_space is essential')
         #Room
-        parser.add_argument('id_room', type=int, required=True, help='id_room')
+        parser.add_argument('id_room', type=int, required=False, help='id_room')
         parser.add_argument('room_metrage', type=float, required=True, help='room_metrage')
 
 
