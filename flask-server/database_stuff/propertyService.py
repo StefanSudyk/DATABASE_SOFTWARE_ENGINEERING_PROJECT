@@ -1,5 +1,6 @@
 from models import db, Property, Address, Photo, Inside, Infrastructure,Room
 from datetime import datetime
+from flask import session
 
 class PropertyService:
     
@@ -22,7 +23,7 @@ class PropertyService:
         p_p_meter=property_data['price']/property_data['square_metrage']
         new_property = Property(
             id_property=property_id,
-            id_owner=1,
+            id_owner=session['id_user'],
             title=property_data['title'],
             price=property_data['price'],
             square_metrage=property_data['square_metrage'],
