@@ -1,0 +1,181 @@
+
+
+form{
+    font-family: 'Poppins', sans-serif;
+}
+.form-body{
+    display: flex;
+    /*height: 100vh; */
+    justify-content: center;
+    align-items: center;
+    /*background-color: bisque;*/
+    padding: 10px;
+}
+.form-container{
+    max-width: 1300px;
+    width: 100%;
+    background-color: white;
+    padding: 25px 30px;
+    border-radius: 5px;
+}
+.form-title{
+    text-align: center;
+}
+.form-tableTitle{
+    text-align: left;
+    font-weight: 600;
+    font-size: 45px;
+}
+.form-container .form-title{
+    font-size: 60px;
+    font-weight: 600;
+}
+.form-container form .form-info{
+    display: flex;
+    flex-wrap: wrap;
+}
+form .form-info .input-box{
+    width: calc(100% / 2 - 20px);
+    margin: 20px 20px 50px 0;
+}
+.form-info .input-box .details{
+    font-weight: 500;
+    display: block;
+}
+.form-info .input-box input{
+    height: 70px;
+    width: 100%;
+    outline: none;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    padding-left: 15px;
+    border-bottom-width: 4px;
+    border-right-width: 4px;
+}
+.form-info .input-box input:focus,
+.form-info .input-box input:valid{
+    border-color: #176199;
+}
+form .form-parkingSpace .parkingSpace-title,
+form .form-bicycleRack .bicycleRack-title,
+form .form-condition .condition-title,
+form .form-ogrzewanie .ogrzewanie-title,
+form .form-strych .strych-title,
+form .form-piwnica .piwnica-title,
+form .form-market .market-title,
+form .form-standardWykonczenia .standardWykonczenia-title{
+    font-weight: 500;
+}
+form .form-parkingSpace .parkingSpace-category,
+form .form-bicycleRack .bicycleRack-category,
+form .form-condition .condition-category,
+form .form-ogrzewanie .ogrzewanie-category,
+form .form-strych .strych-category,
+form .form-piwnica .piwnica-category,
+form .form-market .market-category,
+form .form-standardWykonczenia .standardWykonczenia-category{
+    width: 80%;
+    margin: 14px 0;
+    display: flex;
+    justify-content: space-between;
+}
+.form-parkingSpace .parkingSpace-category label,
+.form-bicycleRack .bicycleRack-category label,
+.form-condition .condition-category label,
+.form-ogrzewanie .ogrzewanie-category label,
+.form-strych .strych-category label,
+.form-piwnica .piwnica-category label,
+.form-market .market-category label,
+.form-standardWykonczenia .standardWykonczenia-category label{
+    display: flex;
+    align-items: center;
+}
+.form-parkingSpace .parkingSpace-category .dot,
+.form-bicycleRack .bicycleRack-category .dot,
+.form-condition .condition-category .dot,
+.form-ogrzewanie .ogrzewanie-category .dot,
+.form-strych .strych-category .dot,
+.form-piwnica .piwnica-category .dot,
+.form-market .market-category .dot,
+.form-standardWykonczenia .standardWykonczenia-category .dot{
+    height: 30px;
+    width: 30px;
+    background: #d9d9d9;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 5px solid transparent;
+    transition: all 1s ease;
+}
+#parkingSpace-Tak:checked ~ .parkingSpace-category label .one,
+#parkingSpace-Nie:checked ~ .parkingSpace-category label .two,
+#bicycleRack-Tak:checked ~ .bicycleRack-category label .one,
+#bicycleRack-Nie:checked ~ .bicycleRack-category label .two,
+#formalnosciPrzed:checked ~ .condition-category label .one,
+#stanZerowy:checked ~ .condition-category label .two,
+#stanSurowyOtwarty:checked ~ .condition-category label .three,
+#stanSurowyZamkniety:checked ~ .condition-category label .four,
+#praceWykonczeniowe:checked ~ .condition-category label .five,
+#gotowy:checked ~ .condition-category label .six,
+#ogrzewanie-brak:checked ~ .ogrzewanie-category label .one,
+#pompaCiepla:checked ~ .ogrzewanie-category label .two,
+#piec:checked ~ .ogrzewanie-category label .three,
+#piecNaEkoGroszek:checked ~ .ogrzewanie-category label .four,
+#piecGazowy:checked ~ .ogrzewanie-category label .five,
+#ogrzewanieElektryczne:checked ~ .ogrzewanie-category label .six,
+#kolektorySloneczne:checked ~ .ogrzewanie-category label .seven,
+#strych-Tak:checked ~ .strych-category label .one,
+#strych-Nie:checked ~ .strych-category label .two,
+#piwnica-Tak:checked ~ .piwnica-category label .one,
+#piwnica-Nie:checked ~ .piwnica-category label .two,
+#market-Wtorny:checked ~ .market-category label .one,
+#market-Pierwotny:checked ~ .market-category label .two,
+#standardWykonczenia-Dom:checked ~ .standardWykonczenia-category label .one,
+#standardWykonczenia-Szeregowka:checked ~ .standardWykonczenia-category label .two,
+#standardWykonczenia-Mieszkanie:checked ~ .standardWykonczenia-category label .three{
+    border-color: #d9d9d9;
+    background: #176199;
+}
+form input[type="radio"]{
+    display: none;
+}
+form .button{
+    height: 70px;
+    margin: 45px 0;
+}
+form .button input{
+    height: 70px;
+    width: 100%;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    font-size: 40px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    background: linear-gradient(135deg, #3a85d6, #374967);
+}
+form .button input:hover{
+    background: linear-gradient(-135deg, #3a85d6, #374967);
+}
+@media (max-width: 1200px) {
+    .form-container{
+        max-width: 100%;
+    }
+    form .form-info .input-box{
+        width: 100%;
+        margin: 20px 20px 50px 0;
+    }
+    form .form-parkingSpace .parkingSpace-category,
+    form .form-bicycleRack .bicycleRack-category,
+    form .form-condition .condition-category,
+    form .form-ogrzewanie .ogrzewanie-category,
+    form .form-strych .strych-category,
+    form .form-piwnica .piwnica-category,
+    form .form-market .market-category,
+    form .form-standardWykonczenia .standardWykonczenia-category{
+        width: 100%;
+    }
+    .form-container form .form-info{
+        max-height: 500px;
+        overflow-y: scroll;
+    }
+}

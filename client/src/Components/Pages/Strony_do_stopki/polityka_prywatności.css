@@ -1,0 +1,19 @@
+.polityka_prywatności{
+    padding-top: 110px;
+    
+    min-width: 100%;
+    
+    font-size: 20px;
+    font-weight: 600;
+}
+.tekstbox{
+    height: 200px; /* Ustaw wysokość na 200 pikseli */
+    width: 50%; /* Ustaw szerokość na 100% szerokości rodzica */
+    padding: 10px; /* Dodaj wewnętrzny margines */
+    box-sizing: border-box; /* Uwzględnij padding w całkowitej szerokości */
+    font-size: 16px; /* Rozmiar czcionki */
+    border: 1px solid #ccc; /* Styl obramowania */
+    border-radius: 5px; /* Zaokrąglenie rogów */
+    resize: vertical; /* Możliwość zmiany rozmiaru pionowo */
+}
+

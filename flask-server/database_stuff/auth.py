@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for, request, redirect, session, jsonify
+from flask import Blueprint, render_template, url_for, request, redirect, session, jsonify, flash
 from app import db
 import requests
 
@@ -11,7 +11,9 @@ def login():
     if request.method == "POST":
         phonenumber = request.form["phnum"]
         password = request.form["pswrd"]
+      
         #tu przechwycone rzeczy do logowania
+
 
         print("nr tel: ", phonenumber)
         print("hasło: ", password)
@@ -23,7 +25,7 @@ def login():
     else:
         if "phonenumber" in session:
             return redirect(url_for("views.user"))
-        
+
         return render_template('login.html')
 
 
@@ -34,12 +36,10 @@ def logout():
         return render_template('logout.html')
     else:
         return redirect(url_for("views.index"))
-    
+
 
 @auth.route('/signup', methods=["POST", "GET"])
 def signup():
-    filled_form_correctly = False #trzeba będzie sprawdzić czy użytkownik wklepał poprawnie dane
-
     if request.method == "POST":
         name = request.form["nm"]
         surname = request.form["snm"]
@@ -50,16 +50,19 @@ def signup():
         password_repeat = request.form["pswrdag"]
 
         #sprawdzamy czy przechwycono dane z formularza
-        print("name: ", name)
-        print("surname: ", surname)
-        print("phone number: ", phonenumber)
-        print("email: ", email)
-        print("usertype: ", usertype)
-        print("password: ", password)
-        print("password again: ", password_repeat)
-    
-        #przechywcone dane o uzytkowniku
-        
+
+        # print("name: ", name)
+        # print("surname: ", surname)
+        # print("phone number: ", phonenumber)
+        # print("email: ", email)
+        # print("usertype: ", usertype)
+        # print("password: ", password)
+        # print("password again: ", password_repeat)
+
+        '''
+        jak będzie front to domyslnie będzie ustawienie usertype = private user
+        '''
+
         data = {
             'name': name,
             'surname': surname,
@@ -71,33 +74,32 @@ def signup():
         }
         
         response = requests.post(base + 'post', json=data)
-        
-        session["phonenumber"] = phonenumber
 
-        if usertype == "Company":
-            return redirect(url_for("auth.companyinfo"))
+        if response.status_code == 401 or response.status_code == 501:
+            message = response.json()["message"]
+            flash(message, 'error')
+            return redirect(url_for('auth.signup'))
 
-        return redirect(url_for("views.user"))
-        
+        flash("Konto zostało utworzone!", 'info')
+        return redirect(url_for("auth.login"))
     else:
         return render_template('signup.html')
 
 
-@auth.route('/signup/companyinfo', methods=["POST", "GET"])
+@auth.route('/companyinfo', methods=["POST", "GET"])
 def companyinfo():
-    filled_form_correctly = True #trzeba będzie sprawdzić czy użytkownik wklepał poprawnie dane
-
     if request.method == "POST":
-        cp_name = request.form["cnm"]
-        REGON = request.form["reg"]
+        cp_name = request.form["cnm"] #nazwa firmy
+        REGON = request.form["reg"] 
         NIP = request.form["nip"]
         postal_code = request.form["pst"]
         street = request.form["strt"]
         city = request.form["city"]
         house_number = request.form["strtnum"]
-        cp_type = request.form["cp_type"]
+        cp_type = request.form["cp_type"]  # typ firmy - deweloper lub biuro nieruchomości
 
-        #sprawdzamy czy przechwycono dane z formularza
+        # sprawdzamy czy przechwycono dane z formularza
+
         print("cp_name: ", cp_name)
         print("REGON: ", REGON)
         print("NIP: ", NIP)
@@ -107,14 +109,28 @@ def companyinfo():
         print("house_number: ", house_number)
         print("company type: ", cp_type)
 
-        #przechwycone dane o firmie
+        # przechwycone dane o firmie
 
-        if filled_form_correctly:
-            #przeslij do bazy i guess
-            return redirect(url_for("views.user"))
-        else:
-            return render_template('companyinfo.html')
-        
+        data = {
+            'cp_name': cp_name,
+            'REGON': REGON,
+            'NIP': NIP,
+            'postal_code': postal_code,
+            'street': street,
+            'city': city,
+            'house_number': house_number,
+            'cp_type': cp_type
+        }
+
+        response = requests.post(base + 'postcompany', json=data)
+
+        if response.status_code == 401 or response.status_code == 501:
+            message = response.json()["message"]
+            flash(message, 'error')
+            return redirect(url_for('auth.companyinfo'))
+
+        flash("Dane o firmie zostały przypisane!", 'info')
+        return redirect(url_for("views.user"))
     else:
         return render_template('companyinfo.html')
 
