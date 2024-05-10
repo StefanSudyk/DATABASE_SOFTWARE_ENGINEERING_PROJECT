@@ -46,7 +46,7 @@ class User(db.Model, UserMixin):
             'is_active': self.is_active
         }
 
-    def __init__(self, name, surname, phone_number, password, email, usertype):
+    def __init__(self, name, surname, phone_number, password, email, usertype, is_active):
         self.name = name
         self.surname = surname
         self.phone_number = phone_number
@@ -180,7 +180,7 @@ class Photo(db.Model):
         self.description_photo = description_photo
 
 
-class Heatinig(enum.Enum):
+class Heatinig(str, enum.Enum):
     LACK = "Lack"
     HEAT_PUMP = "Heat pump"
     FURNACE = "Furnace"
@@ -190,7 +190,7 @@ class Heatinig(enum.Enum):
     SOLAR_PANELS = "Solar panels"
 
 
-class Condition(enum.Enum):
+class Condition(str, enum.Enum):
     FORMALITIES = "Formalities"
     ZERO_CONDITION = "Zero condition"
     OPEN_BASIC_CONDITION = "Open basic condition"
