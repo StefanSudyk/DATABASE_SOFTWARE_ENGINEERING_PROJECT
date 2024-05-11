@@ -110,7 +110,7 @@ class Company(db.Model):
 
 class Property(db.Model):
     id_property = db.Column(db.Integer, unique=True, primary_key=True)
-    id_owner = db.Column(db.Integer, db.ForeignKey('user.id_user'), unique=True)
+    id_owner = db.Column(db.Integer, db.ForeignKey('user.id_user'))
     title = db.Column(db.String(100))
     #IDK czy tak z ta cena ale dalem ze do 2 dokladnosc miejsc
     price = db.Column(db.Float(precision=2))
@@ -131,9 +131,9 @@ class Property(db.Model):
     rooms = db.relationship('Room', backref='property', lazy=True)
     favourites = db.relationship('Favourite', backref='property', lazy=True)
 
-    def __init__(self,id_property ,id_owner,  title, price, square_metrage, finishing_standard, condition, market,
+    def __init__(self,id_owner,  title, price, square_metrage, finishing_standard, condition, market,
                  publication_date, p_p_meter, sponsored):
-        self.id_property = id_property
+        #self.id_property = id_property
         self.id_owner = id_owner
         self.title = title
         self.price = price

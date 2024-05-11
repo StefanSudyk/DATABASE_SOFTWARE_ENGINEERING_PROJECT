@@ -1,6 +1,7 @@
-from models import db, Property, Address, Photo, Inside, Infrastructure,Room
 from datetime import datetime
 from flask import session
+from models import *
+from sqlalchemy import select
 
 class PropertyService:
     
@@ -12,18 +13,18 @@ class PropertyService:
 
     
     def add_property(self, property_data):
-        properties = Property.query.all()
-        listaid=[]
-        for prop in properties:
-            listaid.append(prop.id_property)
-        property_id1=max(listaid)
-        property_id=property_id1+1
         publication_date=datetime.today()
         formated_date = publication_date.strftime('%Y-%m-%d')
         p_p_meter=property_data['price']/property_data['square_metrage']
+        
+        
+        #id = db.session.execute(select(User.id_user).where(User.phone_number == session['phonenumber'])).first()
+        id = db.session.execute(select(User.id_user).where(User.phone_number == '222222222')).first()
+
+        print(id)
         new_property = Property(
-            id_property=property_id,
-            id_owner=session['id_user'],
+            #id_property=property_id,
+            id_owner=id[0],
             title=property_data['title'],
             price=property_data['price'],
             square_metrage=property_data['square_metrage'],
@@ -35,12 +36,12 @@ class PropertyService:
             sponsored=0
         )
         
-        
+       
         db.session.add(new_property)
         db.session.commit()
+        property_id=new_property.id_property
         new_address=Address(
             id_property=property_id,
-            
             county=property_data['county'],
             region=property_data['region'],
             district=property_data['district'],
@@ -81,7 +82,7 @@ class PropertyService:
             id_property=property_id,
             shop_distance=property_data['shop_distance'],
             park_distance=property_data['park_distance'],
-            layground_distance=property_data['playground_distance'],
+            playground_distance=property_data['playground_distance'],
             kindergarden_distance=property_data['kindergarden_distance'],
             school_distance=property_data['school_distance'],
             bicycle_rack=property_data['bicycle_rack'],
