@@ -5,16 +5,13 @@ from propertyService import *
 import requests
 
 resource_postproperty_fields = {
-    'id_owner': fields.String,
+    'id_owner': fields.Integer,
     'title' : fields.String,
-    'price' : fields.String,
-    'square_metrage' : fields.String,
+    'price' : fields.Float,
+    'square_metrage' : fields.Float,
     'finishing_standard' : fields.String,
     'condition' : fields.String,
     'market' : fields.String,
-    'publication_date': fields.String,
-    'p_p_meter': fields.String,
-    'sponsored': fields.String,
 
     'county': fields.String,
     'region': fields.String,
@@ -23,32 +20,32 @@ resource_postproperty_fields = {
     'street': fields.String,
     'postal_code': fields.String,
     'house_number': fields.String,
-    'coordinates': fields.String,
+    'coordinates': fields.Integer,
 
     'address_photo':fields.String,
     'description_photo':fields.String,
     
-    'nr_rooms':fields.String,
-    'nr_bathrooms':fields.String,
-    'basement':fields.String,
-    'attic':fields.String,
-    'nr_garages':fields.String,
-    'nr_balconies':fields.String,
-    'nr_floors':fields.String,
+    'nr_rooms':fields.Integer,
+    'nr_bathrooms':fields.Integer,
+    'basement':fields.Boolean,
+    'attic':fields.Boolean,
+    'nr_garages':fields.Integer,
+    'nr_balconies':fields.Integer,
+    'nr_floors':fields.Integer,
     'type_of_heating':fields.String,
     'condition_':fields.String,
     'description':fields.String,
 
-    'shop_distance':fields.String,
-    'park_distance':fields.String,
-    'playground_distance':fields.String,
-    'kindergarden_distance':fields.String,
-    'school_distance':fields.String,
-    'bicycle_rack':fields.String,
-    'car_parking_space':fields.String,
+    'shop_distance':fields.Integer,
+    'park_distance':fields.Integer,
+    'playground_distance':fields.Integer,
+    'kindergarden_distance':fields.Integer,
+    'school_distance':fields.Integer,
+    'bicycle_rack':fields.Boolean,
+    'car_parking_space':fields.Boolean,
 
-    'id_room':fields.String,
-    'room_metrage':fields.String
+    'id_room':fields.Integer,
+    'room_metrage':fields.Float
 
 }
 
