@@ -3,7 +3,8 @@ from flask_restful import Resource, reqparse, fields, marshal_with
 from models import *
 from propertyService import *
 import requests
-
+from sqlalchemy.sql import exists
+from flask_restful import abort
 resource_postproperty_fields = {
     'id_owner': fields.Integer,
     'title' : fields.String,
@@ -195,7 +196,13 @@ class PostProperty(Resource):
             except ValueError:
                 return False
         is_ok = True
-
+        
+        #Error when trying to add property with the same address
+        propertyservice=PropertyService()
+        if propertyservice.is_address_unique( args['county'],args['region'],args['district'],args['locality'],args['street'],args['postal_code'],args['house_number']):
+            print("This house already exists")
+            return "This house already exists",401
+    
         if not args['title'].isalpha():
             is_ok = False
             print("Title must contain only letters")
@@ -221,60 +228,6 @@ class PostProperty(Resource):
             print("House number must contain only numbers")
             return "House number must contain only numbers",401
         
-        # if not args['coordinates'].isdigit():
-        #     is_ok = False
-        #     print("Coordinates number must contain only numbers")
-        #     return "Coordinates must contain only numbers",401
-        
-        # if not args['nr_rooms'].isdigit():
-        #     is_ok = False
-        #     print("Number of rooms number must contain only numbers")
-        #     return "Number of rooms must contain only numbers",401
-        
-        # if not args['nr_bathrooms'].isdigit():
-        #     is_ok = False
-        #     print("Number of bathrooms number must contain only numbers")
-        #     return "Number of bathrooms must contain only numbers",401
-        
-        # if not args['nr_garages'].isdigit():
-        #     is_ok = False
-        #     print("Number of garages number must contain only numbers")
-        #     return "Number of garages must contain only numbers",401
-        
-        # if not args['nr_balconies'].isdigit():
-        #     is_ok = False
-        #     print("Number of balconies must contain only numbers")
-        #     return "Number of balconies must contain only numbers",401
-        
-        # if not args['nr_floors'].isdigit():
-        #     is_ok = False
-        #     print("Number of floors must contain only numbers")
-        #     return "Number of floors must contain only numbers",401
-        
-        # if not args['shop_distance'].isdigit():
-        #     is_ok = False
-        #     print("Shop distance must contain only numbers")
-        #     return "Shop distance must contain only numbers",401
-        
-        # if not args['park_distance'].isdigit():
-        #     is_ok = False
-        #     print("Park distance must contain only numbers")
-        #     return "Park distance must contain only numbers",401
-        
-        # if not args['playground_distance'].isdigit():
-        #     is_ok = False
-        #     print("Playground distance must contain only numbers")
-        #     return "Playground distance must contain only numbers",401
-        
-        # if not args['kindergarden_distance'].isdigit():
-        #     is_ok = False
-        #     print("Kindergarden distance must contain only numbers")
-        #     return "Kindergarden distance must contain only numbers",401
-        
-        # if not args['school_distance'].isdigit():
-        #     is_ok = False
-        #     print("School distance must contain only numbers")
-        #     return "School distance must contain only numbers",401
         
         if not is_float(args['room_metrage']):
             is_ok = False
@@ -282,7 +235,7 @@ class PostProperty(Resource):
             return "Room metrage must contain only numbers",401
 
         if is_ok:
-            propertyservice=PropertyService()
+            
             propertyservice.add_property(args)
             return Response("property added", status=201, mimetype='application/json')
         else:

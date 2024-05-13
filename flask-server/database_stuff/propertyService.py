@@ -5,11 +5,18 @@ from sqlalchemy import select
 
 class PropertyService:
     
-    def is_address_unique(self, house_number):
+    
+    def is_address_unique(self, county,region,district,locality,street,postal_code,house_number):
         # Sprawdzenie, czy istnieje adres o podanym numerze domu w bazie danych
-        existing_address = Address.query.filter_by(house_number=house_number).first()
-        print(existing_address)
-        return existing_address is None
+        if not(Address.query.filter_by(county=county).first() and
+                Address.query.filter_by(region=region).first() and
+                Address.query.filter_by(district=district).first() and
+                Address.query.filter_by(locality=locality).first() and
+                Address.query.filter_by(street=street).first() and
+                Address.query.filter_by(postal_code=postal_code).first() and
+                Address.query.filter_by(house_number=house_number).first() ):
+            return False
+        return True
 
     
     def add_property(self, property_data):
