@@ -1,7 +1,9 @@
-from flask import Blueprint, render_template, url_for, request, redirect, session
+from flask import Blueprint, render_template, url_for, request, redirect, session,flash
 from app import db
 import requests
 import datetime
+from models import Address
+from sqlalchemy import select
 addProp = Blueprint('addProp', __name__, template_folder="templates", static_folder="static")
 base = "http://127.0.0.1:5000/"
 @addProp.route('/addProp', methods=["POST", "GET"])
@@ -101,6 +103,10 @@ def addProperty():
 
         }
         response = requests.post(base + 'postProperty', json=data)
+        if response.status_code == 401 or response.status_code == 501:
+            message = response.json()["message"]
+            flash(message, 'error')
+            return redirect(url_for('auth.companyinfo'))
         return redirect(url_for("views.index"))
     else:
         return render_template('addProp.html')
