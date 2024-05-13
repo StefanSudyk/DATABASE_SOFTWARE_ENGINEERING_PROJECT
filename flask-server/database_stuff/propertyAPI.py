@@ -3,18 +3,16 @@ from flask_restful import Resource, reqparse, fields, marshal_with
 from models import *
 from propertyService import *
 import requests
-
+from sqlalchemy.sql import exists
+from flask_restful import abort
 resource_postproperty_fields = {
-    'id_owner': fields.String,
+    'id_owner': fields.Integer,
     'title' : fields.String,
-    'price' : fields.String,
-    'square_metrage' : fields.String,
+    'price' : fields.Float,
+    'square_metrage' : fields.Float,
     'finishing_standard' : fields.String,
     'condition' : fields.String,
     'market' : fields.String,
-    'publication_date': fields.String,
-    'p_p_meter': fields.String,
-    'sponsored': fields.String,
 
     'county': fields.String,
     'region': fields.String,
@@ -23,32 +21,32 @@ resource_postproperty_fields = {
     'street': fields.String,
     'postal_code': fields.String,
     'house_number': fields.String,
-    'coordinates': fields.String,
+    'coordinates': fields.Integer,
 
     'address_photo':fields.String,
     'description_photo':fields.String,
     
-    'nr_rooms':fields.String,
-    'nr_bathrooms':fields.String,
-    'basement':fields.String,
-    'attic':fields.String,
-    'nr_garages':fields.String,
-    'nr_balconies':fields.String,
-    'nr_floors':fields.String,
+    'nr_rooms':fields.Integer,
+    'nr_bathrooms':fields.Integer,
+    'basement':fields.Boolean,
+    'attic':fields.Boolean,
+    'nr_garages':fields.Integer,
+    'nr_balconies':fields.Integer,
+    'nr_floors':fields.Integer,
     'type_of_heating':fields.String,
     'condition_':fields.String,
     'description':fields.String,
 
-    'shop_distance':fields.String,
-    'park_distance':fields.String,
-    'playground_distance':fields.String,
-    'kindergarden_distance':fields.String,
-    'school_distance':fields.String,
-    'bicycle_rack':fields.String,
-    'car_parking_space':fields.String,
+    'shop_distance':fields.Integer,
+    'park_distance':fields.Integer,
+    'playground_distance':fields.Integer,
+    'kindergarden_distance':fields.Integer,
+    'school_distance':fields.Integer,
+    'bicycle_rack':fields.Boolean,
+    'car_parking_space':fields.Boolean,
 
-    'id_room':fields.String,
-    'room_metrage':fields.String
+    'id_room':fields.Integer,
+    'room_metrage':fields.Float
 
 }
 
@@ -198,7 +196,13 @@ class PostProperty(Resource):
             except ValueError:
                 return False
         is_ok = True
-
+        
+        #Error when trying to add property with the same address
+        propertyservice=PropertyService()
+        if propertyservice.is_address_unique( args['county'],args['region'],args['district'],args['locality'],args['street'],args['postal_code'],args['house_number']):
+            print("This house already exists")
+            return "This house already exists",401
+    
         if not args['title'].isalpha():
             is_ok = False
             print("Title must contain only letters")
@@ -224,60 +228,6 @@ class PostProperty(Resource):
             print("House number must contain only numbers")
             return "House number must contain only numbers",401
         
-        # if not args['coordinates'].isdigit():
-        #     is_ok = False
-        #     print("Coordinates number must contain only numbers")
-        #     return "Coordinates must contain only numbers",401
-        
-        # if not args['nr_rooms'].isdigit():
-        #     is_ok = False
-        #     print("Number of rooms number must contain only numbers")
-        #     return "Number of rooms must contain only numbers",401
-        
-        # if not args['nr_bathrooms'].isdigit():
-        #     is_ok = False
-        #     print("Number of bathrooms number must contain only numbers")
-        #     return "Number of bathrooms must contain only numbers",401
-        
-        # if not args['nr_garages'].isdigit():
-        #     is_ok = False
-        #     print("Number of garages number must contain only numbers")
-        #     return "Number of garages must contain only numbers",401
-        
-        # if not args['nr_balconies'].isdigit():
-        #     is_ok = False
-        #     print("Number of balconies must contain only numbers")
-        #     return "Number of balconies must contain only numbers",401
-        
-        # if not args['nr_floors'].isdigit():
-        #     is_ok = False
-        #     print("Number of floors must contain only numbers")
-        #     return "Number of floors must contain only numbers",401
-        
-        # if not args['shop_distance'].isdigit():
-        #     is_ok = False
-        #     print("Shop distance must contain only numbers")
-        #     return "Shop distance must contain only numbers",401
-        
-        # if not args['park_distance'].isdigit():
-        #     is_ok = False
-        #     print("Park distance must contain only numbers")
-        #     return "Park distance must contain only numbers",401
-        
-        # if not args['playground_distance'].isdigit():
-        #     is_ok = False
-        #     print("Playground distance must contain only numbers")
-        #     return "Playground distance must contain only numbers",401
-        
-        # if not args['kindergarden_distance'].isdigit():
-        #     is_ok = False
-        #     print("Kindergarden distance must contain only numbers")
-        #     return "Kindergarden distance must contain only numbers",401
-        
-        # if not args['school_distance'].isdigit():
-        #     is_ok = False
-        #     print("School distance must contain only numbers")
-        #     return "School distance must contain only numbers",401
         
         if not is_float(args['room_metrage']):
             is_ok = False
@@ -285,7 +235,7 @@ class PostProperty(Resource):
             return "Room metrage must contain only numbers",401
 
         if is_ok:
-            propertyservice=PropertyService()
+            
             propertyservice.add_property(args)
             return Response("property added", status=201, mimetype='application/json')
         else:
