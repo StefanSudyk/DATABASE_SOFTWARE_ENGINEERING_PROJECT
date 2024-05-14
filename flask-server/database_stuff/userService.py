@@ -1,3 +1,4 @@
+
 from models import db, User
 from flask import jsonify
 
@@ -21,7 +22,9 @@ class UserService:
             phone_number=user_data['phone_number'],
             password=user_data['password'],
             email=user_data['email'],
-            usertype=user_data['usertype']
+            usertype=user_data['usertype'],
+            # to trzeba dodać
+            is_active=user_data['is_active']
         )
         db.session.add(new_user)
         db.session.commit()
