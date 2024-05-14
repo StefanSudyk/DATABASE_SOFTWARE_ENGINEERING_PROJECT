@@ -1,13 +1,30 @@
 from datetime import datetime
-from flask import session
+from flask import session,Response
 from models import *
 from sqlalchemy import select
 
 class PropertyService:
-    
-    
-    def is_address_unique(self, county,region,district,locality,street,postal_code,house_number):
-        # Sprawdzenie, czy istnieje adres o podanym numerze domu w bazie danych
+    def delete_property(self,property,address,photo,inside,infrastructure,room):
+        db.session.delete(property)
+        db.session.delete(address)
+        db.session.delete(photo)
+        db.session.delete(inside)
+        db.session.delete(infrastructure)
+        db.session.delete(room)
+        db.session.commit()
+
+    #doesnt work, dont use
+    def is_address_unique_update(self,property_id, county,region,district,locality,street,postal_code,house_number):
+        # check if we did not change address
+        address=Address.query.get(property_id)
+        if(address.county==Address.query.filter_by(county=county).first() and
+           address.region==Address.query.filter_by(region=region).first() and
+           address.district==Address.query.filter_by(district=district).first() and
+           address.locality==Address.query.filter_by(locality=locality).first() and
+           address.street==Address.query.filter_by(street=street).first()  and
+           address.postal_code==Address.query.filter_by(postal_code=postal_code).first() and
+           address.house_number==Address.query.filter_by(house_number=house_number).first() ):
+            return True
         if not(Address.query.filter_by(county=county).first() and
                 Address.query.filter_by(region=region).first() and
                 Address.query.filter_by(district=district).first() and
@@ -17,7 +34,19 @@ class PropertyService:
                 Address.query.filter_by(house_number=house_number).first() ):
             return False
         return True
-
+    def is_address_unique(self, county,region,district,locality,street,postal_code,house_number):
+        # check if address is already occupied
+        if not(Address.query.filter_by(county=county).first() and
+                Address.query.filter_by(region=region).first() and
+                Address.query.filter_by(district=district).first() and
+                Address.query.filter_by(locality=locality).first() and
+                Address.query.filter_by(street=street).first() and
+                Address.query.filter_by(postal_code=postal_code).first() and
+                Address.query.filter_by(house_number=house_number).first() ):
+            return False
+        return True
+    def patch_property(self):
+        db.session.commit()
     
     def add_property(self, property_data):
         publication_date=datetime.today()
@@ -106,3 +135,53 @@ class PropertyService:
         )
         db.session.add(new_room)
         db.session.commit()
+    def update_property(self, id_property, property_data):
+        property = Property.query.get_or_404(id_property)
+        address= Address.query.get_or_404(id_property)
+        photo=Photo.query.get_or_404(id_property)
+        inside=Inside.query.get_or_404(id_property)
+        infrastructure=Infrastructure.query.get_or_404(id_property)
+        room=Room.query.get_or_404(id_property)
+
+        property.title = property_data['title']
+        property.price = property_data['price']
+        property.square_metrage = property_data['square_metrage']
+        property.finishing_standard = property_data['finishing_standard']
+        property.condition = property_data['condition']
+        property.market = property_data['market']
+        print("1")
+        address.county=property_data['county']
+        address.region=property_data['region']
+        address.district=property_data['district']
+        address.locality=property_data['locality']
+        address.street=property_data['street']
+        address.postal_code=property_data['postal_code']
+        address.house_number=property_data['house_number']
+        address.coordinates=property_data['coordinates']
+        print("2")
+        photo.address_photo=property_data['address_photo']
+        photo.description_photo=property_data['description_photo']
+        print("3")        
+        inside.nr_rooms=property_data['nr_rooms']
+        inside.nr_bathrooms=property_data['nr_bathrooms']
+        inside.basement=property_data['basement']
+        inside.attic=property_data['attic']
+        inside.nr_garages=property_data['nr_garages']
+        inside.nr_balconies=property_data['nr_balconies']
+        inside.nr_floors=property_data['nr_floors']
+        inside.type_of_heating=property_data['type_of_heating']
+        inside.condition_=property_data['condition_']
+        inside.description=property_data['description']
+        print("4")
+        infrastructure.shop_distance=property_data['shop_distance']
+        infrastructure.park_distance=property_data['park_distance']
+        infrastructure.playground_distance=property_data['playground_distance']
+        infrastructure.kindergarden_distance=property_data['kindergarden_distance']
+        infrastructure.school_distance=property_data['school_distance']
+        infrastructure.bicycle_rack=property_data['bicycle_rack']
+        infrastructure.car_parking_space=property_data['car_parking_space']
+        print("5")
+        room.id_room=property_data['id_room']
+        room.room_metrage=property_data['room_metrage']
+        db.session.commit()
+        return Response("Company data updated", status=204, mimetype='application/json')
