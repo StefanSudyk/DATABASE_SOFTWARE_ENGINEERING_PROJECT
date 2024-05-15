@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import session,Response
+from flask import session,Response, jsonify
 from models import *
 from sqlalchemy import select
 
@@ -185,3 +185,70 @@ class PropertyService:
         room.room_metrage=property_data['room_metrage']
         db.session.commit()
         return Response("Company data updated", status=204, mimetype='application/json')
+    
+
+    def get_all_properties(self, properties):
+        return jsonify([{
+                        'id_property':property.id_property,
+                        #'id_owner': properties.id_owner,
+                        'title' : property.title,
+                        'price' : property.price,
+                        'square_metrage' : property.square_metrage,
+                        'finishing_standard' : property.finishing_standard,
+                        'condition' : property.condition,
+                        'market' : property.market,
+                        'publication_date': property.publication_date,
+                        'p_p_meter': property.p_p_meter,
+                        'sponsored': property.sponsored
+                        
+                    } for property in properties])
+    
+    def get_property(self, property, address, photo, inside, infrastructure, room ):
+        return jsonify({
+            'id_property':property.id_property,
+            'id_owner': property.id_owner,
+            'title' : property.title,
+            'price' : property.price,
+            'square_metrage' : property.square_metrage,
+            'finishing_standard' : property.finishing_standard,
+            'condition' : property.condition,
+            'market' : property.market,
+            'publication_date': property.publication_date,
+            'p_p_meter': property.p_p_meter,
+            'sponsored': property.sponsored,
+
+            'county': address.county,
+            'region': address.region,
+            'district': address.district,
+            'locality': address.locality,
+            'street': address.street,
+            'postal_code': address.postal_code,
+            'house_number': address.house_number,
+            'coordinates': address.coordinates,
+
+            'address_photo':photo.address_photo,
+            'description_photo':photo.description_photo,
+            
+            'nr_rooms':inside.nr_rooms,
+            'nr_bathrooms':inside.nr_bathrooms,
+            'basement':inside.basement,
+            'attic':inside.attic,
+            'nr_garages':inside.nr_garages,
+            'nr_balconies':inside.nr_balconies,
+            'nr_floors':inside.nr_floors,
+            'type_of_heating':inside.type_of_heating,
+            'condition_':inside.condition_,
+            'description':inside.description,
+
+            'shop_distance':infrastructure.shop_distance,
+            'park_distance':infrastructure.park_distance,
+            'playground_distance':infrastructure.playground_distance,
+            'kindergarden_distance':infrastructure.kindergarden_distance,
+            'school_distance':infrastructure.school_distance,
+            'bicycle_rack':infrastructure.bicycle_rack,
+            'car_parking_space':infrastructure.car_parking_space,
+
+            'id_room':room.id_room,
+            'room_metrage':room.room_metrage
+
+        })
