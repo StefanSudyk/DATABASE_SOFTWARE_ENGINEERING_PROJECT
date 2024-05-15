@@ -1,11 +1,11 @@
-from flask import jsonify, Response
+from flask import jsonify, Response, request
 from flask_restful import Resource, reqparse, fields, marshal_with
 from models import *
 from propertyService import *
-import requests
 from sqlalchemy.sql import exists
 from flask_restful import abort
 import re
+from propertyFilters import *
 resource_postproperty_fields = {
     'id_owner': fields.Integer,
     'title' : fields.String,
@@ -159,85 +159,45 @@ class UpdateProperty(Resource):
 
 class GetProperty(Resource):
     def get(self, id_property):
-        property = Property.query.get_or_404(id_property)
-        address= Address.query.get_or_404(id_property)
-        photo=Photo.query.get_or_404(id_property)
-        inside=Inside.query.get_or_404(id_property)
-        infrastructure=Infrastructure.query.get_or_404(id_property)
-        room=Room.query.get_or_404(id_property)
+        property_service = PropertyService()
+        try:
+            property = Property.query.get_or_404(id_property)
+            address= Address.query.get_or_404(id_property)
+            photo=Photo.query.get_or_404(id_property)
+            inside=Inside.query.get_or_404(id_property)
+            infrastructure=Infrastructure.query.get_or_404(id_property)
+            room=Room.query.get_or_404(id_property)
+            return property_service.get_property(property, address, photo, inside, infrastructure, room)
+        except Exception as e:
+            return Response('Error: user not find. '+str(e), status=501, mimetype='application/json')
 
-        return jsonify({
-            'id_property':property.id_property,
-            'id_owner': property.id_owner,
-            'title' : property.title,
-            'price' : property.price,
-            'square_metrage' : property.square_metrage,
-            'finishing_standard' : property.finishing_standard,
-            'condition' : property.condition,
-            'market' : property.market,
-            'publication_date': property.publication_date,
-            'p_p_meter': property.p_p_meter,
-            'sponsored': property.sponsored,
-
-            'county': address.county,
-            'region': address.region,
-            'district': address.district,
-            'locality': address.locality,
-            'street': address.street,
-            'postal_code': address.postal_code,
-            'house_number': address.house_number,
-            'coordinates': address.coordinates,
-
-            'address_photo':photo.address_photo,
-            'description_photo':photo.description_photo,
-            
-            'nr_rooms':inside.nr_rooms,
-            'nr_bathrooms':inside.nr_bathrooms,
-            'basement':inside.basement,
-            'attic':inside.attic,
-            'nr_garages':inside.nr_garages,
-            'nr_balconies':inside.nr_balconies,
-            'nr_floors':inside.nr_floors,
-            'type_of_heating':inside.type_of_heating,
-            'condition_':inside.condition_,
-            'description':inside.description,
-
-            'shop_distance':infrastructure.shop_distance,
-            'park_distance':infrastructure.park_distance,
-            'playground_distance':infrastructure.playground_distance,
-            'kindergarden_distance':infrastructure.kindergarden_distance,
-            'school_distance':infrastructure.school_distance,
-            'bicycle_rack':infrastructure.bicycle_rack,
-            'car_parking_space':infrastructure.car_parking_space,
-
-            'id_room':room.id_room,
-            'room_metrage':room.room_metrage
-
-        })
+        
 
 class GetAllProperty(Resource):
         def get(self):
-                try:
+            property_service = PropertyService()
+            price_range = request.args.get('price_range')
+
+            try:
+                if price_range:
+                    price_from, price_to = map(float, price_range.split('-'))
+                    print(price_from, price_to)
+                    properties = filter_by_price(price_from, price_to)
+
+                else:
+
+                    print("wszystko")
                     properties = Property.query.all()
-                    
-                    if properties == []:
-                        return Response("No property", status=500, mimetype='application/json')
-                    return jsonify([{
-                        'id_property':property.id_property,
-                        #'id_owner': properties.id_owner,
-                        'title' : property.title,
-                        'price' : property.price,
-                        'square_metrage' : property.square_metrage,
-                        'finishing_standard' : property.finishing_standard,
-                        'condition' : property.condition,
-                        'market' : property.market,
-                        'publication_date': property.publication_date,
-                        'p_p_meter': property.p_p_meter,
-                        'sponsored': property.sponsored
-                        
-                    } for property in properties])
-                except Exception as e:
-                    return Response('Error: no properties. '+str(e), status=501, mimetype='application/json')
+                    addresses= Address.query.all()
+                    photos=Photo.query.all()
+                    insides=Inside.query.all()
+                    infrastructures=Infrastructure.query.all()
+                    rooms=Room.query.all()
+                if properties == []:
+                    return Response("No property", status=500, mimetype='application/json')
+                return property_service.get_all_properties(properties)
+            except Exception as e:
+                return Response('Error: no properties. '+str(e), status=501, mimetype='application/json')
 
 
 class PostProperty(Resource):
