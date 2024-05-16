@@ -65,7 +65,7 @@ class PropertyService:
             price=property_data['price'],
             square_metrage=property_data['square_metrage'],
             finishing_standard=property_data['finishing_standard'],
-            condition=property_data['condition'],
+            #condition=property_data['condition'],
             market=property_data['market'],
             p_p_meter=p_p_meter,
             publication_date=formated_date,
@@ -147,7 +147,7 @@ class PropertyService:
         property.price = property_data['price']
         property.square_metrage = property_data['square_metrage']
         property.finishing_standard = property_data['finishing_standard']
-        property.condition = property_data['condition']
+        #property.condition = property_data['condition']
         property.market = property_data['market']
         print("1")
         address.county=property_data['county']
@@ -195,7 +195,7 @@ class PropertyService:
                         'price' : property.price,
                         'square_metrage' : property.square_metrage,
                         'finishing_standard' : property.finishing_standard,
-                        'condition' : property.condition,
+                        #'condition' : property.condition,
                         'market' : property.market,
                         'publication_date': property.publication_date,
                         'p_p_meter': property.p_p_meter,
@@ -211,7 +211,7 @@ class PropertyService:
             'price' : property.price,
             'square_metrage' : property.square_metrage,
             'finishing_standard' : property.finishing_standard,
-            'condition' : property.condition,
+            #'condition' : property.condition,
             'market' : property.market,
             'publication_date': property.publication_date,
             'p_p_meter': property.p_p_meter,

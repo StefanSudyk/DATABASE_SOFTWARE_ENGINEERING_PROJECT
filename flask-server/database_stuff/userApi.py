@@ -100,6 +100,7 @@ class GetAllUsers(Resource):
             #filtrowanie typu uzytkownika czyli admin zwykly
 
             if usertype_filter:
+                
                 users = filter_by_usertype(usertype_filter)
 
             #filtrowanie po nazwisku wyswietla tylko takich userow ktorzy maja okreslone nazwisko
