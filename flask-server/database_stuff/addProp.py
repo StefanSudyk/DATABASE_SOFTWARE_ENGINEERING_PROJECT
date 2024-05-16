@@ -15,7 +15,7 @@ def addProperty():
         price = request.form["price"]
         square_metrage = request.form["square_metrage"]
         finishing_standard = request.form["finishing_standard"]
-        condition = request.form["condition"]
+        #condition = request.form["condition"]
         market = request.form["market"]
         #address
         county = request.form["county"]
@@ -56,14 +56,14 @@ def addProperty():
         print(price)
         print(square_metrage)
         print(finishing_standard)
-        print(condition)
+        #print(condition)
         print(market)
         data = {
         'title' : title,
         'price' : price,
         'square_metrage' : square_metrage,
         'finishing_standard' : finishing_standard,
-        'condition' : condition,
+        #'condition' : condition,
         'market' : market,
         'sponsored':0,
 

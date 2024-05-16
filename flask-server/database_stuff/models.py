@@ -117,7 +117,7 @@ class Property(db.Model):
     square_metrage = db.Column(db.Float)
     #surroundings = db.Column(db.String(20))
     finishing_standard = db.Column(db.String(20))
-    condition = db.Column(db.String(30))
+    #condition = db.Column(db.String(30))
     market = db.Column(db.String(20))
     publication_date = db.Column(db.Date)
     p_p_meter = db.Column(db.Float)
@@ -131,7 +131,7 @@ class Property(db.Model):
     rooms = db.relationship('Room', backref='property', lazy=True)
     favourites = db.relationship('Favourite', backref='property', lazy=True)
 
-    def __init__(self,id_owner,  title, price, square_metrage, finishing_standard, condition, market,
+    def __init__(self,id_owner,  title, price, square_metrage, finishing_standard, market,
                  publication_date, p_p_meter, sponsored):
         #self.id_property = id_property
         self.id_owner = id_owner
@@ -139,7 +139,7 @@ class Property(db.Model):
         self.price = price
         self.square_metrage = square_metrage
         self.finishing_standard = finishing_standard
-        self.condition = condition
+        #self.condition = condition
         self.market = market
         self.publication_date = publication_date
         self.p_p_meter = p_p_meter

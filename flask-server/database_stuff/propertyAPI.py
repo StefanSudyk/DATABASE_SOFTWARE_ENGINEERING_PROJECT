@@ -12,7 +12,7 @@ resource_postproperty_fields = {
     'price' : fields.Float,
     'square_metrage' : fields.Float,
     'finishing_standard' : fields.String,
-    'condition' : fields.String,
+    #'condition' : fields.String,
     'market' : fields.String,
 
     'county': fields.String,
@@ -59,7 +59,7 @@ class UpdateProperty(Resource):
         parser.add_argument('price', type=float, required=True, help='Price is essential')
         parser.add_argument('square_metrage', type=float, required=True, help='Square metrage is essential')
         parser.add_argument('finishing_standard', type=str, required=True, help='Finishing standard is essential')
-        parser.add_argument('condition', type=str, required=True, help='condition again is essential')
+        #parser.add_argument('condition', type=str, required=True, help='condition again is essential')
         parser.add_argument('market', type=str, required=True, help='market is essential')
         #Address
         parser.add_argument('county', type=str, required=True, help='county is essential')
@@ -177,12 +177,25 @@ class GetAllProperty(Resource):
         def get(self):
             property_service = PropertyService()
             price_range = request.args.get('price_range')
-
+            metrage_range = request.args.get('metrage_range')
+            finishing_standard = request.args.get('finishing_standard')
             try:
                 if price_range:
+
                     price_from, price_to = map(float, price_range.split('-'))
                     print(price_from, price_to)
                     properties = filter_by_price(price_from, price_to)
+
+                elif metrage_range:
+
+                    metrage_from, metrage_to = map(float, metrage_range.split('-'))
+                    print(metrage_from,metrage_to)
+                    properties = filter_by_square_metrage(metrage_from, metrage_to)
+
+                elif finishing_standard:
+                    
+                    print("po standardzie")
+                    properties = filter_by_finishing_standard(finishing_standard)
 
                 else:
 
@@ -210,7 +223,7 @@ class PostProperty(Resource):
         parser.add_argument('price', type=float, required=True, help='Price is essential')
         parser.add_argument('square_metrage', type=float, required=True, help='Square metrage is essential')
         parser.add_argument('finishing_standard', type=str, required=True, help='Finishing standard is essential')
-        parser.add_argument('condition', type=str, required=True, help='condition again is essential')
+        #parser.add_argument('condition', type=str, required=True, help='condition again is essential')
         parser.add_argument('market', type=str, required=True, help='market is essential')
         #Address
         parser.add_argument('county', type=str, required=True, help='county is essential')
