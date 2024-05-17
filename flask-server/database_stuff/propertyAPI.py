@@ -275,40 +275,54 @@ class PostProperty(Resource):
         
         #Error when trying to add property with the same address
         propertyservice=PropertyService()
-        if not re.match(r'^\d{5}$', args["postal_code"]):
-            is_ok = False
-            return "postal code contains 5 numbers"
-        if not re.match(r'^\d{6}$', args["house_number"]):
-            is_ok = False
-            return "house number contains 6 numbers"
+        #Walidacja 
+        #Trzeba do osobnego pliku dac
+        
+        
+        
         if propertyservice.is_address_unique( args['county'],args['region'],args['district'],args['locality'],args['street'],args['postal_code'],args['house_number']):
             print("This house already exists")
-            return "This house already exists",401
-    
+            #return "This house already exists",401
+            abort(401, message = "This house already exists")
+
+        if not re.match(r'^\d{1,5}$', args["postal_code"]):
+            is_ok = False
+            abort(401, message="postal code contains 5 numbers")
+
+        if not re.match(r'^\d{1,6}$', args["house_number"]):
+            is_ok = False
+            #return "house number contains 6 numbers"
+            abort(401, message = "house number contains numbers")
+
         if not args['title'].isalpha():
             is_ok = False
             print("Title must contain only letters")
-            return "Title must contain only letters",401
+            #return "Title must contain only letters",401
+            abort(401, message = "Title must contain only letters")
         
         if not is_float(args['price']):
             is_ok = False
             print("Price must contain only numbers")
-            return "Price must contain only numbers",401
+            #return "Price must contain only numbers",401
+            abort(401, message = "Price must contain only numbers")
         
         if not is_float(args['square_metrage']):
             is_ok = False
             print("Square_metrage must contain only numbers")
-            return "Square_metrage must contain only numbers",401
+            #return "Square_metrage must contain only numbers",401
+            abort(401, message = "Square_metrage must contain only numbers")
         
         if not args['postal_code'].isdigit():
             is_ok = False
             print("Postal code must contain only numbers")
-            return "Postal code must contain only numbers",401
+            #return "Postal code must contain only numbers",401
+            abort(401, message = "Postal code must contain only numbers")
         
         if not args['house_number'].isdigit():
             is_ok = False
             print("House number must contain only numbers")
-            return "House number must contain only numbers",401
+            #return "House number must contain only numbers",401
+            abort(401, message = "House number must contain only numbers")
         
         
         if not is_float(args['room_metrage']):
@@ -316,6 +330,7 @@ class PostProperty(Resource):
             print("Room metrage must contain only numbers")
             return "Room metrage must contain only numbers",401
 
+        #Jak git to wykonaj
         if is_ok:
             
             propertyservice.add_property(args)
