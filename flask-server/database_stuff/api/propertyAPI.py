@@ -1,11 +1,12 @@
 from flask import jsonify, Response, request
 from flask_restful import Resource, reqparse, fields, marshal_with
 from models import *
-from propertyService import *
+from service.propertyService import *
 from sqlalchemy.sql import exists
 from flask_restful import abort
 import re
 from propertyFilters import *
+from validators.propertyValidator import propertyValidation
 resource_postproperty_fields = {
     'id_owner': fields.Integer,
     'title' : fields.String,
@@ -97,61 +98,18 @@ class UpdateProperty(Resource):
         parser.add_argument('room_metrage', type=float, required=True, help='room_metrage')
         args = parser.parse_args()
         print(args)
-
-        def is_float(value):
-            try:
-                float(value)
-                return True
-            except ValueError:
-                return False
-        is_ok = True
+        validator=propertyValidation()
         
         #Error when trying to add property with the same address
         property_service=PropertyService()
-        if not re.match(r'^\d{1,5}$', args["postal_code"]):
-            is_ok = False
-            return "postal code contains 5 numbers",401
-        
-        if not re.match(r'^\d{1,6}$', args["house_number"]):
-            is_ok = False
-            return "house number contains 6 numbers",401
-        
-        # if property_service.is_address_unique_update( property_id,args['county'],args['region'],args['district'],args['locality'],args['street'],args['postal_code'],args['house_number']):
-        #     print("This house already exists")
-        #     return "This house already exists",401
-    
-        if not args['title'].isalpha():
-            is_ok = False
-            print("Title must contain only letters")
-            return "Title must contain only letters",401
-        
-        if not is_float(args['price']):
-            is_ok = False
-            print("Price must contain only numbers")
-            return "Price must contain only numbers",401
-        
-        if not is_float(args['square_metrage']):
-            is_ok = False
-            print("Square_metrage must contain only numbers")
-            return "Square_metrage must contain only numbers",401
-        
-        if not args['postal_code'].isdigit():
-            is_ok = False
-            print("Postal code must contain only numbers")
-            return "Postal code must contain only numbers",401
-        
-        if not args['house_number'].isdigit():
-            is_ok = False
-            print("House number must contain only numbers")
-            return "House number must contain only numbers",401
-        
-        
-        if not is_float(args['room_metrage']):
-            is_ok = False
-            print("Room metrage must contain only numbers")
-            return "Room metrage must contain only numbers",401
+        if (validator.postal_validation(args['postal_code'])and
+            validator.house_nr_validation(args['house_number'])and
+            validator.title_validation(args['title'])and
+            validator.price_validation(args['price'])and
+            validator.sq_metrage_validation(args['square_metrage'])and
+            validator.sq_metrage_validation(args['room_metrage'])
+            ):
 
-        if is_ok:
             property_service.update_property(property_id,args)
             return Response("property changed", status=201, mimetype='application/json')
         else:
@@ -265,73 +223,27 @@ class PostProperty(Resource):
         args = parser.parse_args()
         print(args)
 
-        def is_float(value):
-            try:
-                float(value)
-                return True
-            except ValueError:
-                return False
-        is_ok = True
+        
         
         #Error when trying to add property with the same address
         propertyservice=PropertyService()
         #Walidacja 
         #Trzeba do osobnego pliku dac
+        address=Address(9999,args['county'],args['region'],args['district'],args['locality'],args['street'],args['postal_code'],args['house_number'],args['coordinates'])
         
         
-        
-        if propertyservice.is_address_unique( args['county'],args['region'],args['district'],args['locality'],args['street'],args['postal_code'],args['house_number']):
-            print("This house already exists")
-            #return "This house already exists",401
-            abort(401, message = "This house already exists")
-
-        if not re.match(r'^\d{1,5}$', args["postal_code"]):
-            is_ok = False
-            abort(401, message="postal code contains 5 numbers")
-
-        if not re.match(r'^\d{1,6}$', args["house_number"]):
-            is_ok = False
-            #return "house number contains 6 numbers"
-            abort(401, message = "house number contains numbers")
-
-        if not args['title'].isalpha():
-            is_ok = False
-            print("Title must contain only letters")
-            #return "Title must contain only letters",401
-            abort(401, message = "Title must contain only letters")
-        
-        if not is_float(args['price']):
-            is_ok = False
-            print("Price must contain only numbers")
-            #return "Price must contain only numbers",401
-            abort(401, message = "Price must contain only numbers")
-        
-        if not is_float(args['square_metrage']):
-            is_ok = False
-            print("Square_metrage must contain only numbers")
-            #return "Square_metrage must contain only numbers",401
-            abort(401, message = "Square_metrage must contain only numbers")
-        
-        if not args['postal_code'].isdigit():
-            is_ok = False
-            print("Postal code must contain only numbers")
-            #return "Postal code must contain only numbers",401
-            abort(401, message = "Postal code must contain only numbers")
-        
-        if not args['house_number'].isdigit():
-            is_ok = False
-            print("House number must contain only numbers")
-            #return "House number must contain only numbers",401
-            abort(401, message = "House number must contain only numbers")
-        
-        
-        if not is_float(args['room_metrage']):
-            is_ok = False
-            print("Room metrage must contain only numbers")
-            return "Room metrage must contain only numbers",401
-
-        #Jak git to wykonaj
-        if is_ok:
+        # if propertyservice.is_address_unique( args['county'],args['region'],args['district'],args['locality'],args['street'],args['postal_code'],args['house_number']):
+        #     print("This house already exists")
+        #     #return "This house already exists",401
+        #     abort(401, message = "This house already exists")
+        validator=propertyValidation()
+        property_service=PropertyService()
+        if (validator.postal_validation(args['postal_code'])and
+            validator.house_nr_validation(args['house_number'])and
+            validator.title_validation(args['title'])and
+            validator.price_validation(args['price'])and
+            validator.sq_metrage_validation(args['square_metrage'])and
+            validator.sq_metrage_validation(args['room_metrage'])):
             
             propertyservice.add_property(args)
             return Response("property added", status=201, mimetype='application/json')
