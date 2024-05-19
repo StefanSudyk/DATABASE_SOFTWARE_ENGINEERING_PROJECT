@@ -53,8 +53,8 @@ class PropertyService:
         formated_date = publication_date.strftime('%Y-%m-%d')
         p_p_meter=property_data['price']/property_data['square_metrage']
         
-        
         #id = db.session.execute(select(User.id_user).where(User.phone_number == session['phonenumber'])).first()
+        
         id = db.session.execute(select(User.id_user).where(User.phone_number == '222222222')).first()
 
         print(id)
@@ -189,6 +189,7 @@ class PropertyService:
 
     def get_all_properties(self, properties):
         return jsonify([{
+            
                         'id_property':property.id_property,
                         #'id_owner': properties.id_owner,
                         'title' : property.title,
@@ -252,3 +253,6 @@ class PropertyService:
             'room_metrage':room.room_metrage
 
         })
+    def get_all_addresses(self):
+        print(type(Address.query.all()))
+        return Address.query.all()

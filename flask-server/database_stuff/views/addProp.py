@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, url_for, request, redirect, session,flash
 from app import db
 import requests
-import datetime
 from models import Address
 from sqlalchemy import select
 addProp = Blueprint('addProp', __name__, template_folder="templates", static_folder="static")
