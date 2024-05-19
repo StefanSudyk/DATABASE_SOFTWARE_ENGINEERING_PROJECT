@@ -166,7 +166,8 @@ class GetAllProperty(Resource):
                     rooms=Room.query.all()
                 if properties == []:
                     return Response("No property", status=500, mimetype='application/json')
-                return property_service.get_all_properties(properties)
+                return property_service.get_all_properties_with_all(properties, addresses,
+                photos, insides, infrastructures, rooms)
             except Exception as e:
                 return Response('Error: no properties. '+str(e), status=501, mimetype='application/json')
 
