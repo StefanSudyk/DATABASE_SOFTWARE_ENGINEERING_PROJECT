@@ -1,10 +1,10 @@
 from app import create_app
 from flask_restful import Api
-from userApi import *
+from api.userApi import *
 
-from propertyAPI import *
+from api.propertyAPI import *
 
-from companyApi import *
+from api.companyApi import *
 
 
 
