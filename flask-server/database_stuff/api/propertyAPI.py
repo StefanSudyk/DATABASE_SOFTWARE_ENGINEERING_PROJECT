@@ -7,6 +7,9 @@ from flask_restful import abort
 import re
 from propertyFilters import *
 from validators.propertyValidator import propertyValidation
+from validators.photoValidator import PhotoValidation
+import base64
+
 resource_postproperty_fields = {
     'id_owner': fields.Integer,
     'title' : fields.String,
@@ -27,6 +30,7 @@ resource_postproperty_fields = {
 
     'address_photo':fields.String,
     'description_photo':fields.String,
+    'photo':fields.String, #string, bo musi byc przekazane zdjecie w formie base64
     
     'nr_rooms':fields.Integer,
     'nr_bathrooms':fields.Integer,
@@ -47,7 +51,7 @@ resource_postproperty_fields = {
     'bicycle_rack':fields.Boolean,
     'car_parking_space':fields.Boolean,
 
-    'id_room':fields.Integer,
+    'room_index':fields.Integer,
     'room_metrage':fields.Float
 
 }
@@ -74,6 +78,7 @@ class UpdateProperty(Resource):
         #Photo
         parser.add_argument('address_photo', type=str, required=True, help='address_photo is essential')
         parser.add_argument('description_photo', type=str, required=True, help='description_photo is essential')
+        parser.add_argument('photo', type=str, required=True, help='photo is essential')
         #Inside
         parser.add_argument('nr_rooms', type=int, required=True, help='nr_rooms is essential')
         parser.add_argument('nr_bathrooms', type=int, required=True, help='nr_bathrooms is essential')
@@ -94,42 +99,47 @@ class UpdateProperty(Resource):
         parser.add_argument('bicycle_rack', type=bool, required=True, help='bicycle_rack is essential')
         parser.add_argument('car_parking_space', type=bool, required=True, help='car_parking_space is essential')
         #Room
-        parser.add_argument('id_room', type=int, required=True, help='id_room')
+        parser.add_argument('room_index', type=int, required=True, help='Room number is essential')
         parser.add_argument('room_metrage', type=float, required=True, help='room_metrage')
         args = parser.parse_args()
         print(args)
+
+        photo_validator = PhotoValidation()
+        if not (photo_validator.address_photo_validation(args['address_photo']) and
+            photo_validator.description_photo_validation(args['description_photo']) and
+            photo_validator.photo_validation(args['photo'])):
+
+            return Response("something went wrong", status=500, mimetype='application/json')
+
         validator=propertyValidation()
-        
-        #Error when trying to add property with the same address
-        property_service=PropertyService()
-        if (validator.postal_validation(args['postal_code'])and
+        property_service = PropertyService()
+        if not (validator.postal_validation(args['postal_code'])and
             validator.house_nr_validation(args['house_number'])and
             validator.title_validation(args['title'])and
             validator.price_validation(args['price'])and
             validator.sq_metrage_validation(args['square_metrage'])and
-            validator.sq_metrage_validation(args['room_metrage'])
-            ):
-
-            property_service.update_property(property_id,args)
-            return Response("property changed", status=201, mimetype='application/json')
-        else:
+            validator.sq_metrage_validation(args['room_metrage'])):
+            
             return Response("something went wrong", status=500, mimetype='application/json')
+
+        property_service.update_property(property_id,args)
+        return Response("property changed", status=201, mimetype='application/json')
 
 class GetProperty(Resource):
     def get(self, id_property):
         property_service = PropertyService()
         try:
-            property = Property.query.get_or_404(id_property)
-            address= Address.query.get_or_404(id_property)
-            photo=Photo.query.get_or_404(id_property)
-            inside=Inside.query.get_or_404(id_property)
-            infrastructure=Infrastructure.query.get_or_404(id_property)
-            room=Room.query.get_or_404(id_property)
-            return property_service.get_property(property, address, photo, inside, infrastructure, room)
+            get_response = property_service.get_property(id_property)
+
+            # if get_response['photo']:
+            #     photo_base64 = base64.b64encode(get_response['photo']).decode('utf-8')
+            # else:
+            #     photo_base64 = None
+                
+            return get_response
+        
         except Exception as e:
             return Response('Error: user not find. '+str(e), status=501, mimetype='application/json')
-
-        
 
 class GetAllProperty(Resource):
         def get(self):
@@ -196,6 +206,7 @@ class PostProperty(Resource):
         #Photo
         parser.add_argument('address_photo', type=str, required=True, help='address_photo is essential')
         parser.add_argument('description_photo', type=str, required=True, help='description_photo is essential')
+        parser.add_argument('photo', type=str, required=True, help='photo is essential')
         #Inside
         parser.add_argument('nr_rooms', type=int, required=True, help='nr_rooms is essential')
         parser.add_argument('nr_bathrooms', type=int, required=True, help='nr_bathrooms is essential')
@@ -216,52 +227,116 @@ class PostProperty(Resource):
         parser.add_argument('bicycle_rack', type=bool, required=True, help='bicycle_rack is essential')
         parser.add_argument('car_parking_space', type=bool, required=True, help='car_parking_space is essential')
         #Room
-        parser.add_argument('id_room', type=int, required=False, help='id_room')
+        parser.add_argument('room_index', type=int, required=True, help='Room number is essential')
         parser.add_argument('room_metrage', type=float, required=True, help='room_metrage')
-
-
 
         args = parser.parse_args()
         print(args)
 
-        
-        
-        #Error when trying to add property with the same address
-        propertyservice=PropertyService()
-        #Walidacja 
-        #Trzeba do osobnego pliku dac
-        address=Address(9999,args['county'],args['region'],args['district'],args['locality'],args['street'],args['postal_code'],args['house_number'],args['coordinates'])
-        
-        
-        # if propertyservice.is_address_unique( args['county'],args['region'],args['district'],args['locality'],args['street'],args['postal_code'],args['house_number']):
-        #     print("This house already exists")
-        #     #return "This house already exists",401
-        #     abort(401, message = "This house already exists")
+        photo_validator = PhotoValidation()
+        if not (photo_validator.address_photo_validation(args['address_photo']) and
+            photo_validator.description_photo_validation(args['description_photo']) and
+            photo_validator.photo_validation(args['photo'])):
+
+            return Response("something went wrong", status=500, mimetype='application/json')
+
         validator=propertyValidation()
-        property_service=PropertyService()
-        if (validator.postal_validation(args['postal_code'])and
+        property_service = PropertyService()
+        if not (validator.postal_validation(args['postal_code'])and
             validator.house_nr_validation(args['house_number'])and
             validator.title_validation(args['title'])and
             validator.price_validation(args['price'])and
             validator.sq_metrage_validation(args['square_metrage'])and
             validator.sq_metrage_validation(args['room_metrage'])):
             
-            propertyservice.add_property(args)
-            return Response("property added", status=201, mimetype='application/json')
-        else:
             return Response("something went wrong", status=500, mimetype='application/json')
+        
+        publication_date=datetime.today()
+        formated_date = publication_date.strftime('%Y-%m-%d')
+        p_p_meter=args['price']/args['square_metrage']
+
+        #id = db.session.execute(select(User.id_user).where(User.phone_number == session['phonenumber'])).first()
+        id = db.session.execute(select(User.id_user).where(User.phone_number == '222222222')).first()
+
+        new_property = Property(
+            #id_property=property_id,
+            id_owner=id[0],
+            title=args['title'],
+            price=args['price'],
+            square_metrage=args['square_metrage'],
+            finishing_standard=args['finishing_standard'],
+            #condition=property_data['condition'],
+            market=args['market'],
+            p_p_meter=p_p_meter,
+            publication_date=formated_date,
+            sponsored=0
+        )
+
+        property_service.add_property_table(new_property)
+
+        property_id=new_property.id_property
+
+        new_address=Address(
+            id_property=property_id,
+            county=args['county'],
+            region=args['region'],
+            district=args['district'],
+            locality=args['locality'],
+            street=args['street'],
+            postal_code=args['postal_code'],
+            house_number=args['house_number'],
+            coordinates=args['coordinates']
+        )
+
+        binary_photo = base64.b64decode(args['photo'])
+
+        new_photo=Photo(
+            id_property=property_id,
+            address_photo=args['address_photo'],
+            photo = binary_photo,
+            description_photo=args['description_photo'],
+        )
+
+        new_inside=Inside(
+            id_property=property_id,
+            nr_rooms=args['nr_rooms'],
+            nr_bathrooms=args['nr_bathrooms'],
+            basement=args['basement'],
+            attic=args['attic'],
+            nr_garages=args['nr_garages'],
+            nr_balconies=args['nr_balconies'],
+            nr_floors=args['nr_floors'],
+            type_of_heating=args['type_of_heating'],
+            condition_=args['condition_'],
+            description=args['description']
+        )
+
+        new_infrastructure=Infrastructure(
+            id_property=property_id,
+            shop_distance=args['shop_distance'],
+            park_distance=args['park_distance'],
+            playground_distance=args['playground_distance'],
+            kindergarden_distance=args['kindergarden_distance'],
+            school_distance=args['school_distance'],
+            bicycle_rack=args['bicycle_rack'],
+            car_parking_space=args['car_parking_space']
+        )
+
+        new_room=Room(
+            id_property=property_id,
+            room_index=args['room_index'],
+            room_metrage=args['room_metrage']
+        )
+
+        property_service.add_property(new_address, new_photo, new_inside, new_infrastructure, new_room)
+        return Response("property added", status=201, mimetype='application/json')
+
 
 class DeleteProperty(Resource):
     def delete(self, id_property):
         property_service=PropertyService()
         try:
-            property = Property.query.get_or_404(id_property)
-            address= Address.query.get_or_404(id_property)
-            photo=Photo.query.get_or_404(id_property)
-            inside=Inside.query.get_or_404(id_property)
-            infrastructure=Infrastructure.query.get_or_404(id_property)
-            room = Room.query.filter_by(id_property=id_property).first_or_404()
-            property_service.delete_property(property,address,photo,inside,infrastructure,room)
+            property_service.delete_property(id_property)
             return Response("property deleted", status=200, mimetype='application/json')
         except Exception as e:
             return Response('Error: no property to delete. '+str(e), status=501, mimetype='application/json')
