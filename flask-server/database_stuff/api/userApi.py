@@ -147,7 +147,7 @@ class EditUserInformation(Resource):
         parser.add_argument('password', type=str)
         parser.add_argument('password_repeat', type=str)
         parser.add_argument('email', type=str)
-        parser.add_argument('usertype', type=enum)
+        parser.add_argument('usertype', type=str) #tu było type=enum i wywalało błąd
 
         args = parser.parse_args()
         validator = Validation()
