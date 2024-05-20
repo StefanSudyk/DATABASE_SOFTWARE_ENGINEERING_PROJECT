@@ -12,14 +12,14 @@ class propertyValidation(Resource):
     
     def postal_validation(self, postal_code):
         
-        if not re.match(r'^\d{1,5}$', postal_code):
+        if not re.match(r'^\d{2}-\d{3}$', postal_code):
             abort(401, message="Enter a correct Postal Code 5 digits")
             return False
         else:
             return True
         
     def house_nr_validation(self, house_number):
-        if not re.match(r'^\d{1,6}$', house_number):
+        if not house_number or house_number.isspace() or len(house_number) > 6:
             abort(401, message="Enter a correct house number (up to 6 digits")
             return False
         else:
