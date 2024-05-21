@@ -117,7 +117,7 @@ class Property(db.Model):
     square_metrage = db.Column(db.Float)
     #surroundings = db.Column(db.String(20))
     finishing_standard = db.Column(db.String(20))
-    condition = db.Column(db.String(30))
+    #condition = db.Column(db.String(30))
     market = db.Column(db.String(20))
     publication_date = db.Column(db.Date)
     p_p_meter = db.Column(db.Float)
@@ -131,7 +131,7 @@ class Property(db.Model):
     rooms = db.relationship('Room', backref='property', lazy=True)
     favourites = db.relationship('Favourite', backref='property', lazy=True)
 
-    def __init__(self,id_owner,  title, price, square_metrage, finishing_standard, condition, market,
+    def __init__(self,id_owner,  title, price, square_metrage, finishing_standard, market,
                  publication_date, p_p_meter, sponsored):
         #self.id_property = id_property
         self.id_owner = id_owner
@@ -139,7 +139,7 @@ class Property(db.Model):
         self.price = price
         self.square_metrage = square_metrage
         self.finishing_standard = finishing_standard
-        self.condition = condition
+        #self.condition = condition
         self.market = market
         self.publication_date = publication_date
         self.p_p_meter = p_p_meter
@@ -172,11 +172,13 @@ class Address(db.Model):
 class Photo(db.Model):
     id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'), primary_key=True)
     address_photo = db.Column(db.String(100))
+    photo = db.Column(db.LargeBinary)
     description_photo = db.Column(db.String(255))
 
-    def __init__(self, id_property, address_photo, description_photo):
+    def __init__(self, id_property, address_photo, photo, description_photo):
         self.id_property=id_property
         self.address_photo = address_photo
+        self.photo = photo
         self.description_photo = description_photo
 
 
@@ -257,9 +259,10 @@ class Infrastructure(db.Model):
 class Room(db.Model):
     id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'))
     id_room = db.Column(db.Integer, primary_key=True)
+    room_index = db.Column(db.Integer)
     room_metrage = db.Column(db.Float)
 
-    def __init__(self,id_property, id_room, room_metrage):
+    def __init__(self,id_property, room_index, room_metrage):
         self.id_property=id_property
-        self.id_room = id_room
+        self.room_index = room_index
         self.room_metrage = room_metrage
