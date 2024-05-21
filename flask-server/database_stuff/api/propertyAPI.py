@@ -142,12 +142,15 @@ class GetAllProperty(Resource):
             price_range = request.args.get('price_range')
             metrage_range = request.args.get('metrage_range')
             finishing_standard = request.args.get('finishing_standard')
+            
+            
             try:
                 if price_range:
 
                     price_from, price_to = map(float, price_range.split('-'))
                     print(price_from, price_to)
                     properties = filter_by_price(price_from, price_to)
+                
 
                 elif metrage_range:
 
@@ -171,8 +174,13 @@ class GetAllProperty(Resource):
                     rooms=Room.query.all()
                 if properties == []:
                     return Response("No property", status=500, mimetype='application/json')
-                return property_service.get_all_properties_with_all(properties, addresses,
-                photos, insides, infrastructures, rooms)
+                
+                if price_range or metrage_range or finishing_standard:
+
+                    return property_service.get_properties_only(properties)
+                else:
+                    return property_service.get_all_properties_with_all(properties, addresses, 
+                    photos, insides, infrastructures, rooms)
             except Exception as e:
                 return Response('Error: no properties. '+str(e), status=501, mimetype='application/json')
 
