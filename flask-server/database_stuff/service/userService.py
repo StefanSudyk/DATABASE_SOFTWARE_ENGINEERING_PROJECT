@@ -45,7 +45,7 @@ class UserService:
             'phone_number': user.phone_number,
             'email': user.email,
             'usertype': user.usertype,
-            'properties': user.properties
+            #'properties': user.properties
         } for user in users])
 
     def get_user(self, user):
@@ -57,5 +57,5 @@ class UserService:
             'phone_number': user.phone_number,
             'email': user.email,
             'usertype': user.usertype,
-            'properties': user.properties
+            #'properties': user.properties
         })

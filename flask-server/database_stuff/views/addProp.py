@@ -1,11 +1,27 @@
 from flask import Blueprint, render_template, url_for, request, redirect, session,flash
 from app import db
 import requests
-import datetime
-from models import Address
+from models import Address, Photo
 from sqlalchemy import select
 addProp = Blueprint('addProp', __name__, template_folder="templates", static_folder="static")
 base = "http://127.0.0.1:5000/"
+
+@addProp.route('/addPhoto', methods=["POST", "GET"])
+def addPhoto():
+    if request.method == 'POST':
+        photo = request.files["photo"]
+        description_photo = request.form['desc']
+        id_property = 1
+
+        new_photo = Photo(
+            id_property=id_property,
+            address_photo=None,
+            description_photo=description_photo
+        )
+
+    else:
+        return render_template('addProp.html')
+
 @addProp.route('/addProp', methods=["POST", "GET"])
 def addProperty():
     
@@ -15,7 +31,7 @@ def addProperty():
         price = request.form["price"]
         square_metrage = request.form["square_metrage"]
         finishing_standard = request.form["finishing_standard"]
-        condition = request.form["condition"]
+        #condition = request.form["condition"]
         market = request.form["market"]
         #address
         county = request.form["county"]
@@ -27,8 +43,8 @@ def addProperty():
         house_number = request.form["house_number"]
         coordinates = request.form["coordinates"]
         #Photo
-        address_photo = request.form["address_photo"]
-        description_photo = request.form["description_photo"]
+        #address_photo = request.form["address_photo"]
+        #description_photo = request.form["description_photo"]
         #Inside
         nr_rooms = request.form["nr_rooms"]
         nr_bathrooms = request.form["nr_bathrooms"]
@@ -56,14 +72,14 @@ def addProperty():
         print(price)
         print(square_metrage)
         print(finishing_standard)
-        print(condition)
+        #print(condition)
         print(market)
         data = {
         'title' : title,
         'price' : price,
         'square_metrage' : square_metrage,
         'finishing_standard' : finishing_standard,
-        'condition' : condition,
+        #'condition' : condition,
         'market' : market,
         'sponsored':0,
 
@@ -76,8 +92,8 @@ def addProperty():
         'house_number':house_number,
         'coordinates':coordinates,
 
-        'address_photo':address_photo,
-        'description_photo':description_photo,
+        #'address_photo':address_photo,
+        #'description_photo':description_photo,
         
         'nr_rooms':nr_rooms,
         'nr_bathrooms':nr_bathrooms,
