@@ -130,11 +130,6 @@ class GetProperty(Resource):
         property_service = PropertyService()
         try:
             get_response = property_service.get_property(id_property)
-
-            # if get_response['photo']:
-            #     photo_base64 = base64.b64encode(get_response['photo']).decode('utf-8')
-            # else:
-            #     photo_base64 = None
                 
             return get_response
         
