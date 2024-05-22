@@ -8,6 +8,7 @@ from api.companyApi import *
 
 
 
+
 flask_app = create_app()
 api = Api(flask_app)
 
