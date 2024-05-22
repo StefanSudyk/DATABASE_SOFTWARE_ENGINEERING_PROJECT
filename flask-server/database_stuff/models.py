@@ -24,7 +24,7 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(20))
     surname = db.Column(db.String(20))
     phone_number = db.Column(db.String(9))
-    password = db.Column(db.String(20))
+    password = db.Column(db.String(150))
     email = db.Column(db.String(50))
     usertype = db.Column(db.Enum(UserType))
     is_active = False  # czy jest zalgowoany
@@ -172,11 +172,13 @@ class Address(db.Model):
 class Photo(db.Model):
     id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'), primary_key=True)
     address_photo = db.Column(db.String(100))
+    photo = db.Column(db.LargeBinary)
     description_photo = db.Column(db.String(255))
 
-    def __init__(self, id_property, address_photo, description_photo):
+    def __init__(self, id_property, address_photo, photo, description_photo):
         self.id_property=id_property
         self.address_photo = address_photo
+        self.photo = photo
         self.description_photo = description_photo
 
 
@@ -257,9 +259,10 @@ class Infrastructure(db.Model):
 class Room(db.Model):
     id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'))
     id_room = db.Column(db.Integer, primary_key=True)
+    room_index = db.Column(db.Integer)
     room_metrage = db.Column(db.Float)
 
-    def __init__(self,id_property, id_room, room_metrage):
+    def __init__(self,id_property, room_index, room_metrage):
         self.id_property=id_property
-        self.id_room = id_room
+        self.room_index = room_index
         self.room_metrage = room_metrage
