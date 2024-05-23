@@ -122,23 +122,29 @@ class PropertyService:
         return Response("Company data updated", status=204, mimetype='application/json')
     
 
-    def get_properties_only(self, properties):
-        return jsonify([{
-            
-                        'id_property':property.id_property,
-                        #'id_owner': properties.id_owner,
-                        'title' : property.title,
-                        'price' : property.price,
-                        'square_metrage' : property.square_metrage,
-                        'finishing_standard' : property.finishing_standard,
-                        #'condition' : property.condition,
-                        'market' : property.market,
-                        'publication_date': property.publication_date,
-                        'p_p_meter': property.p_p_meter,
-                        'sponsored': property.sponsored
-                        
+    def get_properties_and_photos(self, properties, photos):
 
-                    } for property in properties])
+        photos_dict = {photo.id_property: photo for photo in photos}
+        
+        return jsonify([{
+            'property': {
+                'id_property': property.id_property,
+                'title': property.title,
+                'price': property.price,
+                'square_metrage': property.square_metrage,
+                'finishing_standard': property.finishing_standard,
+                'market': property.market,
+                'publication_date': property.publication_date,
+                'p_p_meter': property.p_p_meter,
+                'sponsored': property.sponsored
+            },
+            'photos': [{
+                'address_photo': photos_dict[property.id_property].address_photo,
+                'photo': base64.b64encode(photos_dict[property.id_property].photo).decode('utf-8'),
+                'description_photo': photos_dict[property.id_property].description_photo
+            }] if property.id_property in photos_dict else []
+        } for property in properties])
+
 
     #Wyswietla wszystko powiazane property
     def get_all_properties_with_all(self, properties, addresses, photos, insides, infrastructures, rooms):
