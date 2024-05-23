@@ -1,4 +1,4 @@
-from models import Property
+from models import Property, Inside, Address
 
 
 #filtrowanie po cenie - wyswietla tylko properties z zakresu ceny
@@ -19,3 +19,29 @@ def filter_by_square_metrage(square_metrage_from, square_metrage_to):
 def filter_by_finishing_standard(finishing_standard):
     properties = Property.query.filter_by(finishing_standard=finishing_standard).all()
     return properties
+
+#filtrowanie po ilosci pokoi
+
+def filter_by_nr_rooms(nr_rooms):
+    properties = Property.query.join(Inside).filter(Inside.nr_rooms == nr_rooms).all()
+    return properties
+
+#filtrowanie po: kraj-wymagane , miasto - opcjonalne, ulica -opcjonalne
+
+def filter_by_address(country, locality=None, street=None, district = None):
+    query = Property.query.join(Address).filter(Address.county == country)
+
+    if locality:
+        query = query.filter(Address.locality == locality)
+
+    if street:
+        query = query.filter(Address.street == street)
+    
+    if district:
+        query = query.filter(Address.district == district)
+    
+    properties = query.all()
+    return properties
+
+
+
