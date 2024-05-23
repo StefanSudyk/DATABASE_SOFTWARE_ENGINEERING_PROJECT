@@ -137,52 +137,51 @@ class GetProperty(Resource):
             return Response('Error: user not find. '+str(e), status=501, mimetype='application/json')
 
 class GetAllProperty(Resource):
-        def get(self):
-            property_service = PropertyService()
-            price_range = request.args.get('price_range')
-            metrage_range = request.args.get('metrage_range')
-            finishing_standard = request.args.get('finishing_standard')
-            
-            
-            try:
-                if price_range:
+    def get(self):
+        property_service = PropertyService()
+        price_range = request.args.get('price_range')
+        metrage_range = request.args.get('metrage_range')
+        finishing_standard = request.args.get('finishing_standard')
+        nr_rooms = request.args.get("nr_rooms")
+        country = request.args.get('country')
+        locality = request.args.get('locality')
+        street = request.args.get('street')
+        district = request.args.get('district')
 
-                    price_from, price_to = map(float, price_range.split('-'))
-                    print(price_from, price_to)
-                    properties = filter_by_price(price_from, price_to)
-                
+        try:
+            if price_range:
+                price_from, price_to = map(float, price_range.split('-'))
+                properties = filter_by_price(price_from, price_to)
+            elif metrage_range:
+                metrage_from, metrage_to = map(float, metrage_range.split('-'))
+                properties = filter_by_square_metrage(metrage_from, metrage_to)
+            elif finishing_standard:
+                properties = filter_by_finishing_standard(finishing_standard)
+            elif nr_rooms:
+                properties = filter_by_nr_rooms(nr_rooms)
+            elif country:
+                properties = filter_by_address(country, locality, street, district)
 
-                elif metrage_range:
+            else:
+                properties = Property.query.all()
 
-                    metrage_from, metrage_to = map(float, metrage_range.split('-'))
-                    print(metrage_from,metrage_to)
-                    properties = filter_by_square_metrage(metrage_from, metrage_to)
+            if not properties:
+                return Response("No property", status=500, mimetype='application/json')
 
-                elif finishing_standard:
-                    
-                    print("po standardzie")
-                    properties = filter_by_finishing_standard(finishing_standard)
+            # Pobieranie zdjęć przypisanych do właściwości
+            photos = Photo.query.filter(Photo.id_property.in_([property.id_property for property in properties])).all()
 
-                else:
+            if price_range or metrage_range or finishing_standard or nr_rooms or country:
+                return property_service.get_properties_and_photos(properties, photos)
+            else:
+                addresses = Address.query.all()
+                insides = Inside.query.all()
+                infrastructures = Infrastructure.query.all()
+                rooms = Room.query.all()
+                return property_service.get_all_properties_with_all(properties, addresses, photos, insides, infrastructures, rooms)
 
-                    print("wszystko")
-                    properties = Property.query.all()
-                    addresses= Address.query.all()
-                    photos=Photo.query.all()
-                    insides=Inside.query.all()
-                    infrastructures=Infrastructure.query.all()
-                    rooms=Room.query.all()
-                if properties == []:
-                    return Response("No property", status=500, mimetype='application/json')
-                
-                if price_range or metrage_range or finishing_standard:
-
-                    return property_service.get_properties_only(properties)
-                else:
-                    return property_service.get_all_properties_with_all(properties, addresses, 
-                    photos, insides, infrastructures, rooms)
-            except Exception as e:
-                return Response('Error: no properties. '+str(e), status=501, mimetype='application/json')
+        except Exception as e:
+            return Response('Error: no properties. ' + str(e), status=501, mimetype='application/json')
 
 
 class PostProperty(Resource):
