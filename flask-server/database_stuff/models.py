@@ -24,7 +24,7 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(20))
     surname = db.Column(db.String(20))
     phone_number = db.Column(db.String(9))
-    password = db.Column(db.String(20))
+    password = db.Column(db.String(150))
     email = db.Column(db.String(50))
     usertype = db.Column(db.Enum(UserType))
     is_active = False  # czy jest zalgowoany
