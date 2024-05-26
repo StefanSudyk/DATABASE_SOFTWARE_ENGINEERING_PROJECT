@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, url_for, redirect
-from views.auth_container import session
+from auth1 import session
 
 views = Blueprint('views', __name__, static_folder="static", template_folder="templates")
 
@@ -15,3 +15,7 @@ def user():
         return render_template('user.html', phone_number=phonenumber)
     else:
         return redirect(url_for("auth.login"))
+
+@views.route('/signup')
+def signup():
+    return render_template('signup.html')
