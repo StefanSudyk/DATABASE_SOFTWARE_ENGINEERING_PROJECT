@@ -10,6 +10,7 @@ resource_postuser_fields = {
     'surname': fields.String,
     'phone_number': fields.String,
     'password': fields.String,
+    'password_repeat': fields.String,
     'email': fields.String,
     'usertype': fields.String
 }

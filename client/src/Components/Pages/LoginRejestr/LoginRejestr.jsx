@@ -1,11 +1,43 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 import './LoginRejestr.css'
 import  MainLogo  from '../../../assets/main_logo.png'
 const LoginRejestr = () => {
 
     const [action,setAction] = useState("Zarejestruj")
 
+    const [formData, setFormData] = useState({
+        name: '',
+        surname: '',
+        phone_number: '123456789',
+        password: '',
+        password_repeat: 'haslo123',
+        email: 'defaultemail@gmail.com',
+        usertype: 'User'
+    });
+    const handleChange = (e) => {
+        const {name, value} = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://127.0.0.1:5000/post', formData, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+        });
+        console.log(response.data);
+        } catch (error) {
+            console.error('Upsi!', error);
+            console.log({formData});
+        }
+    };
   return (
+<form onSubmit={handleSubmit}>
 <div className="login-all">
     {action==="Zarejestruj"?
     <div className='login-container'>
@@ -20,18 +52,24 @@ const LoginRejestr = () => {
         </div>
         <div className="login-form">
             <div className="input">  
-                <input type='text' placeholder='Numer Telefonu'></input>
+                <input type='text' name="phone_number" placeholder='Numer Telefonu' value={formData.phone_number} onChange={handleChange}></input>
             </div>
             <div className="input">
-                <input type='text' placeholder='Imię'></input>
+                <input type='text' name="name" placeholder='Imię' value={formData.name} onChange={handleChange}></input>
             </div>
             <div className="input">
-                <input type='text' placeholder='Nazwisko'></input>
+                <input type='text' name="surname" placeholder='Nazwisko' value={formData.surname} onChange={handleChange}></input>
             </div>
             <div className="input">  
-                <input type='password' placeholder='Hasło'></input>
+                <input type='password' name ="password" placeholder='Hasło' value={formData.password} onChange={handleChange}></input>
             </div>
-           
+            <div className="input">  
+                <input type='password' name ="password" placeholder='Hasło' value={formData.password} onChange={handleChange}></input>
+            </div>
+            <div className="input">  
+                <input type='password' name ="password" placeholder='Hasło' value={formData.password} onChange={handleChange}></input>
+            </div>
+
         </div>
         <div className="submits">
             <div className="submit submit-czys">
@@ -75,6 +113,7 @@ const LoginRejestr = () => {
         </div>
       </div>}
 </div>
+</form>
   )
 }
 

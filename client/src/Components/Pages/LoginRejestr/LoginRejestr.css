@@ -16,7 +16,7 @@
 .login-container{
     background-color: white;
     width: 800px;
-    height: 600px; /* Wykorzystanie wysokości kontenera */
+    height: 700px; /* Wykorzystanie wysokości kontenera */
     display: flex;
     justify-content: center; /* Wyśrodkowanie w poziomie */
     align-items: center; /* Wyśrodkowanie w pionie */
