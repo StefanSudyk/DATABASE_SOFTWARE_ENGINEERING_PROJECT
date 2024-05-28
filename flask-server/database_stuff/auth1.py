@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, url_for, request, redirect, session, jsonify, flash
 from app import db
 import requests
-from flask_login import login_user, login_required, current_user
+from flask_login import login_user, login_required, current_user, logout_user
 from models import User
 from werkzeug.security import check_password_hash, generate_password_hash
 from validators.userValidator import Validation
@@ -13,7 +13,7 @@ auth = Blueprint('auth', __name__, template_folder="templates", static_folder="s
 
 
 
-@auth.route('/login', methods=["POST", "GET"])
+@auth.route('/loginview', methods=["POST", "GET"])
 def login():
     if request.method == "POST":
         phonenumber = request.form["phnum"]
@@ -23,17 +23,27 @@ def login():
         print("nr tel: ", phonenumber)
         print("hasło: ", password)
         
-        user = User.query.filter_by(phone_number=phonenumber).first()
+        data = {
+            'phone_number': phonenumber,
+            'password': password
+        }
+
+        response = requests.post("http://127.0.0.1:5000/login", json=data)
+        print(response)
+        return redirect(url_for('views.user'))
+        # user = User.query.filter_by(phone_number=phonenumber).first()
         
-        if user:
-            if check_password_hash(user.password, password):
-                flash('Logged successfully!', category='success')
-                login_user(user, remember=True)
-                return redirect(url_for("views.user"))
-            else:
-                flash('Incorrect password, try again.', category='error')
-        else:
-            flash('User does not exist.', category='error')
+        # if user:
+        #     if check_password_hash(user.password, password):
+        #         flash('Logged successfully!', category='success')
+        #         login_user(user, remember=True)
+        #         return redirect(url_for("views.user"))
+        #     else:
+        #         flash('Incorrect password, try again.', category='error')
+        #         return render_template('login.html', user=current_user)
+        # else:
+        #     flash('User does not exist.', category='error')
+        #     return render_template('login.html', user=current_user)
             
     else:
         return render_template('login.html', user=current_user)
