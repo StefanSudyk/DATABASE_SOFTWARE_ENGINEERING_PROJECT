@@ -14,13 +14,12 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     #app.config['WTF_CSRF_ENABLED'] = False
     app.secret_key = "testkey"
-    app.permanent_session_lifetime = timedelta(minutes=1)  # session data will be stored for given amount of time
+    app.permanent_session_lifetime = timedelta(minutes=5)  # session data will be stored for given amount of time
     
     CORS(app) #do fetchowania na front
     
     db.init_app(app)
     
-
     from views.views_container import views
     from auth1 import auth
     from views.addProp import addProp
@@ -30,7 +29,7 @@ def create_app():
     app.register_blueprint(addProp, url_prefix='/')
     
     login_manager = LoginManager()
-    login_manager.login_view = 'auth.login'
+    login_manager.login_view = None
     login_manager.init_app(app)
     
     from models import User
