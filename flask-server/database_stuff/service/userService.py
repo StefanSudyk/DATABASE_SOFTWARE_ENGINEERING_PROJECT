@@ -25,7 +25,6 @@ class UserService:
             email=user_data['email'],
             usertype=user_data['usertype'],
             # to trzeba dodać
-            is_active=user_data['is_active']
         )
         db.session.add(new_user)
         db.session.commit()

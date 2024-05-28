@@ -258,11 +258,11 @@ class PostProperty(Resource):
         p_p_meter=args['price']/args['square_metrage']
 
         #id = db.session.execute(select(User.id_user).where(User.phone_number == session['phonenumber'])).first()
-        id = db.session.execute(select(User.id_user).where(User.phone_number == '222222222')).first()
-
+        #id = db.session.execute(select(User.id_user).where(User.phone_number == '222222222')).first()
+        id = current_user.id_user
         new_property = Property(
             #id_property=property_id,
-            id_owner=id[0],
+            id_owner=id,
             title=args['title'],
             price=args['price'],
             square_metrage=args['square_metrage'],
