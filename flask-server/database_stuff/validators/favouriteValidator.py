@@ -1,11 +1,11 @@
 import re
 from flask_restful import abort,Resource
-from service.favouriteService import get_favourite
+from service.favouriteService import *
 class FavouriteValidation(Resource):
-    def cp_name_validation(self, id_property):
-        fav=FAV
-        if Favourite:
+    def is_favourite(self, id_property):
+        fav=FavouriteService()
+        fa= fav.get_favourite(id_property)
+        if fa:
             return True
         else:
-            abort(401, message="Enter a valid company name")
             return False
