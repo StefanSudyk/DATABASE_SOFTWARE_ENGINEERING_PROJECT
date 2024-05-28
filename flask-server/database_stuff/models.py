@@ -60,23 +60,20 @@ class User(db.Model, UserMixin):
             'is_active': self.is_active
         }
 
-    def __init__(self, name, surname, phone_number, password, email, usertype, is_active):
+    def __init__(self, name, surname, phone_number, password, email, usertype):
         self.name = name
         self.surname = surname
         self.phone_number = phone_number
         self.password = password
         self.email = email
         self.usertype = usertype
-        self.is_active = is_active
-
 
 class Favourite(db.Model):
     id_favourite = db.Column(db.Integer, unique=True, primary_key=True)
     id_user = db.Column(db.Integer, db.ForeignKey('user.id_user'))
     id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'))
 
-    def __init__(self, id_favourite, id_user, id_property):
-        self.id_favourite = id_favourite
+    def __init__(self, id_user, id_property):
         self.id_user = id_user
         self.id_property = id_property
 
