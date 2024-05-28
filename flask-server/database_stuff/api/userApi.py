@@ -1,30 +1,78 @@
-from flask import jsonify, Response, request
+from flask import flash, jsonify, Response, request, session
 from flask_restful import Resource, reqparse, fields, marshal_with, abort
+from flask_login import login_user, current_user, login_required, logout_user
 from models import *
 from service.userService import UserService
 from userFilters import filter_by_usertype, filter_by_surname, filter_by_name, sort_users_by_surname, sort_users_by_name
 from validators.userValidator import Validation
+from werkzeug.security import check_password_hash, generate_password_hash
 
 resource_postuser_fields = {
     'name': fields.String,
     'surname': fields.String,
     'phone_number': fields.String,
     'password': fields.String,
+    'password_repeat': fields.String,
     'email': fields.String,
     'usertype': fields.String
 }
 
+resource_authenticate_fields = {
+    'phone_number': fields.String,
+    'password': fields.String
+}
 
+class LoginUser(Resource):
+    @marshal_with(resource_authenticate_fields)
+    def post(self):
+        user_service = UserService()
 
+        parser = reqparse.RequestParser()
+        parser.add_argument('phone_number', type=str, required=True, help='Phone numver is essential')
+        parser.add_argument('password', type=str, required=True, help='Password is essential')
+        args = parser.parse_args()
+        print(args)
 
+        user = user_service.authenticate(phone_number=args['phone_number'],
+                                         password=args['password'])
 
+        if user:
+            login_user(user, remember=True)
+            print("Logowanie się udało")
+            print("Sesja po zalogowaniu:", session.items())
+            print(current_user.is_authenticated)
+            return Response("Successfully logged!", status=201, mimetype='application/json')
+        else:
+            flash('Incorrect phone number or password', category='error')
+            abort(501, message="Incorrect phone number or password")
+
+class CurrentUser(Resource):
+    @login_required
+    def get(self):
+        print("Sesja w current user:", session.items())
+        print(type(current_user))
+        print(current_user)
+  
+        if current_user.is_authenticated:
+            return current_user.serialize()
+        else:
+            print("user not logged")
+            return Response('No user is logged in', status=501, mimetype='application/json')
+        
+class LogoutUser(Resource):
+    @login_required
+    def get(self):
+        logout_user()
+        flash('Logged out.', category='success')
+        return  Response('Logged out!', status=201, mimetype='application/json')
 
 class GetUser(Resource):
     def get(self, user_id):
         user_service = UserService()
         try:
             user = User.query.get_or_404(user_id)
-            user_service.get_user(user)
+            received_user = user_service.get_user(user)
+            return received_user
         except Exception as e:
             return Response('Error: user not find. '+str(e), status=501, mimetype='application/json')
 
@@ -108,26 +156,21 @@ class PostUser(Resource):
         user_service = UserService()
         
         check = validator.name_surname_validation(args['name'])
-        #print(check, "name")
         check = validator.name_surname_validation(args['surname'])
-        #print(check, "surname")
         check = validator.phone_number_validation(args['phone_number'])
-        #print(check, "number")
         check = validator.password_len_validation(args['password'])
-        #print(check, "pass len")
         check = validator.compare_password_validation(args['password'], args['password_repeat'])
-        #print(check, "compare")
         check = validator.email_validation(args['email'])
-        #print(check, "email val")
         check = validator.is_email_unique(args['email'])
-        #print(check, "email uniq")
         check = validator.is_phone_number_unique(args['phone_number'])
-        #print(check, "number uniq")
         check = validator.usertype_validation(args['usertype'])
-        #print(check, "usertype val")
+
+        
 
         if check:
-            user_service.add_user(args)
+            hashed_password = generate_password_hash(password=args['password'], method='pbkdf2:sha256')
+            print("hash passw:", hashed_password)
+            user_service.add_user(args, hashed_password)
             return Response("user added", status=201, mimetype='application/json')
         else:
             abort(501, message="something went wrong")
@@ -170,7 +213,8 @@ class EditUserInformation(Resource):
             case "password":
                 if (validator.password_len_validation(args['password']) and
                 validator.compare_password_validation(args['password'], args['password_repeat'])):
-                    user.password = args['password']
+                    hashed_password = generate_password_hash(password=args['password'], method='pbkdf2:sha256')
+                    user.password = hashed_password
                     user_service.patch_user()
             case "email":
                 if validator.email_validation(args['email']) and validator.is_email_unique(args['email']):

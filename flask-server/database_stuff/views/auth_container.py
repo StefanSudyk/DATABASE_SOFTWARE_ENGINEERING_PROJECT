@@ -79,7 +79,7 @@ def signup():
 
         response = requests.post(base + 'post', json=json_new_user)
 
-        login_user(new_user, remember=True)
+        #login_user(new_user, remember=True)
         flash('Account created !', category='success')
 
         if usertype == "Company":

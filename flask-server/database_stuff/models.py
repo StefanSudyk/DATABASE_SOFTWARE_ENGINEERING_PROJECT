@@ -1,6 +1,6 @@
 from app import db
 import enum
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
 
 
 """
@@ -31,6 +31,20 @@ class User(db.Model, UserMixin):
     properties = db.relationship('Property', backref='owner', lazy=True)
     favourites = db.relationship('Favourite', backref='user', lazy=True)
 
+    @property 
+    def is_authenticated(self):
+        return True
+            
+    @property
+    def is_active(self):
+        """Zwraca True, jeśli użytkownik jest aktywny."""
+        return True
+    
+    @property
+    def is_anonymous(self):
+        """Zwraca True, jeśli użytkownik jest anonimowy."""
+        return False
+
     def get_id(self):
         return self.id_user
 
@@ -40,7 +54,7 @@ class User(db.Model, UserMixin):
             'name': self.name,
             'surname': self.surname,
             'phone_number': self.phone_number,
-            'password': self.password,
+            #'password': self.password,
             'email': self.email,
             'usertype': self.usertype,
             'is_active': self.is_active
