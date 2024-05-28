@@ -35,5 +35,6 @@ if __name__ == '__main__':
     api.add_resource(EditUserInformation, '/patch/<int:user_id>/<string:action>')
     api.add_resource(LoginUser, "/login")
     api.add_resource(CurrentUser, "/currentuser")
+    api.add_resource(LogoutUser, '/logout')
 
     flask_app.run(debug=True)

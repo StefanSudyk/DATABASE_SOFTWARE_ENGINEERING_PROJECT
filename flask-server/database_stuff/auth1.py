@@ -30,26 +30,12 @@ def login():
 
         response = requests.post("http://127.0.0.1:5000/login", json=data)
         print(response)
-        return redirect(url_for('views.user'))
-        # user = User.query.filter_by(phone_number=phonenumber).first()
-        
-        # if user:
-        #     if check_password_hash(user.password, password):
-        #         flash('Logged successfully!', category='success')
-        #         login_user(user, remember=True)
-        #         return redirect(url_for("views.user"))
-        #     else:
-        #         flash('Incorrect password, try again.', category='error')
-        #         return render_template('login.html', user=current_user)
-        # else:
-        #     flash('User does not exist.', category='error')
-        #     return render_template('login.html', user=current_user)
-            
+        return redirect(url_for('views.user'))      
     else:
         return render_template('login.html', user=current_user)
 
 
-@auth.route('/logout')
+@auth.route('/logoutview')
 @login_required
 def logout():
     logout_user()
