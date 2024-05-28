@@ -36,8 +36,8 @@ class FavouriteService:
             return Response('Error: no favourite to delete. '+str(e), status=501, mimetype='application/json')
         
     def get_favourite(id_property):
-        fav=Favourite.query.filter_by(id_user=id).first() 
-        if fav:
-            return fav
-        else:
+        fav = Favourite.query.filter_by(id_property=id_property, id_user=id).first()
+        if fav==None:
             return False
+        else:
+            return fav
