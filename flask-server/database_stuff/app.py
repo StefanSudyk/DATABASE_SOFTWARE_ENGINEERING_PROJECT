@@ -36,7 +36,7 @@ def create_app():
     
     @login_manager.user_loader
     def load_user(id):
-        return User.query.get_or_404(int(id))
+        return User.query.get(int(id))
 
     migrate = Migrate(app, db)
     app.app_context().push()

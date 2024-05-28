@@ -1,6 +1,6 @@
 from flask import flash, jsonify, Response, request, session
 from flask_restful import Resource, reqparse, fields, marshal_with, abort
-from flask_login import login_user, current_user, login_required
+from flask_login import login_user, current_user, login_required, logout_user
 from models import *
 from service.userService import UserService
 from userFilters import filter_by_usertype, filter_by_surname, filter_by_name, sort_users_by_surname, sort_users_by_name
@@ -35,7 +35,7 @@ class LoginUser(Resource):
 
         user = user_service.authenticate(phone_number=args['phone_number'],
                                          password=args['password'])
-        print(user.name)
+
         if user:
             login_user(user, remember=True)
             print("Logowanie się udało")
@@ -47,31 +47,24 @@ class LoginUser(Resource):
             abort(501, message="Incorrect phone number or password")
 
 class CurrentUser(Resource):
-    #@login_required
+    @login_required
     def get(self):
         print("Sesja w current user:", session.items())
-        print("currentuser kur")
         print(type(current_user))
         print(current_user)
-        
+  
         if current_user.is_authenticated:
             return current_user.serialize()
-            # user_service = UserService()
-            # try:
-            #     user = User.query.get_or_404(current_user)
-            #     received_user = user_service.get_user(user)
-            #     return received_user
-            # except Exception as e:
-            #     return Response('Error: user not find. '+str(e), status=501, mimetype='application/json')
-            # # return jsonify({
-            # #     "name": current_user.name,
-            # #     "surname": current_user.surname,
-            # #     "phone_number": current_user.phone_number,
-            # #     "email": current_user.email,
-            # # })
         else:
             print("user not logged")
             return Response('No user is logged in', status=501, mimetype='application/json')
+        
+class LogoutUser(Resource):
+    @login_required
+    def get(self):
+        logout_user()
+        flash('Logged out.', category='success')
+        return  Response('Logged out!', status=201, mimetype='application/json')
 
 class GetUser(Resource):
     def get(self, user_id):
