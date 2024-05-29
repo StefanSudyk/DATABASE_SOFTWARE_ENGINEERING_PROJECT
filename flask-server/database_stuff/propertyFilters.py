@@ -44,4 +44,7 @@ def filter_by_address(country, locality=None, street=None, district = None):
     return properties
 
 
-
+#TODO
+# def filter_by_property_type(property_type):
+    # properties = Property.query.filter_by()
+    
