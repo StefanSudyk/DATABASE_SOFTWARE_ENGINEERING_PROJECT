@@ -16,7 +16,7 @@
 .login-container{
     background-color: white;
     width: 800px;
-    height: 600px; /* Wykorzystanie wysokości kontenera */
+    height: 700px; /* Wykorzystanie wysokości kontenera */
     display: flex;
     justify-content: center; /* Wyśrodkowanie w poziomie */
     align-items: center; /* Wyśrodkowanie w pionie */
@@ -92,6 +92,7 @@
     font-weight: 400;
     padding-left: 10px;
     padding-right: 10px;
+    font-size: 30px;
 }
 .but-logrej{
     color: white;
@@ -119,5 +120,33 @@ button{
 .forgot-password span{
     font-size: 16px;
     cursor: pointer;
+    font-weight: 600;
+}
+.but-logrej:hover{
+    color: white;
+    font-weight: 400;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #374967;
+    height: 100%;
+    font-size: px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+.but-logrej:active{
+    color: white;
+    font-weight: 400;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #5a77a9;
+    height: 100%;
+    font-size: px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+.forgot-password1{
+    font-size: 14px;
+    text-align: center;
+    padding-bottom: 0px;
     font-weight: 600;
 }
