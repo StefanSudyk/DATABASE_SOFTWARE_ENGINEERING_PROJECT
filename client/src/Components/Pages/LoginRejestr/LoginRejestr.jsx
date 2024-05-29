@@ -34,7 +34,7 @@ const LoginRejestr = () => {
           'Content-Type': 'application/json'
         }
       });
-      console.log(response.data);
+      console.log(error.response.data.message);
       setError(''); // Wyczyść wiadomość o błędzie po udanej odpowiedzi
       setShowModal(false); // Ukryj modal po udanej odpowiedzi
     } catch (error) {
@@ -42,11 +42,11 @@ const LoginRejestr = () => {
       console.log({ formData });
       // Ustaw wiadomość o błędzie
       if (error.response) {
-        setError(`Błąd odpowiedzi serwera: ${error.response.data}`);
-      } else if (error.request) {
-        setError('Brak odpowiedzi od serwera.');
+        setError(`${error.response.data.message}`);
+      } else if (error.response.data.message) {
+       ;
       } else {
-        setError(`Błąd ustawienia żądania: ${error.message}`);
+        setError(`${error.response.data.message}`);
       }
       setShowModal(true); // Pokaż modal po wystąpieniu błędu
     }
@@ -69,26 +69,35 @@ const LoginRejestr = () => {
               </div>
               <div className="login-form">
                 <div className="input">
-                  <input type='text' name="phone_number" placeholder='Numer Telefonu' value={formData.phone_number} onChange={handleChange}></input>
-                 
+                  <label htmlFor="phone_number">Numer Telefonu</label>
+                  <input type='text' id="phone_number" name="phone_number" value={formData.phone_number} onChange={handleChange}></input>
                 </div>
                 <div className="input">
-                  <input type='email' name="email" placeholder='email' value={formData.email} onChange={handleChange}></input>
+                  <label htmlFor="email">Email</label>
+                  <input type='email' id="email" name="email" value={formData.email} onChange={handleChange}></input>
                 </div>
                 <div className="input">
-                  <input type='text' name="name" placeholder='Imię' value={formData.name} onChange={handleChange}></input>
+                  <label htmlFor="name">Imię</label>
+                  <input type='text' id="name" name="name" value={formData.name} onChange={handleChange}></input>
                 </div>
                 <div className="input">
-                  <input type='text' name="surname" placeholder='Nazwisko' value={formData.surname} onChange={handleChange}></input>
+                  <label htmlFor="surname">Nazwisko</label>
+                  <input type='text' id="surname" name="surname" value={formData.surname} onChange={handleChange}></input>
                 </div>
                 <div className="input">
-                  <input type='password' name="password" placeholder='Hasło' value={formData.password} onChange={handleChange}></input>
+                  <label htmlFor="password">Hasło</label>
+                  <input type='password' id="password" name="password" value={formData.password} onChange={handleChange}></input>
                 </div>
-                <div className="forgot-password1">Hasło musi posiadać 8 znaków </div>
+                
                 <div className="input">
-                  <input type='password' name="password_repeat" placeholder='Powtórz hasło' value={formData.password_repeat} onChange={handleChange}></input>
+                  <label htmlFor="password_repeat">Powtórz hasło</label>
+                  <input type='password' id="password_repeat" name="password_repeat" value={formData.password_repeat} onChange={handleChange}></input>
+                  <div className="forgot-password1">Hasło musi posiadać 8 znaków </div> 
                 </div>
-              </div>
+                
+
+              </div>  
+              
               <div className="submits">
                 <div className="submit submit-czys">
                   <button type='button' className='but-czysc' onClick={() => setFormData({
@@ -120,10 +129,12 @@ const LoginRejestr = () => {
               </div>
               <div className="login-form">
                 <div className="input">
-                  <input type='input' placeholder='Numer Telefonu'></input>
+                  <label htmlFor="login-phone">Numer Telefonu</label>
+                  <input type='input' id="login-phone" placeholder='Numer Telefonu'></input>
                 </div>
                 <div className="input">
-                  <input type='password' placeholder='Hasło'></input>
+                  <label htmlFor="login-password">Hasło</label>
+                  <input type='password' id="login-password" placeholder='Hasło'></input>
                 </div>
                 <div className="forgot-password">Zapomniałeś hasła? <span>Kliknij tutaj!</span></div>
               </div>
