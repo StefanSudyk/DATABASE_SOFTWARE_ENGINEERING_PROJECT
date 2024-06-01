@@ -118,6 +118,11 @@ class Company(db.Model):
         self.house_number = house_number
         self.cp_type = cp_type
 
+class Finishing_standard(str, enum.Enum):
+    HOUSE = "House"
+    TERRACED_HOUSE = "Terraced house"
+    APARTMENT = "Apartment"
+    OTHER = "Other"
 
 class Property(db.Model):
     id_property = db.Column(db.Integer, unique=True, primary_key=True)
@@ -127,7 +132,7 @@ class Property(db.Model):
     price = db.Column(db.Float(precision=2))
     square_metrage = db.Column(db.Float)
     #surroundings = db.Column(db.String(20))
-    finishing_standard = db.Column(db.String(20))
+    finishing_standard = db.Column(db.Enum(Finishing_standard))
     #condition = db.Column(db.String(30))
     market = db.Column(db.String(20))
     publication_date = db.Column(db.Date)
