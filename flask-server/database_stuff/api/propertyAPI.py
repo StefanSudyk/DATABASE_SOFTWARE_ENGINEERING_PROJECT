@@ -147,7 +147,8 @@ class GetAllProperty(Resource):
         locality = request.args.get('locality')
         street = request.args.get('street')
         district = request.args.get('district')
-
+        condition = request.args.get('condition')
+        #tak btw finishing_standard to typ nieruchomosci a condition poziom wykonczenia xD
         try:
             if price_range:
                 price_from, price_to = map(float, price_range.split('-'))
@@ -161,7 +162,8 @@ class GetAllProperty(Resource):
                 properties = filter_by_nr_rooms(nr_rooms)
             elif country:
                 properties = filter_by_address(country, locality, street, district)
-
+            elif condition:
+                properties = filter_by_condition(condition)
             else:
                 properties = Property.query.all()
 
@@ -171,7 +173,7 @@ class GetAllProperty(Resource):
             # Pobieranie zdjęć przypisanych do właściwości
             photos = Photo.query.filter(Photo.id_property.in_([property.id_property for property in properties])).all()
 
-            if price_range or metrage_range or finishing_standard or nr_rooms or country:
+            if price_range or metrage_range or finishing_standard or nr_rooms or country or filter_by_finishing_standard:
                 return property_service.get_properties_and_photos(properties, photos)
             else:
                 addresses = Address.query.all()
