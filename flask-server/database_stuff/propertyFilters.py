@@ -16,8 +16,8 @@ def filter_by_square_metrage(square_metrage_from, square_metrage_to):
 
 #filtrowanie po poziomie wykończenia
 
-def filter_by_finishing_standard(finishing_standard):
-    properties = Property.query.filter_by(finishing_standard=finishing_standard).all()
+def filter_by_condition(condition):
+    properties = Property.query.join(Inside).filter(Inside.condition_ == condition).all()
     return properties
 
 #filtrowanie po ilosci pokoi
@@ -43,8 +43,11 @@ def filter_by_address(country, locality=None, street=None, district = None):
     properties = query.all()
     return properties
 
+#filtrowanie po finishing standard
 
-#TODO
-# def filter_by_property_type(property_type):
-    # properties = Property.query.filter_by()
+def filter_by_finishing_standard(finishing_standard):
+
+    properties = Property.query.filter_by(finishing_standard=finishing_standard).all()
+    return properties
+
     
