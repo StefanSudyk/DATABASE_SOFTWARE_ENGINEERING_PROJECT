@@ -12,6 +12,9 @@ const Navbar = ({ isLoggedIn }) => {
     <img src={main_logo}  className='logo'/>
     </Link>
       <ul>
+          <li className='user_profile'>
+            <Link to='/User_profile'> Profil </Link>
+          </li>
           <li className="navbar_text_test_api">
             <Link to="/Test_API">Testowanie API</Link>
           </li>
