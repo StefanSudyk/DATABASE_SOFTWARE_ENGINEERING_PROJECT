@@ -1,3 +1,35 @@
 .container{
-  
+  display:flex;
+  flex-direction: column;
+  padding-top: 18vh;
+}
+
+.content-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(40vh, 1fr));
+  grid-gap: 20px;
+  align-items: center;
+}
+
+
+.profile-form{
+  display: flex;
+  flex-direction: column;
+  padding-inline: 2vh;
+}
+
+.profile-form-label{
+  text-align: left;
+  font-size: 3vh;
+  width: 100%;
+  font-family: 'Poppins', 'sans-serif';
+}
+
+.profile-input{
+  width: 40vh;
+  margin: 1vh 0;
+}
+
+.Edit{
+  align-self: flex-end;
 }

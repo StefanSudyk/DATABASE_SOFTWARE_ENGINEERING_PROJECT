@@ -1,0 +1,21 @@
+.offer-container {
+  border: 1px solid #000;
+  padding: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.offer-container h2, .offer-container p {
+  margin: 0 0 10px 0;
+}
+
+.offer-container button {
+  margin-right: 10px;
+}
+
+/* For devices with screen width greater than 600px */
+@media (min-width: 600px) {
+  .offer-container {
+    width: 300px;
+  }
+}
