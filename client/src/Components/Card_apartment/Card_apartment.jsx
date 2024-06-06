@@ -5,7 +5,7 @@ import './DaneDoWczytania'
 
 
 const Card_apartment = (props) => {
-  const { NazwaOkolicy, CenaMieszkania, IloscMetrow,CenaMetrow, Miasto } = props;
+  const { NazwaOkolicy, CenaMieszkania, IloscMetrow,CenaMetrow, Miasto, Zdjecie } = props;
 
   return (
     <div className='card_apartment_calosc' >
@@ -19,7 +19,7 @@ const Card_apartment = (props) => {
          
         </div>
           
-        <img src={photo_template} className='photo_card_template'/>
+        <img src={Zdjecie} className='photo_card_template' alt="Zdjęcie nieruchomości" />
         
       </div>
     </div>

@@ -29,6 +29,7 @@ const WyswietlApi = () => {
         </div>
       )}
     </div>
+    
   );
 };
 
