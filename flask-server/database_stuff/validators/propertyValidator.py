@@ -18,12 +18,12 @@ class propertyValidation(Resource):
         else:
             return True
         
-    def house_nr_validation(self, house_number):
-        if not house_number or house_number.isspace() or len(house_number) > 6:
-            abort(401, message="Enter a correct house number (up to 6 digits")
-            return False
-        else:
-            return True
+    # def house_nr_validation(self, house_number):
+    #     if not house_number or house_number.isspace() or len(house_number) > 6:
+    #         abort(401, message="Enter a correct house number (up to 6 digits")
+    #         return False
+    #     else:
+    #         return True
         
     def address_unique(self,address):
         propertyservice=PropertyService()
@@ -34,12 +34,12 @@ class propertyValidation(Resource):
                 return False
         return True
 
-    def title_validation(self, title):
-        if not title.isalpha():
-            abort(401, message="Enter a correct house number (up to 6 digits")
-            return False
-        else:
-            return True
+    # def title_validation(self, title):
+    #     if not title.isalpha():
+    #         abort(401, message="Enter a correct house number (up to 6 digits")
+    #         return False
+    #     else:
+    #         return True
     def price_validation(self, price):
         if not is_float(price):
             abort(401, message="Enter a correct price")

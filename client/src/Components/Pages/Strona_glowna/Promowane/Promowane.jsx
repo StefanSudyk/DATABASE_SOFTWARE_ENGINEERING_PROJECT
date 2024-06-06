@@ -13,7 +13,10 @@ export const Promowane = () => {
     <div className='promowane_offer_block'>
       <div className='bloki_poszczegolne'>
         
-        <div className='ostatnie_zagniezdzenie_edycja_bloku_1'>
+        
+      <DaneDoWczytania/>
+      
+      {/*<div className='ostatnie_zagniezdzenie_edycja_bloku'>
       <DaneDoWczytania/>
       </div>
       <div className='ostatnie_zagniezdzenie_edycja_bloku'>
@@ -24,10 +27,7 @@ export const Promowane = () => {
       </div>
       <div className='ostatnie_zagniezdzenie_edycja_bloku'>
       <DaneDoWczytania/>
-      </div>
-      <div className='ostatnie_zagniezdzenie_edycja_bloku'>
-      <DaneDoWczytania/>
-      </div>
+      </div>*/}
       </div>
       
       
