@@ -10,12 +10,13 @@ class PostFavourite(Resource):
         favourite_service = FavouriteService()
         favval=FavouriteValidation()
         
-        if favval.is_favourite(id_property):
+        if not favval.is_favourite(id_property):
             favourite_service.addFavorite(id_property)
             return Response("Favourite added", status=201, mimetype='application/json')
         else:
             # Punish user for spam
-            sleep(99999)
+            #sleep(99999)
+            print("hej")
             
     
 class DeleteFavourite(Resource):

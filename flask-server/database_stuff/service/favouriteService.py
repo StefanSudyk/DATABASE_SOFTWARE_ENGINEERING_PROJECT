@@ -24,7 +24,7 @@ class FavouriteService:
         except Exception as e:
             return Response('Error: no favourite to delete. '+str(e), status=501, mimetype='application/json')
         
-    def get_favourite(self):
+    def get_favourite():
         id = current_user.id_user
         try:
             id_list=[]
@@ -35,7 +35,7 @@ class FavouriteService:
         except Exception as e:
             return Response('Error: no favourite to delete. '+str(e), status=501, mimetype='application/json')
         
-    def get_favourite(id_property):
+    def getfavourite(self, id_property):
         fav = Favourite.query.filter_by(id_property=id_property, id_user=id).first()
         if fav==None:
             return False
