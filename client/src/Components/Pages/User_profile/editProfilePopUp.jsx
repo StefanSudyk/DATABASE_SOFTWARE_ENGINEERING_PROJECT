@@ -1,51 +1,60 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // Make sure to install axios
+import axios from 'axios'; 
 import './editProfilePopUp.css'
 
-const EditDataPopup = ({ showPopup, setShowPopup }) => {
+const EditProfilePopup = ({ showPopup, setShowPopup, userId, setDataUpdated}) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
 
   // Fetch data from your API when the popup opens
   useEffect(() => {
     if (showPopup) {
-      axios.get('/your-api-endpoint') // Replace with your API endpoint
+      axios.get(`http://127.0.0.1:5000/get/${userId}`) // Fetch user data
         .then(response => {
-          setFirstName(response.data.firstName);
-          setLastName(response.data.lastName);
-          setEmail(response.data.email);
-          setPhoneNumber(response.data.phoneNumber);
-          setPassword(response.data.password);
-          setConfirmPassword(response.data.confirmPassword);
+          const userData = response.data;
+          setFirstName(userData.name || '');
+          setLastName(userData.surname || '');
+          setEmail(userData.email || '');
+          setPhoneNumber(userData.phone_number || '');
         })
         .catch(error => {
           console.error('Error fetching data', error);
         });
     }
-  }, [showPopup]);
-
+  }, [showPopup, userId]);
+  
   const handleSave = () => {
-
-    axios.post('/your-api-endpoint', { firstName, lastName, email, phoneNumber, password, confirmPassword }) // Replace with your API endpoint
-      .then(response => {
-        console.log('Data saved successfully');
-      })
-      .catch(error => {
-        console.error('Error saving data', error);
-      });
-
+    // Prepare the data to be sent
+    const data = {
+      name: firstName,
+      surname: lastName,
+      email: email,
+      phone_number: phoneNumber,
+      // Add other fields as needed
+    };
+  
+    // Send a PATCH request to update each user data field
+    Object.keys(data).forEach((field) => {
+      axios.patch(`http://127.0.0.1:5000/patch/${userId}/${field}`, { [field]: data[field] })
+        .then(response => {
+          console.log(`Data ${field} saved successfully`);
+          setDataUpdated(true);
+        })
+        .catch(error => {
+          console.error(`Error saving data ${field}`, error);
+        });
+    });
   
     setShowPopup(false);
   };
+  
 
   if (!showPopup) return null;
 
   return (
-    <div className='popup'>
+  <div className='popup'>
   <div className='popup_inner'>
     Edytuj dane
     <form className='popup-window-edit-data'>
@@ -77,20 +86,6 @@ const EditDataPopup = ({ showPopup, setShowPopup }) => {
         value={phoneNumber}
         onChange={e => setPhoneNumber(e.target.value)}
       />
-      <label className='popup-window-edit-data' htmlFor="password">Hasło:</label>
-      <input className='popup-window--edit-data-input'
-        type="password"
-        id="password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-      />
-      <label className='popup-window-edit-data' htmlFor="confirmPassword">Powtórz Hasło:</label>
-      <input className='popup-window--edit-data-input'
-        type="password"
-        id="confirmPassword"
-        value={confirmPassword}
-        onChange={e => setConfirmPassword(e.target.value)}
-      />
       <button className='button-popupWindow-Edit' onClick={handleSave}>Zapisz</button>
       <button className='button-popupWindow-Edit' onClick={() => setShowPopup(false)}>Close</button>
     </form>
@@ -99,4 +94,4 @@ const EditDataPopup = ({ showPopup, setShowPopup }) => {
 );
 };
 
-export default EditDataPopup;
+export default EditProfilePopup;
