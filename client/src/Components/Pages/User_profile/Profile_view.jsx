@@ -3,16 +3,17 @@ import './Profile_view.css'
 import Footer from '../../Footer/Footer.jsx'
 import axios from 'axios';
 import Offer_block from './Offer_block.jsx'
-import EditDataPopup from './editProfilePopUp.jsx'; 
+import EditProfilePopup from './editProfilePopUp.jsx'; 
 import EditCompanyPopup from './editCompanyPopUp.jsx';
+import EditPasswordPopUp from './editProfilePasswordPopUp.jsx';
+
 
 const ProfileView = () => {
+  
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
 
   const [companyName, setCompanyName] = useState('');
   const [regonNumber, setRegonNumber] = useState('');
@@ -22,10 +23,70 @@ const ProfileView = () => {
   const [buildingNumber, setBuildingNumber] = useState('');
   const [companyType, setCompanyType] = useState('');
 
+  //definition of constant to popupWindow
   const [showPopup, setShowPopup] = useState(false);
   const [showPopupCompany, setShowPopupCompany] = useState(false);
+  const [showPasswordPopUp, setShowPasswordPopUp] = useState(false);
 
+  const [dataUpdated, setDataUpdated] = useState(false);
 
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          console.error('No token found');
+          return;
+        }
+        
+        const response = await axios.get("http://127.0.0.1:5000/currentuser", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        const userData = response.data;
+
+        // Update state variables with the fetched user data
+        setFirstName(userData.name || '');
+        setLastName(userData.surname || '');
+        setEmail(userData.email || '');
+        setPhoneNumber(userData.phone_number || '');
+        // Assuming the user data includes a userId field
+        setUserId(userData.id_user);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`http://127.0.0.1:5000/get/${userId}`);
+        const userData = response.data;
+
+        // Update state variables with the fetched user data
+        setFirstName(userData.name || '');
+        setLastName(userData.surname || '');
+        setEmail(userData.email || '');
+        setPhoneNumber(userData.phone_number || '');
+        // Assuming the user data includes a userId field
+        setUserId(userData.id_user);
+      } catch (error) {
+        console.error(`Error fetching user data: ${error}`);
+      }
+    };
+
+    if (userId || dataUpdated) {
+      fetchUserData();
+      setDataUpdated(false);
+    }
+  }, [userId, dataUpdated]); 
+
+  
   return (
     <div className="container">
       <div className="content-container">
@@ -61,22 +122,6 @@ const ProfileView = () => {
               type="tel"
               id="phoneNumber"
               value={phoneNumber}
-              disabled
-            />
-
-            <label className='profile-form-label' htmlFor="password">Hasło:</label>
-            <input className='profile-input'
-              type="password"
-              id="password"
-              value={password}
-              disabled
-            />
-
-            <label className='profile-form-label' htmlFor="confirmPassword">Powtórz Hasło:</label>
-            <input className='profile-input'
-              type="password"
-              id="confirmPassword"
-              value={confirmPassword}
               disabled
             />
 
@@ -144,24 +189,30 @@ const ProfileView = () => {
         </form>
         </div>
         <div className='content-column'>
-            <button className='profile-button-style' >
-              Usuń Konto
+
+            <button className='profile-button-style' onClick={() => setShowPopup(true)}>
+            Edytuj dane
+            </button>
+            
+            <button className='profile-button-style' onClick={() => setShowPasswordPopUp(true)} >
+            Zmień hasło
             </button>
             
             <button className='profile-button-style'>
               Dodaj Firmę
-            </button>
-          
-            <button className='profile-button-style' onClick={() => setShowPopup(true)}>
-            Edytuj dane
             </button>
 
             <button className='profile-button-style' onClick={() => setShowPopupCompany(true)}>
               Edytuj dane firmy
             </button>
 
-            <EditDataPopup showPopup={showPopup} setShowPopup={setShowPopup} />
-            <EditCompanyPopup showPopupCompany={showPopupCompany} setShowPopupCompany={setShowPopupCompany} />
+            <button className='profile-button-style' >
+              Usuń Konto
+            </button>
+
+            <EditProfilePopup showPopup={showPopup} setShowPopup={setShowPopup} userId={userId} setDataUpdated={setDataUpdated} />
+            <EditCompanyPopup showPopupCompany={showPopupCompany} setShowPopupCompany={setShowPopupCompany} setDataUpdated={setDataUpdated} />
+            <EditPasswordPopUp showPopup={showPasswordPopUp} setShowPopup={setShowPasswordPopUp} userId={userId} setDataUpdated={setDataUpdated} />
 
         </div>
         <div className='profile-column'>
