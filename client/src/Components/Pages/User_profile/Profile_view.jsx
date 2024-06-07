@@ -6,7 +6,7 @@ import Offer_block from './Offer_block.jsx'
 import EditProfilePopup from './editProfilePopUp.jsx'; 
 import EditCompanyPopup from './editCompanyPopUp.jsx';
 import EditPasswordPopUp from './editProfilePasswordPopUp.jsx';
-
+import AddCompanyPopUp from './addCompanyPopUp.jsx';
 
 const ProfileView = () => {
   
@@ -27,10 +27,12 @@ const ProfileView = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [showPopupCompany, setShowPopupCompany] = useState(false);
   const [showPasswordPopUp, setShowPasswordPopUp] = useState(false);
+  const [showAddPopupCompany,setShowAddPopupCompany] = useState(false);
 
   const [dataUpdated, setDataUpdated] = useState(false);
 
   const [userId, setUserId] = useState(null);
+  const [companyId, setCompanyId] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,6 +57,7 @@ const ProfileView = () => {
         setPhoneNumber(userData.phone_number || '');
         // Assuming the user data includes a userId field
         setUserId(userData.id_user);
+        setCompanyId(userData.id_company); 
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -75,6 +78,7 @@ const ProfileView = () => {
         setPhoneNumber(userData.phone_number || '');
         // Assuming the user data includes a userId field
         setUserId(userData.id_user);
+        setCompanyId(userData.id_company);
       } catch (error) {
         console.error(`Error fetching user data: ${error}`);
       }
@@ -198,7 +202,10 @@ const ProfileView = () => {
             Zmień hasło
             </button>
             
-            <button className='profile-button-style'>
+            <button className='profile-button-style' onClick={() => {
+              setShowAddPopupCompany(true); 
+              console.log(showAddPopupCompany);
+            }} disabled={companyId !== null}>
               Dodaj Firmę
             </button>
 
@@ -213,6 +220,7 @@ const ProfileView = () => {
             <EditProfilePopup showPopup={showPopup} setShowPopup={setShowPopup} userId={userId} setDataUpdated={setDataUpdated} />
             <EditCompanyPopup showPopupCompany={showPopupCompany} setShowPopupCompany={setShowPopupCompany} setDataUpdated={setDataUpdated} />
             <EditPasswordPopUp showPopup={showPasswordPopUp} setShowPopup={setShowPasswordPopUp} userId={userId} setDataUpdated={setDataUpdated} />
+            <AddCompanyPopUp showAddPopupCompany={showAddPopupCompany} setShowAddPopupCompany={setShowAddPopupCompany} setDataUpdated={setDataUpdated}/>
 
         </div>
         <div className='profile-column'>
