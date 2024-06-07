@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from datetime import timedelta
 from flask_cors import CORS
 from flask_login import LoginManager
+from key import SECRET_KEY
 
 db = SQLAlchemy()
 
@@ -13,11 +14,10 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:password@localhost/housedb"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     #app.config['WTF_CSRF_ENABLED'] = False
-    app.secret_key = "testkey"
+    app.secret_key = SECRET_KEY
     app.permanent_session_lifetime = timedelta(minutes=5)  # session data will be stored for given amount of time
     
-    CORS(app) #do fetchowania na front
-    
+    CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}}, supports_credentials=True)
     db.init_app(app)
     
     from views.views_container import views
