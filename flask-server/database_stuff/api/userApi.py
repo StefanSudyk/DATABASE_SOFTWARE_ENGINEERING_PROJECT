@@ -1,4 +1,5 @@
-from flask import flash, jsonify, Response, request, session
+from datetime import datetime, timedelta
+from flask import flash, jsonify, Response, request, session, make_response
 from flask_restful import Resource, reqparse, fields, marshal_with, abort
 from flask_login import login_user, current_user, login_required, logout_user
 from models import *
@@ -6,6 +7,8 @@ from service.userService import UserService
 from userFilters import filter_by_usertype, filter_by_surname, filter_by_name, sort_users_by_surname, sort_users_by_name
 from validators.userValidator import Validation
 from werkzeug.security import check_password_hash, generate_password_hash
+from itsdangerous import BadSignature, SignatureExpired, URLSafeSerializer
+from key import SECRET_KEY
 
 resource_postuser_fields = {
     'name': fields.String,
@@ -22,8 +25,31 @@ resource_authenticate_fields = {
     'password': fields.String
 }
 
+def generate_token(user):
+   
+    serializer = URLSafeSerializer(SECRET_KEY)
+    expiration = datetime.now() + timedelta(hours=1)
+    expiration_str = expiration.isoformat()
+    token = serializer.dumps({'user_id': user.id_user, 'exp': expiration_str})
+
+    return token
+
+def verify_token(token):
+    try:
+        serializer = URLSafeSerializer(SECRET_KEY)
+        data = serializer.loads(token)
+
+        expiration = datetime.fromisoformat(data['exp'])
+        if expiration < datetime.now():
+            return None, "Token expired"
+
+        return data, None
+    except SignatureExpired:
+        return None, "Token expired"
+    except BadSignature:
+        return None, "Invalid token"
+
 class LoginUser(Resource):
-    @marshal_with(resource_authenticate_fields)
     def post(self):
         user_service = UserService()
 
@@ -41,30 +67,53 @@ class LoginUser(Resource):
             print("Logowanie się udało")
             print("Sesja po zalogowaniu:", session.items())
             print(current_user.is_authenticated)
-            return Response("Successfully logged!", status=201, mimetype='application/json')
+
+            return {
+                'message': 'Zalogowano pomyślnie!',
+                'user_id': user.id_user,
+                'token': generate_token(user)
+            }, 201
+
         else:
-            flash('Incorrect phone number or password', category='error')
             abort(501, message="Incorrect phone number or password")
 
 class CurrentUser(Resource):
-    @login_required
+    # @login_required
     def get(self):
-        print("Sesja w current user:", session.items())
-        print(type(current_user))
-        print(current_user)
-  
-        if current_user.is_authenticated:
-            return current_user.serialize()
+        if 'Authorization' not in request.headers:
+            print("Nie ma authorization")
+        token = request.headers.get('Authorization').split()[1]
+        print("TOKEN:", token)
+
+        if token is not None:
+            user_id = verify_token(token)[0]['user_id'] 
+            if user_id is not None:
+                print("USER ID: ", user_id)
+                user = User.query.get_or_404(user_id)
+                return user.serialize(), 200
+            else:
+                return 'Nieprawidłowy token.', 401
         else:
-            print("user not logged")
-            return Response('No user is logged in', status=501, mimetype='application/json')
+            return 'Brak tokenu uwierzytelniającego.', 401
+    
         
 class LogoutUser(Resource):
-    @login_required
-    def get(self):
-        logout_user()
-        flash('Logged out.', category='success')
-        return  Response('Logged out!', status=201, mimetype='application/json')
+    # @login_required
+    def post(self):
+        if 'Authorization' not in request.headers:
+            return 'Niepoprawne żądanie', 401
+        token = request.headers.get('Authorization').split()[1]
+        if token is not None:
+            user_id = verify_token(token)[0]['user_id'] 
+            print("TOKEN:", token)
+            if type(user_id) == int:
+                logout_user()
+                return  'Wylogowano!', 201
+            else:
+                return 'Błąd tokena', 401
+        else:
+            return 'Brak tokena', 401
+                    
 
 class GetUser(Resource):
     def get(self, user_id):
