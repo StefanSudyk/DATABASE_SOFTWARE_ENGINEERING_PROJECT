@@ -3,14 +3,15 @@ import axios from 'axios';
 import './editProfilePasswordPopUp.css';
 
 const EditProfilePasswordPopUp = ({ showPopup, setShowPopup, userId, setDataUpdated }) => {
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [notification, setNotification] = useState(null);
-
   const handleSave = () => {
     // Check if the form is empty or the passwords do not match
     if (!password || !confirmPassword) {
       setNotification('No field can be left empty');
+      return;
+    }
+  
+    if (password.length < 8) {
+      setNotification('Password should be at least 8 characters long');
       return;
     }
   
@@ -39,7 +40,7 @@ const EditProfilePasswordPopUp = ({ showPopup, setShowPopup, userId, setDataUpda
         setNotification('Error updating password');
       });
   };
-
+  
   const handleClose = () => {
     setPassword(''); // Clear the form
     setConfirmPassword(''); // Clear the form
@@ -54,23 +55,23 @@ const EditProfilePasswordPopUp = ({ showPopup, setShowPopup, userId, setDataUpda
       <div className='popup_inner'>
         Zmień hasło
         {notification && <div className="notification">{notification}</div>}
-        <form className='popup-window-edit-data'>
-          <label className='popup-window-edit-data' htmlFor="password">Hasło:</label>
-          <input className='popup-window--edit-data-input'
+        <form className='popup-window-password-data'>
+          <label className='popup-window-password-data' htmlFor="password">Hasło:</label>
+          <input className='popup-window--password-data-input'
             type="password"
             id="password"
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
-          <label className='popup-window-edit-data' htmlFor="confirmPassword">Powtórz Hasło:</label>
-          <input className='popup-window--edit-data-input'
+          <label className='popup-window-password-data' htmlFor="confirmPassword">Powtórz Hasło:</label>
+          <input className='popup-window--password-data-input'
             type="password"
             id="confirmPassword"
             value={confirmPassword}
             onChange={e => setConfirmPassword(e.target.value)}
           />
-          <button className='button-popupWindow-Edit' onClick={handleSave}>Zapisz</button>
-          <button className='button-popupWindow-Edit' onClick={handleClose}>Close</button>
+          <button className='button-popupWindow-Password' onClick={handleSave}>Zapisz</button>
+          <button className='button-popupWindow-Password' onClick={handleClose}>Close</button>
         </form>
       </div>
     </div>
