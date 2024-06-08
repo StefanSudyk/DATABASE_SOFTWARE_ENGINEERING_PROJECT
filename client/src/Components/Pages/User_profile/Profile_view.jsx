@@ -27,7 +27,7 @@ const ProfileView = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [showPopupCompany, setShowPopupCompany] = useState(false);
   const [showPasswordPopUp, setShowPasswordPopUp] = useState(false);
-  const [showAddPopupCompany,setShowAddPopupCompany] = useState(false);
+  const [showAddPopupCompany, setShowAddPopupCompany] = useState(false);
 
   const [dataUpdated, setDataUpdated] = useState(false);
 
@@ -82,6 +82,7 @@ const ProfileView = () => {
       } catch (error) {
         console.error(`Error fetching user data: ${error}`);
       }
+      
     };
 
     if (userId || dataUpdated) {
