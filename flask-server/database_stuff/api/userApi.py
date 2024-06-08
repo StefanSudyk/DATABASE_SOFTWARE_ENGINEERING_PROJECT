@@ -227,7 +227,8 @@ class PostUser(Resource):
             
 class EditUserInformation(Resource):
     """
-        :parameter action - name/surname/phone_number/password/email/usertype
+        :parameter action - name/surname/phone_number/password/email/usertype/id_company
+        jeśli id_company zostanie przekazany jako wartość -1, to znaczy ze chcemy usunąć powiązanie danych firmy z użytkownikiem
     """
 
     def patch(self, user_id, action: str):
@@ -239,6 +240,7 @@ class EditUserInformation(Resource):
         parser.add_argument('password', type=str)
         parser.add_argument('password_repeat', type=str)
         parser.add_argument('email', type=str)
+        parser.add_argument('id_company', type=int)
         parser.add_argument('usertype', type=str) #tu było type=enum i wywalało błąd
 
         args = parser.parse_args()
@@ -273,6 +275,12 @@ class EditUserInformation(Resource):
                 if validator.usertype_validation(args['usertype']):
                     user.usertype = args['usertype']
                     user_service.patch_user()
+            case "id_company:":
+                if args['id_company'] == -1:
+                    user.id_comapny = None
+                else:
+                    user.id_company = args['id_company']
+                user_service.patch_user()
             case _:
                 return Response("Invalid action", status=400, mimetype='application/json')
 
