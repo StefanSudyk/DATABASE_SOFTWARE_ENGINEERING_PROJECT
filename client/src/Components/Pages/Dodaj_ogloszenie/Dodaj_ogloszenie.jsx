@@ -1,15 +1,13 @@
 import React from 'react'
-import { Form } from './Form'
+import AdvertisementForm from './advertisementForm'
+import './Dodaj_ogloszenie.css'
 
 const Dodaj_ogloszenie = () => {
   return (
     
-    <><><div className='nawigfill'>a</div></>
-    <h1>DODAWANIE OGLOSZENIA!</h1>
-    
-    <Form/>
-    </>
-    
+    <div className='container-add-advertisement'>
+      <AdvertisementForm/>
+    </div>   
   )
 }
 
