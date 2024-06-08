@@ -3,6 +3,11 @@ import axios from 'axios';
 import './editProfilePasswordPopUp.css';
 
 const EditProfilePasswordPopUp = ({ showPopup, setShowPopup, userId, setDataUpdated }) => {
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [notification, setNotification] = useState(null); // Add this line
+
+
   const handleSave = () => {
     // Check if the form is empty or the passwords do not match
     if (!password || !confirmPassword) {
