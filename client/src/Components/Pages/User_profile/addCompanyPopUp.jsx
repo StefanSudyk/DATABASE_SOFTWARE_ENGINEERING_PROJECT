@@ -85,7 +85,6 @@ const AddCompanyPopUp = ({ showAddPopupCompany, setShowAddPopupCompany, setDataU
             value={companyName}
             onChange={e => setCompanyName(e.target.value)}
           />
-
           <label className='popup-window-company-add' htmlFor="regonNumber">Numer REGON:</label>
           <input className='popup-window--company-add-input'
             type="text"
@@ -93,7 +92,6 @@ const AddCompanyPopUp = ({ showAddPopupCompany, setShowAddPopupCompany, setDataU
             value={regonNumber}
             onChange={e => setRegonNumber(e.target.value)}
           />
-
           <label className='popup-window-company-add' htmlFor="nipNumber">NIP:</label>
           <input className='popup-window--company-add-input'
             type="text"
@@ -101,7 +99,6 @@ const AddCompanyPopUp = ({ showAddPopupCompany, setShowAddPopupCompany, setDataU
             value={nipNumber}
             onChange={e => setNipNumber(e.target.value)}
           />
-
           <label className='popup-window-company-add' htmlFor="postalCode">Kod pocztowy:</label>
           <input className='popup-window--company-add-input'
             type="text"
@@ -109,7 +106,6 @@ const AddCompanyPopUp = ({ showAddPopupCompany, setShowAddPopupCompany, setDataU
             value={postalCode}
             onChange={e => setPostalCode(e.target.value)}
           />
-
           <label className='popup-window-company-add' htmlFor="street">Ulica:</label>
           <input className='popup-window--company-add-input'
             type="text"

@@ -21,6 +21,7 @@ const ProfileView = () => {
   const [postalCode, setPostalCode] = useState('');
   const [street, setStreet] = useState('');
   const [buildingNumber, setBuildingNumber] = useState('');
+  const [city, setCity] = useState('');
   const [companyType, setCompanyType] = useState('');
 
   //definition of constant to popupWindow
@@ -33,6 +34,32 @@ const ProfileView = () => {
 
   const [userId, setUserId] = useState(null);
   const [companyId, setCompanyId] = useState(null);
+
+useEffect(() => {
+  const fetchCompanyData = async () => {
+    try {
+      const response = await axios.get(`http://127.0.0.1:5000/getcompany/${companyId}`);
+      const companyData = response.data;
+
+      // Update state variables with the fetched company data
+      setCompanyName(companyData.cp_name || '');
+      setRegonNumber(companyData.REGON || '');
+      setNipNumber(companyData.NIP || '');
+      setPostalCode(companyData.postal_code || '');
+      setStreet(companyData.street || '');
+      setCity(companyData.city || '');
+      setBuildingNumber(companyData.house_number || '');
+      setCompanyType(companyData.cp_type || '');
+    } catch (error) {
+      console.error(`Error fetching company data: ${error}`);
+    }
+  };
+
+  if (companyId ) {
+    fetchCompanyData();
+  }
+}, [companyId]); 
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -91,7 +118,6 @@ const ProfileView = () => {
     }
   }, [userId, dataUpdated]); 
 
-  
   return (
     <div className="container">
       <div className="content-container">
@@ -168,6 +194,14 @@ const ProfileView = () => {
             disabled
           />
 
+          <label className='profile-form-label' htmlFor="city">Miasto:</label>
+          <input className='profile-input'
+            type="text"
+            id="city"
+            value={city}
+            disabled
+          />
+
           <label className='profile-form-label' htmlFor="street">Ulica:</label>
           <input className='profile-input'
             type="text"
@@ -214,14 +248,10 @@ const ProfileView = () => {
               Edytuj dane firmy
             </button>
 
-            <button className='profile-button-style' >
-              Usuń Konto
-            </button>
-
             <EditProfilePopup showPopup={showPopup} setShowPopup={setShowPopup} userId={userId} setDataUpdated={setDataUpdated} />
-            <EditCompanyPopup showPopupCompany={showPopupCompany} setShowPopupCompany={setShowPopupCompany} setDataUpdated={setDataUpdated} />
             <EditPasswordPopUp showPopup={showPasswordPopUp} setShowPopup={setShowPasswordPopUp} userId={userId} setDataUpdated={setDataUpdated} />
             <AddCompanyPopUp showAddPopupCompany={showAddPopupCompany} setShowAddPopupCompany={setShowAddPopupCompany} setDataUpdated={setDataUpdated}/>
+            <EditCompanyPopup showPopupCompany={showPopupCompany} setShowPopupCompany={setShowPopupCompany} companyId={companyId} setDataUpdated={setDataUpdated} />
 
         </div>
         <div className='profile-column'>
