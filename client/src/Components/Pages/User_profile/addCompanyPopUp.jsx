@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'; 
 import './addCompanyPopUp.css'
 
+
 const AddCompanyPopUp = ({ showAddPopupCompany, setShowAddPopupCompany, setDataUpdated }) => {
+  // Add state variables for each field in the form
   const [companyName, setCompanyName] = useState('');
   const [regonNumber, setRegonNumber] = useState('');
   const [nipNumber, setNipNumber] = useState('');
@@ -11,28 +13,10 @@ const AddCompanyPopUp = ({ showAddPopupCompany, setShowAddPopupCompany, setDataU
   const [city, setCity] = useState('');
   const [buildingNumber, setBuildingNumber] = useState('');
   const [companyType, setCompanyType] = useState('');
-  const [token, setToken] = useState(null);
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setToken(token);
-    } else {
-      console.error('No token found');
-    }
-  }, []);
 
   const handleSave = async () => {
-    console.log('handleSave function called');
-    // Check if the form is empty
-    if (!companyName || !regonNumber || !nipNumber || !postalCode || !street || !city ||!buildingNumber || !companyType) {
-      console.error('Form validation failed: No field can be left empty');
-      alert('No field can be left empty');
-      return;
-    }
-  
-    // Prepare the data to be sent
-    const data = {
+    console.log('Zapisz button clicked'); // Debug message
+    const formData = {
       cp_name: companyName,
       REGON: regonNumber,
       NIP: nipNumber,
@@ -40,40 +24,26 @@ const AddCompanyPopUp = ({ showAddPopupCompany, setShowAddPopupCompany, setDataU
       street: street,
       city: city,
       house_number: buildingNumber,
-      cp_type: companyType,
-      // Add other fields as needed
+      cp_type: companyType
     };
-  
-    console.log('Data prepared for sending:', data);
+    console.log('Form data:', formData); // Debug message
   
     try {
-      // Send a POST request to add the company
-      console.log('Sending POST request...');
-      const response = await axios.post("http://127.0.0.1:5000/postcompany", data, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+      console.log('Sending POST request to http://127.0.0.1:5000/postcompany'); // Debug message
+      const response = await axios.post('http://127.0.0.1:5000/postcompany', formData);
   
-      if (response.status !== 200) {
-        console.error(`Unexpected response code: ${response.status}`);
-        alert(`Unexpected response code: ${response.status}`);
-        return;
+      console.log('Response:', response); // Debug message
+  
+      if (response.status === 201) {
+        console.log('Company added successfully');
+        setDataUpdated(true);  // If you want to trigger a re-render or fetch in parent component
+      } else {
+        console.log('Unexpected status code:', response.status); // Debug message
       }
-  
-      console.log('Company added successfully');
-      alert('Company added successfully');
-      setDataUpdated(true); // Set dataUpdated to true after successful addition
     } catch (error) {
-      console.error('Error adding company', error);
-      alert(`Error adding company: ${error.message}`);
+      console.error('Error adding company:', error);
     }
-  
-    setShowAddPopupCompany(false); // Close the popup
   };
-  
-
-  if (!showAddPopupCompany) return null; // Show the popup only if showAddPopupCompany is true
 
   return (
     <div className='popup'>
@@ -140,7 +110,7 @@ const AddCompanyPopUp = ({ showAddPopupCompany, setShowAddPopupCompany, setDataU
             <option value="Estate agency">Estate Agency</option>
           </select>
 
-          <button className='button-popupWindow-Company' type="submit" onClick={handleSave}>Zapisz</button>
+          <button className='button-popupWindow-Company' type="submit">Zapisz</button>
           <button className='button-popupWindow-Company' onClick={() => 
             {
               setShowAddPopupCompany(false);
