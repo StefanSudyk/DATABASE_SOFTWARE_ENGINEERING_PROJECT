@@ -5,6 +5,8 @@ from service.companyService import CompanyService
 import re
 from flask_restful import abort
 from validators.companyValidator import CompanyValidation
+from flask_login import current_user
+
 resource_postcompany_fields = {
     'cp_name': fields.String,
     'REGON': fields.String,
@@ -13,7 +15,8 @@ resource_postcompany_fields = {
     'street': fields.String,
     'city': fields.String,
     'house_number': fields.String,
-    'cp_type': fields.String
+    'cp_type': fields.String,
+    'id_user': fields.Integer
 }
 
 
@@ -30,6 +33,7 @@ class PostCompany(Resource):
         parser.add_argument('city', type=str, required=True, help='City is essential')
         parser.add_argument('house_number', type=str, required=True, help='House number is essential') 
         parser.add_argument('cp_type', type=str, required=True, help='Choose a company type') 
+        parser.add_argument('id_user', type=int, required=True, help='No id user') 
 
         args = parser.parse_args()
         validator = CompanyValidation()
@@ -43,8 +47,9 @@ class PostCompany(Resource):
             validator.house_number_validation(args['house_number']) and
             validator.cp_type_validation(args['cp_type'])):
 
+            id=args['id_user']
             company_service = CompanyService()
-            company_service.add_company(args)
+            company_service.add_company(args, id)
             return Response("company added", status=201, mimetype='application/json')
         
         else:

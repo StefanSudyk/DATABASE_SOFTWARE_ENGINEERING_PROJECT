@@ -1,8 +1,11 @@
-from models import db, Company
-from flask import Response, jsonify
+from models import User, db, Company
+from flask import Response, jsonify 
+from flask_login import current_user
+from service.userService import UserService
+
 
 class CompanyService:
-    def add_company(self, company_data):
+    def add_company(self, company_data, id):
         new_company = Company(
             cp_name=company_data['cp_name'], #nazwa firmy
             REGON=company_data['REGON'],
@@ -16,6 +19,12 @@ class CompanyService:
         
         db.session.add(new_company)
         db.session.commit()
+
+        user_service = UserService()
+        user = User.query.get_or_404(id)
+        user.id_company = new_company.id_company
+        user_service.patch_user()
+
 
         #tutaj pasowałoby przechwycić utworzone company id i przypisać je do
         #aktualnie zalogowanego użytkownika

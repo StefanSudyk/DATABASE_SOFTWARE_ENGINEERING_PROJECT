@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'; 
 import './addCompanyPopUp.css'
 
-
-const AddCompanyPopUp = ({ showAddPopupCompany, setShowAddPopupCompany, setDataUpdated }) => {
+const AddCompanyPopUp = ({ showAddPopupCompany, setShowAddPopupCompany, setDataUpdated}) => {
   // Add state variables for each field in the form
   const [companyName, setCompanyName] = useState('');
   const [regonNumber, setRegonNumber] = useState('');
@@ -13,6 +12,32 @@ const AddCompanyPopUp = ({ showAddPopupCompany, setShowAddPopupCompany, setDataU
   const [city, setCity] = useState('');
   const [buildingNumber, setBuildingNumber] = useState('');
   const [companyType, setCompanyType] = useState('');
+  const [userId, setUserId] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          console.error('No token found');
+          return;
+        }
+        
+        const response = await axios.get("http://127.0.0.1:5000/currentuser", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        const userData = response.data;
+
+        setUserId(userData.id_user);
+
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleSave = async () => {
     console.log('Zapisz button clicked'); // Debug message
@@ -24,7 +49,8 @@ const AddCompanyPopUp = ({ showAddPopupCompany, setShowAddPopupCompany, setDataU
       street: street,
       city: city,
       house_number: buildingNumber,
-      cp_type: companyType
+      cp_type: companyType,
+      id_user: userId
     };
     console.log('Form data:', formData); // Debug message
   
@@ -37,19 +63,21 @@ const AddCompanyPopUp = ({ showAddPopupCompany, setShowAddPopupCompany, setDataU
       if (response.status === 201) {
         console.log('Company added successfully');
         setDataUpdated(true);  // If you want to trigger a re-render or fetch in parent component
-      } else {
-        console.log('Unexpected status code:', response.status); // Debug message
+        setShowAddPopupCompany(false); // Close the window
+
       }
     } catch (error) {
       console.error('Error adding company:', error);
     }
   };
 
+  if (!showAddPopupCompany) return null; // Add this line
+
   return (
     <div className='popup'>
       <div className='popup_inner'>
         Dane firmy
-        <form className='popup-window-company-add' onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
+        <form className='popup-window-company-add' onSubmit={(e) => { e.preventDefault(); handleSave(); }} >
           <label className='popup-window-company-add' htmlFor="companyName">Nazwa Firmy: </label>
           <input className='popup-window--company-add-input'
             type="text"
@@ -110,7 +138,7 @@ const AddCompanyPopUp = ({ showAddPopupCompany, setShowAddPopupCompany, setDataU
             <option value="Estate agency">Estate Agency</option>
           </select>
 
-          <button className='button-popupWindow-Company' type="submit">Zapisz</button>
+          <button className='button-popupWindow-Company' type="submit" >Zapisz</button>
           <button className='button-popupWindow-Company' onClick={() => 
             {
               setShowAddPopupCompany(false);
