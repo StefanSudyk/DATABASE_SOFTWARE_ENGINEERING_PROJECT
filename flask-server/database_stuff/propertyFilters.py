@@ -51,3 +51,8 @@ def filter_by_finishing_standard(finishing_standard):
     return properties
 
     
+#filtrowanie po użytkowniku
+
+def filter_by_user(id_user):
+    properties = Property.query.filter(Property.id_owner==id_user).all()
+    return properties
