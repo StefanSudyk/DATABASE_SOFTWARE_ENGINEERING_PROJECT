@@ -2,7 +2,6 @@ import React, { useEffect, useState} from 'react'
 import './Profile_view.css'
 import Footer from '../../Footer/Footer.jsx'
 import axios from 'axios';
-import Offer_block from './Offerblock.jsx'
 import EditProfilePopup from './editProfilePopUp.jsx'; 
 import EditCompanyPopup from './editCompanyPopUp.jsx';
 import EditPasswordPopUp from './editProfilePasswordPopUp.jsx';
@@ -161,7 +160,7 @@ useEffect(() => {
         </div>
 
         <div className="form-container">
-        <label htmlFor="" className="title-of-form">Dane firmy:</label>
+        <label className="title-of-form">Dane firmy:</label>
         <form className='profile-form'>
           <label className='profile-form-label' htmlFor="companyName">Nazwa Firmy: </label>
           <input className='profile-input'

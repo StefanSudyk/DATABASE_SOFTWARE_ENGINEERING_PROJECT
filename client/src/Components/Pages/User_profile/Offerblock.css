@@ -31,7 +31,7 @@
 }
 
 .offer-box h2 {
-  font-size: 1.2em;
+  font-size: 0.8rem;
   margin-bottom: 10px;
   color: #333;
 }
@@ -47,7 +47,7 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 0.8rem; /* default font size */
+  font-size: 0.8rem; 
   margin-bottom: 10px;
   width: 80%;
   transition: background-color 0.3s ease;

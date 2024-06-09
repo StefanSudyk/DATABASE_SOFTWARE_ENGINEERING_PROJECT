@@ -15,6 +15,7 @@ function OfferBlock({ offer }) {
 
   // Handler for the Delete button
   const handleDelete = () => {
+    console.log('Delete button clicked'); // Debug message
     setConfirmIsOpen(true);
   };
 
@@ -27,6 +28,8 @@ function OfferBlock({ offer }) {
     setConfirmIsOpen(false);
     // Do something after the property is deleted
   };
+
+  
 
   // Handler for the Close button in the confirmation popup
   const handleClose = () => {
