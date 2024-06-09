@@ -6,6 +6,7 @@ import './Offerlist.css'
 function OfferList() {
   const [offers, setOffers] = useState([]);
   const [userId, setUserId] = useState(null);
+  const [dataUpdated, setRefresh] = useState(false); // Add this line
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,13 +44,13 @@ function OfferList() {
       .catch(error => {
         console.error('There was an error!', error);
       });
-  }, [userId]);
-
+  }, [userId, dataUpdated]);
+  
   return (
     <div>
       {offers.map((offer, index) => {
         console.log(`Rendering offer ${index}:`, offer); // Debug message
-        return <OfferBox key={index} offer={offer} />;
+        return <OfferBox key={index} offer={offer} setRefresh={setRefresh} />;
       })}
     </div>
   );
