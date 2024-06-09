@@ -148,6 +148,7 @@ class GetAllProperty(Resource):
         street = request.args.get('street')
         district = request.args.get('district')
         condition = request.args.get('condition')
+        user = request.args.get('user')
         #tak btw finishing_standard to typ nieruchomosci a condition poziom wykonczenia xD
         try:
             if price_range:
@@ -164,6 +165,8 @@ class GetAllProperty(Resource):
                 properties = filter_by_address(country, locality, street, district)
             elif condition:
                 properties = filter_by_condition(condition)
+            elif user:
+                properties = filter_by_user(user)
             else:
                 properties = Property.query.all()
 
@@ -173,7 +176,7 @@ class GetAllProperty(Resource):
             # Pobieranie zdjęć przypisanych do właściwości
             photos = Photo.query.filter(Photo.id_property.in_([property.id_property for property in properties])).all()
 
-            if price_range is not None or metrage_range is not None or finishing_standard is not None or nr_rooms is not None or country is not None or condition is not None:
+            if price_range is not None or metrage_range is not None or finishing_standard is not None or nr_rooms is not None or country is not None or condition is not None or user is not None:
                 return property_service.get_properties_and_photos(properties, photos)
             else:
                 addresses = Address.query.all()
