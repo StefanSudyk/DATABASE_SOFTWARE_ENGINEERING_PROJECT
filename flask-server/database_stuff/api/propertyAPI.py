@@ -192,6 +192,7 @@ class PostProperty(Resource):
     def post(self):
         parser = reqparse.RequestParser()
         #Property
+        parser.add_argument('id_owner', type=str, required=True, help='Owner is essential')
         parser.add_argument('title', type=str, required=True, help='Title is essential')
         parser.add_argument('price', type=float, required=True, help='Price is essential')
         parser.add_argument('square_metrage', type=float, required=True, help='Square metrage is essential')
@@ -261,7 +262,7 @@ class PostProperty(Resource):
 
         #id = db.session.execute(select(User.id_user).where(User.phone_number == session['phonenumber'])).first()
         #id = db.session.execute(select(User.id_user).where(User.phone_number == '222222222')).first()
-        id = current_user.id_user
+        id = args['id_owner']
         new_property = Property(
             #id_property=property_id,
             id_owner=id,

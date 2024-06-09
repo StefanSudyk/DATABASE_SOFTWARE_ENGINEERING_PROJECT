@@ -6,9 +6,6 @@ import axios from 'axios'
 
 const advertisementForm = () => { 
 
-  //user
-  const [userId, setUserId] = useState("");
-  
   //Podstawowe
    const [title, setTitle] = useState(" ");
    const [price, setPrice] = useState(" ");
@@ -113,6 +110,10 @@ const advertisementForm = () => {
       });
     };
   */
+
+  //user
+  const [userId, setUserId] = useState(null);
+  
  
     useEffect(() => {
       const fetchData = async () => {
@@ -134,16 +135,23 @@ const advertisementForm = () => {
   
         } catch (error) {
           console.error('Error fetching user data:', error);
+          console.error('Error details:', error.response); // Debug message
         }
       };
       fetchData();
     }, []);
 
-    
+    console.log(userId);
 const handleSubmit = async (event) => {
   event.preventDefault();
 
-  const publicationDate = new Date().toISOString(); // handling date
+  const date = new Date();
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // January is 0!
+  const year = date.getFullYear();
+
+  const publicationDate = `${day}.${month}.${year}`;
+
 
   const pricePerMeter = price / squareMetrage; //handling p_p_metrage
 
@@ -167,7 +175,7 @@ const handleSubmit = async (event) => {
     'house_number': houseNumber,
     'coordinates': coordinates,
 
-    'address_photo': imageBase64String,
+    'address_photo': description,
     'description_photo': description,
     'photo':imageBase64String,
     
@@ -209,11 +217,11 @@ const handleSubmit = async (event) => {
 
     if (response.status === 201) {
       console.log('Advertisement added successfully');
-      setDataUpdated(true);  // If you want to trigger a re-render or fetch in parent component
-      setShowAddPopupAdvertisement(false); // Close the window
+
     }
   } catch (error) {
     console.error('Error adding advertisement:', error);
+    console.error('Error details:', error.response); // Debug message
   }
 };
 
