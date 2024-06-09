@@ -1,41 +1,45 @@
-.container{
-  display:flex;
-  flex-direction: column;
-  padding-top: 18vh;
+/*.offer-box {
+  border: 1px solid #000;
+  padding: 20px;
+  margin-bottom: 1vh;
+  width: 100vh;
 }
 
-.content-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(50vh, 1fr));
-  grid-gap: 20px;
-  align-items: start;
-  font-size: 5vh;
-  margin-inline: 5vh;
+.offer-box h2, .offer-box p {
+  margin: 0 0 10px 0;
 }
 
-.profile-form{
-  display: flex;
-  flex-direction: column;
-  padding-inline: 2vh;
+.offer-box button {
+  margin-right: 10px;
 }
 
-.profile-form-label{
-  text-align: left;
-  font-size: 3vh;
-  width: 100%;
-  font-family: 'Poppins', 'sans-serif';
+/* For devices with screen width greater than 600px */
+/*
+@media (min-width: 600px) {
+  .offer-box {
+    width: 300px;
+  }
+}
+*/
+
+.offer-box {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 10px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
 }
 
-.profile-input{
-  width: 40vh;
-  margin: 1vh 0;
-  font-size: 3vh;
+.offer-box h2 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  color: #333;
 }
 
-.Edit{
-  align-self: flex-end;
+.offer-box p {
+  margin-bottom: 5px;
+  color: #555;
 }
-
 .profile-button-style{
   background-color: #53708e;
   color: white;
@@ -65,24 +69,14 @@
   .profile-button-style:hover {
     background-color: #405d6a; /* Change to the color you want when hovered */
   }
-  
-  /* Increase space between buttons */
-  .profile-button-style + .profile-button-style {
-    margin-top: 20px; /* Adjust this value to your liking */
-  }
 
-
-.content-column {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* centers the buttons horizontally */
-  justify-content: center; /* centers the buttons vertically */
-  height: 100vh;
-}
-
-.third-column-content {
+.offer-box .button-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  margin-top: 20px;
+}
+
+.offer-box .button-container button {
+  margin: 0 5px;
 }
