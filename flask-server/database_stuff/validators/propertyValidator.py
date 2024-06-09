@@ -19,11 +19,12 @@ class propertyValidation(Resource):
             return True
         
     def house_nr_validation(self, house_number):
-        if len(house_number) != 6 or not house_number[0].isdigit():
-            abort(401, message="Enter a correct house number (exactly 6 characters, first character must be a digit)")
+        if len(house_number) > 6 or not house_number[0].isdigit():
+            abort(401, message="Enter a correct house number (maximum 6 characters, first character must be a digit)")
             return False
         else:
             return True
+
         
     def address_unique(self,address):
         propertyservice=PropertyService()
