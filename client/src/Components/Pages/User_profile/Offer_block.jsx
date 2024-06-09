@@ -15,12 +15,16 @@ function OfferBox() {
       });
   }, []);
 
+  const handleSave = () => {
+
+  };
+
   return (
     <div className="offer-container">
       <h2>{offer.title}</h2>
       <p>{offer.date}</p>
-      <button onClick={() => { /* Logic to edit offer goes here */ }}>Edit</button>
-      <button onClick={() => { /* Logic to delete offer goes here */ }}>Delete</button>
+      <button >Edit</button>
+      <button >Delete</button>
     </div>
   );
 }
