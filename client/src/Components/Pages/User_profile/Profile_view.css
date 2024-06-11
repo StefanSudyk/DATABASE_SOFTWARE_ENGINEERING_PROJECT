@@ -6,10 +6,11 @@
 
 .content-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(50vh, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(40vh, 1fr));
   grid-gap: 20px;
   align-items: start;
   font-size: 5vh;
+  margin-inline: 5vh;
 }
 
 .profile-form{
@@ -77,4 +78,11 @@
   align-items: center; /* centers the buttons horizontally */
   justify-content: center; /* centers the buttons vertically */
   height: 100vh;
+}
+
+.third-column-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }

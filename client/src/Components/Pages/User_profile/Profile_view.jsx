@@ -2,11 +2,11 @@ import React, { useEffect, useState} from 'react'
 import './Profile_view.css'
 import Footer from '../../Footer/Footer.jsx'
 import axios from 'axios';
-import Offer_block from './Offer_block.jsx'
 import EditProfilePopup from './editProfilePopUp.jsx'; 
 import EditCompanyPopup from './editCompanyPopUp.jsx';
 import EditPasswordPopUp from './editProfilePasswordPopUp.jsx';
 import AddCompanyPopUp from './addCompanyPopUp.jsx';
+import OfferList from './Offerlist.jsx';
 
 const ProfileView = () => {
   
@@ -160,7 +160,7 @@ useEffect(() => {
         </div>
 
         <div className="form-container">
-        <label htmlFor="" className="title-of-form">Dane firmy:</label>
+        <label className="title-of-form">Dane firmy:</label>
         <form className='profile-form'>
           <label className='profile-form-label' htmlFor="companyName">Nazwa Firmy: </label>
           <input className='profile-input'
@@ -252,11 +252,11 @@ useEffect(() => {
             <EditPasswordPopUp showPopup={showPasswordPopUp} setShowPopup={setShowPasswordPopUp} userId={userId} setDataUpdated={setDataUpdated} />
             <AddCompanyPopUp showAddPopupCompany={showAddPopupCompany} setShowAddPopupCompany={setShowAddPopupCompany} setDataUpdated={setDataUpdated}/>
             <EditCompanyPopup showPopupCompany={showPopupCompany} setShowPopupCompany={setShowPopupCompany} companyId={companyId} setDataUpdated={setDataUpdated} />
-
+            
         </div>
         <div className='profile-column'>
           <div className="third-column-content">
-          <Offer_block/>
+          <OfferList />
           </div>
         </div>  
       </div>

@@ -251,7 +251,7 @@ class PostProperty(Resource):
         validator=propertyValidation()
         property_service = PropertyService()
         if not (validator.postal_validation(args['postal_code'])and
-            # validator.house_nr_validation(args['house_number'])and
+            validator.house_nr_validation(args['house_number'])and
             # validator.title_validation(args['title'])and
             validator.price_validation(args['price'])and
             validator.sq_metrage_validation(args['square_metrage'])and
