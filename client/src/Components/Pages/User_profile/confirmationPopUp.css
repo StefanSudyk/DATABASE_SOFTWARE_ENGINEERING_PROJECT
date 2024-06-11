@@ -1,0 +1,59 @@
+.popup-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirmation-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid black;
+}
+
+.confirmation-notification-button{
+  background-color: #53708e;
+  color: white;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.8rem; 
+  margin-bottom: 10px;
+  width: 80%;
+  transition: background-color 0.3s ease;
+    /* responsive width */
+    @media (max-width: 480px) {
+      font-size: 0.4rem; /* smaller font size for small screens */
+      width: 100%; /* full width for small screens */
+    }
+    @media (min-width: 768px) {
+      font-size: 0.6rem; /* larger font size for medium screens */
+      width: 90%; /* 90% width for medium screens */
+    }
+    @media (min-width: 1200px) {
+      font-size: 0.8rem; /* even larger font size for large screens */
+      width: 80%; /* 80% width for large screens */
+    }
+  }
+
+.confirmation-notification-button:hover {
+  background-color: #405d6a; /* Change to the color you want when hovered */
+}
+
+.confirmation-button-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 2vh;
+}

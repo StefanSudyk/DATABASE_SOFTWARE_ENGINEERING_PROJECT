@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react'
+import { Link } from 'react-router-dom'
+import React,{useState, useEffect} from 'react'
 import './advertisementForm.css'
 import axios from 'axios'
 
@@ -57,6 +58,11 @@ const advertisementForm = () => {
    //Addons
    const [publicationDate, setPublicationDate] = useState('');
 
+   //Checkbox addons
+   const [showAdditionalInfo, setShowAdditionalInfo] = useState(false);
+
+  const [notification, setNotification] = useState(null); 
+  const [showPopup, setShowPopup] = useState(false);
   const [images, setImages] = useState([{ name: 'image1', required: true }]);
 
   const addImage = () => {
@@ -141,7 +147,12 @@ const advertisementForm = () => {
       fetchData();
     }, []);
 
-    console.log(userId);
+  const handleClose = () => {
+    setShowPopup(false);
+  };
+    
+console.log(userId);
+
 const handleSubmit = async (event) => {
   event.preventDefault();
 
@@ -151,7 +162,6 @@ const handleSubmit = async (event) => {
   const year = date.getFullYear();
 
   const publicationDate = `${day}.${month}.${year}`;
-
 
   const pricePerMeter = price / squareMetrage; //handling p_p_metrage
 
@@ -173,7 +183,7 @@ const handleSubmit = async (event) => {
     'street': street,
     'postal_code': postalCode,
     'house_number': houseNumber,
-    'coordinates': coordinates,
+    'coordinates': userId ,//coordinates,
 
     'address_photo': description,
     'description_photo': description,
@@ -190,11 +200,12 @@ const handleSubmit = async (event) => {
     'condition_':conditionInside,
     'description':description,
 
-    'shop_distance':shopDistance,
-    'park_distance':parkDistance,
-    'playground_distance':playgroundDistance,
-    'kindergarden_distance':kindergardenDistance,
-    'school_distance':schoolDistance,
+   'shop_distance': shopDistance || "0",
+    'park_distance': parkDistance || "0",
+    'playground_distance': playgroundDistance || "0",
+    'kindergarden_distance': kindergardenDistance || "0",
+    'school_distance': schoolDistance || "0",
+
     'bicycle_rack':bicycleRack,
     'car_parking_space':carParkingSpace,
 
@@ -215,11 +226,19 @@ const handleSubmit = async (event) => {
 
     console.log('Response:', response); // Debug message
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       console.log('Advertisement added successfully');
-
+      setNotification('Advertisement added successfully. Redirecting...');
+      setShowPopup(true); // Show the popup
+      setTimeout(() => {
+        setNotification(null);
+        setShowPopup(false); // Hide the popup after 2 seconds
+        // Redirect the user here
+      }, 2000);
     }
   } catch (error) {
+    setNotification('Error adding advertisement. Please try again.');
+    setShowPopup(true); // Show the popup
     console.error('Error adding advertisement:', error);
     console.error('Error details:', error.response); // Debug message
   }
@@ -294,11 +313,12 @@ const handleSubmit = async (event) => {
         required onChange={(e) => setHouseNumber(e.target.value)} 
         /><br /><br />
 
+      {/*
         <label className='advertisement-label' htmlFor="coordinates">Koordynaty:</label>
         <input className='advertisement-input' type="text" name="coordinates"
         placeholder="e.g. 40.7128, -74.0060"
         required onChange={(e) => setCoordinates(e.target.value)} />
-      <br /><br />
+      <br /><br /> */}
 
       </div>
 
@@ -395,38 +415,47 @@ const handleSubmit = async (event) => {
         </select><br /><br />
       </div>
 
-      <div className="div-advertisement">
-        <p className='advertisement-paragraph'>Informacje dodatkowe:</p>
+      <div className="div-advertisement-container">
+      <p className='advertisement-paragraph'>Informacje dodatkowe:</p>
         <label className='advertisement-label' htmlFor="description">Opis: </label>
         <input className='advertisement-input' type="text" name="description" 
         required onChange={(e) => setDescription(e.target.value)} 
         /><br /><br />
 
+      <label className='advertisement-label' htmlFor="showAdditionalInfo">Dodaj dodatkowe informacje:</label>
+      <input type="checkbox" id="showAdditionalInfo" name="showAdditionalInfo" 
+      onChange={() => setShowAdditionalInfo(!showAdditionalInfo)} />
+
+      {showAdditionalInfo && (
+        <div className="div-advertisement">
+
+
         <label className='advertisement-label' htmlFor="shopDistance">Odległość od sklepu (metry):</label>
         <input className='advertisement-input' type="number" min='0' name="shopDistance" 
-        required onChange={(e) => setShopDistance(e.target.value)} />
+        onChange={(e) => setShopDistance(e.target.value)} />
         <br /><br />
 
         <label className='advertisement-label' htmlFor="parkDistance">Odległość od parku (metry):</label>
         <input className='advertisement-input' type="number" min='0' name="parkDistance" 
-        required onChange={(e) => setParkDistance(e.target.value)} />
+        onChange={(e) => setParkDistance(e.target.value)} />
         <br /><br />
 
         <label className='advertisement-label' htmlFor="playgroundDistance">Odległość od placu zabaw (metry):</label>
         <input className='advertisement-input' type="number" min='0' name="playgroundDistance" 
-        required onChange={(e) => setPlaygroundDistance(e.target.value)} />
+        onChange={(e) => setPlaygroundDistance(e.target.value)} />
         <br /><br />
 
         <label className='advertisement-label' htmlFor="kindergardenDistance">Odległość od przedszkola (metry):</label>
         <input className='advertisement-input' type="number" min='0' name="kindergardenDistance" 
-        required onChange={(e) => setKindergardenDistance(e.target.value)} />
+         onChange={(e) => setKindergardenDistance(e.target.value)} />
         <br /><br />
 
         <label className='advertisement-label' htmlFor="schoolDistance">Odległość od szkoły (metry):</label>
         <input className='advertisement-input' type="number" min='0' name="schoolDistance" 
-        required onChange={(e) => setSchoolDistance(e.target.value)} />
+         onChange={(e) => setSchoolDistance(e.target.value)} />
         <br /><br />
-
+        </div>
+        )}
       </div>
 
       <p className='advertisement-paragraph'>Multimedia</p>
@@ -442,6 +471,7 @@ const handleSubmit = async (event) => {
 
       <button type="button" onClick={addImage}>Dodaj zdjęcie</button><br /><br />
       */}
+
       <p className='advetimest-paragraph'>Dodatkowe:</p>
       <label>Dodaj promowanie oferty:</label>
       <input type="checkbox" name="promotion" value="1" onChange={(e) => setSponsored(e.target.checked)} />
@@ -451,6 +481,16 @@ const handleSubmit = async (event) => {
       <input type="checkbox" name="agreement" required /><br /><br />
 
       <button type="submit">Wyślij</button>
+
+      {showPopup && (
+      <div className="popup-notify">
+        <div className="popup-inner-notify">
+          {notification}
+          {notification.startsWith('Advertisement added successfully') && <Link to="/">Go back to home</Link>}  
+          <button onClick={handleClose} className="close-button">Close</button>
+        </div>
+      </div>
+      )}
     </form>
   </div>
   );
