@@ -122,10 +122,12 @@ class PropertyService:
         return Response("Company data updated", status=204, mimetype='application/json')
     
 
-    def get_properties_and_photos(self, properties, photos):
-
+    def get_properties_and_photos(self, properties, photos, addresses, infrastructures, insides):
         photos_dict = {photo.id_property: photo for photo in photos}
-        
+        addresses_dict = {address.id_property: address for address in addresses}
+        infrastructures_dict = {infrastructure.id_property: infrastructure for infrastructure in infrastructures}
+        insides_dict = {inside.id_property: inside for inside in insides}
+
         return jsonify([{
             'property': {
                 'id_property': property.id_property,
@@ -138,6 +140,37 @@ class PropertyService:
                 'p_p_meter': property.p_p_meter,
                 'sponsored': property.sponsored
             },
+            'address': {
+                'coordinates': addresses_dict[property.id_property].coordinates,
+                'county': addresses_dict[property.id_property].county,
+                'district': addresses_dict[property.id_property].district,
+                'house_number': addresses_dict[property.id_property].house_number,
+                'locality': addresses_dict[property.id_property].locality,
+                'postal_code': addresses_dict[property.id_property].postal_code,
+                'region': addresses_dict[property.id_property].region,
+                'street': addresses_dict[property.id_property].street
+            } if property.id_property in addresses_dict else {},
+            'infrastructure': {
+                'bicycle_rack': infrastructures_dict[property.id_property].bicycle_rack,
+                'car_parking_space': infrastructures_dict[property.id_property].car_parking_space,
+                'kindergarden_distance': infrastructures_dict[property.id_property].kindergarden_distance,
+                'park_distance': infrastructures_dict[property.id_property].park_distance,
+                'playground_distance': infrastructures_dict[property.id_property].playground_distance,
+                'school_distance': infrastructures_dict[property.id_property].school_distance,
+                'shop_distance': infrastructures_dict[property.id_property].shop_distance
+            } if property.id_property in infrastructures_dict else {},
+            'inside': {
+                'attic': insides_dict[property.id_property].attic,
+                'basement': insides_dict[property.id_property].basement,
+                'condition_': insides_dict[property.id_property].condition_,
+                'description': insides_dict[property.id_property].description,
+                'nr_balconies': insides_dict[property.id_property].nr_balconies,
+                'nr_bathrooms': insides_dict[property.id_property].nr_bathrooms,
+                'nr_floors': insides_dict[property.id_property].nr_floors,
+                'nr_garages': insides_dict[property.id_property].nr_garages,
+                'nr_rooms': insides_dict[property.id_property].nr_rooms,
+                'type_of_heating': insides_dict[property.id_property].type_of_heating
+            } if property.id_property in insides_dict else {},
             'photos': [{
                 'address_photo': photos_dict[property.id_property].address_photo,
                 'photo': base64.b64encode(photos_dict[property.id_property].photo).decode('utf-8'),
