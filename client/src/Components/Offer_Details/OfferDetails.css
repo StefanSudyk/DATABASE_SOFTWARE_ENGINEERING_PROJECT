@@ -1,0 +1,31 @@
+.Offer-Details-container{
+  padding-top: 16vh;
+  display: flex;
+  border: 1px solid #ccc;
+  margin: 10px;
+}
+
+
+.property-image {
+  width: 50%;
+  position: relative;
+}
+
+.property-image img {
+  width: 100%;
+  height: auto;
+}
+
+.property-contact {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px;
+}
+
+.property-details {
+  width: 50%;
+  padding: 10px;
+}
