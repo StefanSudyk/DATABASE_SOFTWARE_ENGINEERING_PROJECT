@@ -1,9 +1,10 @@
 .login-all{
     display: flex;
+    
     justify-content: center; /* Wyśrodkowanie w poziomie */
     align-items: center; /* Wyśrodkowanie w pionie */
     height: 100vh; /* Możesz dostosować wysokość */
-    background: rgba(10,10,10,0.8);
+    background: rgba(224, 223, 223, 0.8);
 }
 .login-photo{
     background-image: url('../../../assets/dom_login.png');
@@ -15,6 +16,7 @@
 }
 .login-container{
     background-color: white;
+    padding-top: 50px;
     width: 800px;
     height: 700px; /* Wykorzystanie wysokości kontenera */
     display: flex;
