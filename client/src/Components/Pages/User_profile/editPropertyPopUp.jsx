@@ -2,8 +2,10 @@ import React from 'react'
 
 const editPropertyPopUp = ({ isOpen, property, onClose, setRefresh }) => {
   return (
-    <div >
-      
+    <div className='edit-popup'>
+      <div className="edit-inner-popup">
+          
+      </div>      
     </div>
   )
 }

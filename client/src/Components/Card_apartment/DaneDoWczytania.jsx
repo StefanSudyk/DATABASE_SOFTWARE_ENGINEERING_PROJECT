@@ -8,7 +8,7 @@ const DaneDoWczytania = () => {
     fetch('http://127.0.0.1:5000/getallproperty') 
       .then(response => response.json())
       .then(data => setPropertiesData(data))
-      .catch(error => console.error('cos srednio', error));
+      .catch(error => console.error('Data ', error));
   }, []);
 
   if (propertiesData.length === 0) {
@@ -20,6 +20,7 @@ const DaneDoWczytania = () => {
       {propertiesData.map(propertyData => (
         <Card_apartment 
           key={propertyData.property.id_property}
+          property_id={propertyData.property.id_property}
           NazwaOkolicy={propertyData.address.county} 
           CenaMieszkania={propertyData.property.price}
           IloscMetrow={propertyData.property.square_metrage}
