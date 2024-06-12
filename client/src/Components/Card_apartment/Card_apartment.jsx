@@ -26,7 +26,7 @@ const Card_apartment = (props) => {
       </div>
     </div>
     </div>
-    </Link>
+    </Link> 
   );
 };
 
