@@ -56,3 +56,7 @@ def filter_by_finishing_standard(finishing_standard):
 def filter_by_user(id_user):
     properties = Property.query.filter(Property.id_owner==id_user).all()
     return properties
+
+def filter_by_locality(locality):
+    properties = Property.query.join(Address).filter(Address.locality == locality).all()
+    return properties
