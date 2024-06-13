@@ -15,7 +15,7 @@ export const Promowane = () => {
       <div className='bloki_poszczegolne'>
         
         
-      <DaneDoWczytaniaPromowane/>
+      <DaneDoWczytania/>
       
       {/*<div className='ostatnie_zagniezdzenie_edycja_bloku'>
       <DaneDoWczytania/>
