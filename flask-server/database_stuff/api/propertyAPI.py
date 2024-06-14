@@ -153,6 +153,10 @@ class GetAllProperty(Resource):
         try:
             if price_range:
                 price_from, price_to = map(float, price_range.split('-'))
+                if price_from==None or price_from==0:
+                    price_from=0
+                if price_to==None or price_to==0:
+                    price_to=99999999999
                 properties = filter_by_price(price_from, price_to)
             elif metrage_range:
                 metrage_from, metrage_to = map(float, metrage_range.split('-'))
