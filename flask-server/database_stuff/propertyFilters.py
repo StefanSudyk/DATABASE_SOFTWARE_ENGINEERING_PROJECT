@@ -33,6 +33,9 @@ def filter_by_address(query, country, locality=None, street=None, district=None)
         query = query.filter(Address.district == district)
     return query
 
+def filter_by_district(query, district):
+    
+    return query.join(Address).filter(Address.district == district)
 #filtrowanie po finishing standard
 
 def filter_by_finishing_standard(query, finishing_standard):

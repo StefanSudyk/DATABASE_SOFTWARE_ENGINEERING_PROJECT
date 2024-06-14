@@ -1,20 +1,15 @@
 .results-container {
-    display: flex;
-    height: 100vh; /* Wysokość na pełny ekran */
-  }
-  
-  .left-side {
-    flex: 1;
-    background-color: white;
-    color: white; /* Dla lepszej czytelności tekstu na niebieskim tle */
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  
-  .right-side {
-    flex: 1;
-    background-color: white;
-    color: black; /* Dla lepszej czytelności tekstu na żółtym tle */
-    padding: 20px;
-    box-sizing: border-box;
-  }
+  padding-top: 50px;
+  padding-left: 10px;
+  display: flex;
+  background-color: brown;
+  height: 100vh; /* Wysokość na pełny ekran */
+}
+.gorny_tekst{
+  background-color: blue;
+  padding-top: 120px;
+  padding-left: 10px;
+  width: 100%;
+  font-weight: 600;
+
+}

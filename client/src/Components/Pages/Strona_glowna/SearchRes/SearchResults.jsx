@@ -22,7 +22,7 @@ const SearchResults = () => {
     // Dodaj dodatkowe parametry jeśli są potrzebne
     // params.append('additional_param', 'value');
 
-    const url = `http://127.0.0.1:5000/getallproperty?${params.toString()}`;
+    const url = 'http://127.0.0.1:5000/getallproperty?${params.toString()}';
 
     fetch(url)
       .then(response => response.json())
@@ -41,16 +41,14 @@ const SearchResults = () => {
   }
 
   return (
+    <>
+    <div className='gorny_tekst'> Oferty dobrane według filtrowania</div>
     <div className="results-container">
-      <div className="left-side">
-        <h1>Results for: {query.toString()}</h1>
+
         <DanePoFiltracji propertiesData={propertiesData} />
-      </div>
-      <div className="right-side">
-        <h1>Additional Information</h1>
-        {/* Tutaj możesz dodać dodatkowe informacje lub komponenty */}
-      </div>
+
     </div>
+    </>
   );
 };
 
