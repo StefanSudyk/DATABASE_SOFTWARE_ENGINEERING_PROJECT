@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import '../SearchBar/SearchBar.css';
 
+
+
+
 const SearchBar = () => {
   const [selectedOption, setSelectedOption] = useState('Wszystkie');
   const [expandBackground, setExpandBackground] = useState(false);
@@ -17,6 +20,8 @@ const SearchBar = () => {
     }
   };
 
+
+  
   return (
     <div className={`wyszukaj ${expandBackground ? 'expanded' : ''}`}>
       <form className="search-form">
@@ -102,32 +107,47 @@ const SearchBar = () => {
                 <label>Typ</label>
                 <select>
                   <option>Dowolne</option>
+                  <option value="Apartment"> Mieszkanie</option>
+                  <option value="House">Dom</option>
+                  <option value="Terraced house">Szeregówka</option>
+                  <option value>Inne</option>
                   {/* Add more options as needed */}
                 </select>
               </div>
               <div className="form-group">
                 <label>Cena</label>
-                <input type="text" placeholder="Od" />
-                <input type="text" placeholder="Do" />
+                <input  type="number" placeholder="Od" min="0" />
+                <input type="number" placeholder="Do" min="0" />
               </div>
               <div className="form-group">
-                <label>Metr</label>
-                <input type="text" placeholder="Dowolne" />
+                <label>Metraż w m²</label>
+                <input type="number" placeholder="Dowolne w m²" min="0" />
               </div>
               <div className="form-group">
                 <label>Ilość pięter</label>
-                <input type="text" placeholder="Dowolne" />
+                <input type="number" placeholder="Dowolne" min="0" />
               </div>
             </div>
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="mniejszyText">Miejsce parkingowe</label>
-                <input type="text" placeholder="Dowolne" />
-              </div>
-              <div className="form-group">
-                <label>Otoczenie</label>
                 <select>
                   <option>Dowolne</option>
+                  <option>Tak</option>
+                  <option>Nie</option>
+                  {/* Add more options as needed */}
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="mniejszyText">Rodzaj ogrzewania</label>
+                <select>
+                  <option>Dowolne</option>
+                  <option>Pompa ciepła</option>
+                  <option>Piec</option>
+                  <option>Piec na eko groszek</option>
+                  <option>Piec gazowy</option>
+                  <option>Ogrzewanie elektryczne</option>
+                  <option>Kolektory słoneczne</option>
                   {/* Add more options as needed */}
                 </select>
               </div>
@@ -135,7 +155,13 @@ const SearchBar = () => {
                 <label>Wykończenie</label>
                 <select>
                   <option>Dowolne</option>
-                  {/* Add more options as needed */}
+                  <option>Fromalności przed</option>
+                  <option>Stan zerowy</option>
+                  <option>Stan surowy otwarty</option>
+                  <option>Stan surowy otwarty</option>
+                  <option>Stan surowy zamknięty</option>
+                  <option>Prace wykończeniowe</option>
+                  <option>Gotowy</option>
                 </select>
               </div>
               <div className="form-group">
@@ -143,6 +169,7 @@ const SearchBar = () => {
                 <select>
                   <option>Dowolny</option>
                   <option>Wtórny</option>
+                  <option>Pierwotny</option>
                   {/* Add more options as needed */}
                 </select>
               </div>
@@ -150,54 +177,51 @@ const SearchBar = () => {
             <div className="form-row">
               <div className="form-group">
                 <label>Ilość pokoi</label>
-                <select>
-                  <option>Dowolne</option>
-                  {/* Add more options as needed */}
-                </select>
+                <input type="number" placeholder="Dowolne" min="0" />
               </div>
               <div className="form-group">
                 <label>Ilość łazienek</label>
-                <select>
-                  <option>Dowolne</option>
-                  {/* Add more options as needed */}
-                </select>
+                <input type="number" placeholder="Dowolne" min="0" />
               </div>
               <div className="form-group">
                 <label>Ilość garaży</label>
-                <select>
-                  <option>Dowolne</option>
-                  {/* Add more options as needed */}
-                </select>
+                <input type="number" placeholder="Dowolne" min="0" />
               </div>
               <div className="form-group">
                 <label>Ilość balkonów</label>
-                <select>
-                  <option>Dowolne</option>
+                
+                <input type="number" placeholder="Dowolne" min="0" />
                   {/* Add more options as needed */}
-                </select>
+                
               </div>
             </div>
             <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="mniejszyText">Rodzaj ogrzewania</label>
-                <select>
-                  <option>Dowolne</option>
-                  {/* Add more options as needed */}
-                </select>
-              </div>
+             
               <div className="form-group">
                 <label>Województwo</label>
                 <select>
                   <option>Dowolne</option>
-                  {/* Add more options as needed */}
+                  <option>Dolnośląskie</option>
+                  <option>Kujawsko-Pomorskie</option>
+                  <option>Lubelskie</option>
+                  <option>Lubuskie</option>
+                  <option>Łódzkie</option>
+                  <option>Małopolskie</option>
+                  <option>Mazowieckie</option>
+                  <option>Opolskie</option>
+                  <option>Podkarpackie</option>
+                  <option>Podlaskie</option>
+                  <option>Pomorskie</option>
+                  <option>Śląskie</option>
+                  <option>Świętokrzyskie</option>
+                  <option>Warmińsko-Mazurskie</option>
+                  <option>Wielkopolskie</option>
+                  <option>Zachodniopomorskie</option>
                 </select>
               </div>
               <div className="form-group">
                 <label>Gmina</label>
-                <select>
-                  <option>Dowolne</option>
-                  {/* Add more options as needed */}
-                </select>
+                <input type="text" placeholder="Dowolne" />
               </div>
             </div>
             <div className="form-row">
