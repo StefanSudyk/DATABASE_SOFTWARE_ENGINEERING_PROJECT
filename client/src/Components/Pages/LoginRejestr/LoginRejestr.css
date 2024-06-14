@@ -1,11 +1,16 @@
 .login-all{
     display: flex;
-    
     justify-content: center; /* Wyśrodkowanie w poziomie */
     align-items: center; /* Wyśrodkowanie w pionie */
     height: 100vh; /* Możesz dostosować wysokość */
-    background: rgba(224, 223, 223, 0.8);
+    background-image: url('../../../assets/background_image_logrej.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+    
+
 }
+
 .login-photo{
     background-image: url('../../../assets/dom_login.png');
     width: 50%;
@@ -16,23 +21,14 @@
 }
 .login-container{
     background-color: white;
-    padding-top: 50px;
     width: 800px;
-    height: 700px; /* Wykorzystanie wysokości kontenera */
+    height: 600px; /* Wykorzystanie wysokości kontenera */
     display: flex;
     justify-content: center; /* Wyśrodkowanie w poziomie */
     align-items: center; /* Wyśrodkowanie w pionie */
     border-radius: 10px;
 }
-.login-container-login{
-    background-color: white;
-    width: 800px;
-    height: 500px; /* Wykorzystanie wysokości kontenera */
-    display: flex;
-    justify-content: center; /* Wyśrodkowanie w poziomie */
-    align-items: center; /* Wyśrodkowanie w pionie */
-    border-radius: 10px;
-}
+
 .login-content{
     display: flex;
     flex-direction: column;
@@ -50,6 +46,9 @@
     margin-bottom: 35px;
     
 }
+
+
+
 .login-wybor-div{
     text-align: center;
     width: 50%;
@@ -58,11 +57,21 @@
     font-size: 24px;
     padding-bottom: 5; 
     
+    
 }
 .granat{
     background-color: #3e4f67;
     color: white;
+    
 }
+.szary:hover{
+    background-color: #b9b9b9;
+    font-weight: 500;
+}
+.granat:hover{
+    font-weight: 500;    
+}
+
 
 .input{
     height: 70px; /* Zmieniamy wysokość na auto */
@@ -92,28 +101,49 @@
     justify-content: space-around;
 }
 .submit{
-    border: 4px solid #3e4f67;
+    
     background-color: white;
 }
 .but-czysc{
     color: #3e4f67;
     font-weight: 400;
-    padding-left: 10px;
-    padding-right: 10px;
-    font-size: 30px;
+    font-size: 20px;
+    background-color: white;
+    border: solid #3e4f67;
+    width: 120px;
+    height: 40px;
+}
+.but-czysc:hover{
+    color: white;
+    font-weight: 500;
+    font-size: 20px;
+    background-color: #3e4f67;
+    border: solid #3e4f67;
+    width: 120px;
+    height: 40px;
 }
 .but-logrej{
     color: white;
     font-weight: 400;
-    padding-left: 10px;
-    padding-right: 10px;
     background-color: #3e4f67;
-    height: 100%;
-    font-size: px;
+    font-size: 20px;
     padding-top: 2px;
     padding-bottom: 2px;
-    width: 200px;
-    height: 50px;
+    width: 150px;
+    height: 40px;
+}
+.but-logrej:hover{
+   font-weight: 500;
+}
+.but-logrej:active{
+    color: white;
+    font-weight: 400;
+    background-color: #535f70;
+    font-size: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    width: 150px;
+    height: 40px;
 }
 button{
     background-color: white;
@@ -132,28 +162,8 @@ button{
     cursor: pointer;
     font-weight: 600;
 }
-.but-logrej:hover{
-    color: white;
-    font-weight: 400;
-    padding-left: 10px;
-    padding-right: 10px;
-    background-color: #374967;
-    height: 100%;
-    font-size: px;
-    padding-top: 2px;
-    padding-bottom: 2px;
-}
-.but-logrej:active{
-    color: white;
-    font-weight: 400;
-    padding-left: 10px;
-    padding-right: 10px;
-    background-color: #5a77a9;
-    height: 100%;
-    font-size: px;
-    padding-top: 2px;
-    padding-bottom: 2px;
-}
+
+
 .forgot-password1 {
     font-size: 14px;
     text-align: center;
@@ -177,4 +187,16 @@ margin-left: 8%;
 margin-top: 6%;
 font-size: 14px;
 font-weight: 600;
+}
+/* zaloguj*/
+.login-container-small {
+    width: 750px;
+    height: 400px; /* Nowy rozmiar kontenera */
+    transition: width 0.5s, height 0.5s; /* Płynne przejście między rozmiarami */
+}
+
+.login-container-large {
+    width: 800px;
+    height: 600px;
+    transition: width 0.5s, height 0.5s; /* Płynne przejście między rozmiarami */
 }
