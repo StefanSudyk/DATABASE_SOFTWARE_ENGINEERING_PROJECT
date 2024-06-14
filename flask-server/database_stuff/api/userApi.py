@@ -1,9 +1,14 @@
-from flask import jsonify, Response, request
+from datetime import datetime, timedelta
+from flask import flash, jsonify, Response, request, session, make_response
 from flask_restful import Resource, reqparse, fields, marshal_with, abort
+from flask_login import login_user, current_user, login_required, logout_user
 from models import *
 from service.userService import UserService
 from userFilters import filter_by_usertype, filter_by_surname, filter_by_name, sort_users_by_surname, sort_users_by_name
 from validators.userValidator import Validation
+from werkzeug.security import check_password_hash, generate_password_hash
+from itsdangerous import BadSignature, SignatureExpired, URLSafeSerializer
+from key import SECRET_KEY
 
 resource_postuser_fields = {
     'name': fields.String,
@@ -15,17 +20,108 @@ resource_postuser_fields = {
     'usertype': fields.String
 }
 
+resource_authenticate_fields = {
+    'phone_number': fields.String,
+    'password': fields.String
+}
 
+def generate_token(user):
+   
+    serializer = URLSafeSerializer(SECRET_KEY)
+    expiration = datetime.now() + timedelta(hours=1)
+    expiration_str = expiration.isoformat()
+    token = serializer.dumps({'user_id': user.id_user, 'exp': expiration_str})
 
+    return token
 
+def verify_token(token):
+    try:
+        serializer = URLSafeSerializer(SECRET_KEY)
+        data = serializer.loads(token)
 
+        expiration = datetime.fromisoformat(data['exp'])
+        if expiration < datetime.now():
+            return None, "Token expired"
+
+        return data, None
+    except SignatureExpired:
+        return None, "Token expired"
+    except BadSignature:
+        return None, "Invalid token"
+
+class LoginUser(Resource):
+    def post(self):
+        user_service = UserService()
+
+        parser = reqparse.RequestParser()
+        parser.add_argument('phone_number', type=str, required=True, help='Phone numver is essential')
+        parser.add_argument('password', type=str, required=True, help='Password is essential')
+        args = parser.parse_args()
+        print(args)
+
+        user = user_service.authenticate(phone_number=args['phone_number'],
+                                         password=args['password'])
+
+        if user:
+            login_user(user, remember=True)
+            print("Logowanie się udało")
+            print("Sesja po zalogowaniu:", session.items())
+            print(current_user.is_authenticated)
+
+            return {
+                'message': 'Zalogowano pomyślnie!',
+                'user_id': user.id_user,
+                'token': generate_token(user)
+            }, 201
+
+        else:
+            abort(501, message="Incorrect phone number or password")
+
+class CurrentUser(Resource):
+    # @login_required
+    def get(self):
+        if 'Authorization' not in request.headers:
+            print("Nie ma authorization")
+        token = request.headers.get('Authorization').split()[1]
+        print("TOKEN:", token)
+
+        if token is not None:
+            user_id = verify_token(token)[0]['user_id'] 
+            if user_id is not None:
+                print("USER ID: ", user_id)
+                user = User.query.get_or_404(user_id)
+                return user.serialize(), 200
+            else:
+                return 'Nieprawidłowy token.', 401
+        else:
+            return 'Brak tokenu uwierzytelniającego.', 401
+    
+        
+class LogoutUser(Resource):
+    # @login_required
+    def post(self):
+        if 'Authorization' not in request.headers:
+            return 'Niepoprawne żądanie', 401
+        token = request.headers.get('Authorization').split()[1]
+        if token is not None:
+            user_id = verify_token(token)[0]['user_id'] 
+            print("TOKEN:", token)
+            if type(user_id) == int:
+                logout_user()
+                return  'Wylogowano!', 201
+            else:
+                return 'Błąd tokena', 401
+        else:
+            return 'Brak tokena', 401
+                    
 
 class GetUser(Resource):
     def get(self, user_id):
         user_service = UserService()
         try:
             user = User.query.get_or_404(user_id)
-            user_service.get_user(user)
+            received_user = user_service.get_user(user)
+            return received_user
         except Exception as e:
             return Response('Error: user not find. '+str(e), status=501, mimetype='application/json')
 
@@ -109,26 +205,21 @@ class PostUser(Resource):
         user_service = UserService()
         
         check = validator.name_surname_validation(args['name'])
-        #print(check, "name")
         check = validator.name_surname_validation(args['surname'])
-        #print(check, "surname")
         check = validator.phone_number_validation(args['phone_number'])
-        #print(check, "number")
         check = validator.password_len_validation(args['password'])
-        #print(check, "pass len")
         check = validator.compare_password_validation(args['password'], args['password_repeat'])
-        #print(check, "compare")
         check = validator.email_validation(args['email'])
-        #print(check, "email val")
         check = validator.is_email_unique(args['email'])
-        #print(check, "email uniq")
         check = validator.is_phone_number_unique(args['phone_number'])
-        #print(check, "number uniq")
         check = validator.usertype_validation(args['usertype'])
-        #print(check, "usertype val")
+
+        
 
         if check:
-            user_service.add_user(args)
+            hashed_password = generate_password_hash(password=args['password'], method='pbkdf2:sha256')
+            print("hash passw:", hashed_password)
+            user_service.add_user(args, hashed_password)
             return Response("user added", status=201, mimetype='application/json')
         else:
             abort(501, message="something went wrong")
@@ -136,7 +227,8 @@ class PostUser(Resource):
             
 class EditUserInformation(Resource):
     """
-        :parameter action - name/surname/phone_number/password/email/usertype
+        :parameter action - name/surname/phone_number/password/email/usertype/id_company
+        jeśli id_company zostanie przekazany jako wartość -1, to znaczy ze chcemy usunąć powiązanie danych firmy z użytkownikiem
     """
 
     def patch(self, user_id, action: str):
@@ -148,6 +240,7 @@ class EditUserInformation(Resource):
         parser.add_argument('password', type=str)
         parser.add_argument('password_repeat', type=str)
         parser.add_argument('email', type=str)
+        parser.add_argument('id_company', type=int)
         parser.add_argument('usertype', type=str) #tu było type=enum i wywalało błąd
 
         args = parser.parse_args()
@@ -171,7 +264,8 @@ class EditUserInformation(Resource):
             case "password":
                 if (validator.password_len_validation(args['password']) and
                 validator.compare_password_validation(args['password'], args['password_repeat'])):
-                    user.password = args['password']
+                    hashed_password = generate_password_hash(password=args['password'], method='pbkdf2:sha256')
+                    user.password = hashed_password
                     user_service.patch_user()
             case "email":
                 if validator.email_validation(args['email']) and validator.is_email_unique(args['email']):
@@ -181,6 +275,12 @@ class EditUserInformation(Resource):
                 if validator.usertype_validation(args['usertype']):
                     user.usertype = args['usertype']
                     user_service.patch_user()
+            case "id_company:":
+                if args['id_company'] == -1:
+                    user.id_comapny = None
+                else:
+                    user.id_company = args['id_company']
+                user_service.patch_user()
             case _:
                 return Response("Invalid action", status=400, mimetype='application/json')
 

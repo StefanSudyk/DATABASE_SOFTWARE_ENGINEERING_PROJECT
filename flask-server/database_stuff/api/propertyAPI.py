@@ -114,8 +114,8 @@ class UpdateProperty(Resource):
         validator=propertyValidation()
         property_service = PropertyService()
         if not (validator.postal_validation(args['postal_code'])and
-            validator.house_nr_validation(args['house_number'])and
-            validator.title_validation(args['title'])and
+            # validator.house_nr_validation(args['house_number'])and
+            # validator.title_validation(args['title'])and
             validator.price_validation(args['price'])and
             validator.sq_metrage_validation(args['square_metrage'])and
             validator.sq_metrage_validation(args['room_metrage'])):
@@ -147,7 +147,9 @@ class GetAllProperty(Resource):
         locality = request.args.get('locality')
         street = request.args.get('street')
         district = request.args.get('district')
-
+        condition = request.args.get('condition')
+        user = request.args.get('user')
+        #tak btw finishing_standard to typ nieruchomosci a condition poziom wykonczenia xD
         try:
             if price_range:
                 price_from, price_to = map(float, price_range.split('-'))
@@ -161,7 +163,13 @@ class GetAllProperty(Resource):
                 properties = filter_by_nr_rooms(nr_rooms)
             elif country:
                 properties = filter_by_address(country, locality, street, district)
-
+            elif condition:
+                properties = filter_by_condition(condition)
+            elif user:
+                properties = filter_by_user(user)
+            elif locality:
+                properties = filter_by_locality(locality)
+                print("hej")
             else:
                 properties = Property.query.all()
 
@@ -170,9 +178,12 @@ class GetAllProperty(Resource):
 
             # Pobieranie zdjęć przypisanych do właściwości
             photos = Photo.query.filter(Photo.id_property.in_([property.id_property for property in properties])).all()
+            addresses = Address.query.filter(Address.id_property.in_([property.id_property for property in properties])).all()
+            infrastructures = Infrastructure.query.filter(Infrastructure.id_property.in_([property.id_property for property in properties])).all()
+            insides = Inside.query.filter(Inside.id_property.in_([property.id_property for property in properties])).all()
 
-            if price_range or metrage_range or finishing_standard or nr_rooms or country:
-                return property_service.get_properties_and_photos(properties, photos)
+            if price_range is not None or metrage_range is not None or finishing_standard is not None or nr_rooms is not None or country is not None or condition is not None or user is not None or locality is not None:
+                return property_service.get_properties_and_photos(properties, photos, addresses, infrastructures, insides)
             else:
                 addresses = Address.query.all()
                 insides = Inside.query.all()
@@ -190,6 +201,7 @@ class PostProperty(Resource):
     def post(self):
         parser = reqparse.RequestParser()
         #Property
+        parser.add_argument('id_owner', type=str, required=True, help='Owner is essential')
         parser.add_argument('title', type=str, required=True, help='Title is essential')
         parser.add_argument('price', type=float, required=True, help='Price is essential')
         parser.add_argument('square_metrage', type=float, required=True, help='Square metrage is essential')
@@ -246,7 +258,7 @@ class PostProperty(Resource):
         property_service = PropertyService()
         if not (validator.postal_validation(args['postal_code'])and
             validator.house_nr_validation(args['house_number'])and
-            validator.title_validation(args['title'])and
+            # validator.title_validation(args['title'])and
             validator.price_validation(args['price'])and
             validator.sq_metrage_validation(args['square_metrage'])and
             validator.sq_metrage_validation(args['room_metrage'])):
@@ -258,11 +270,11 @@ class PostProperty(Resource):
         p_p_meter=args['price']/args['square_metrage']
 
         #id = db.session.execute(select(User.id_user).where(User.phone_number == session['phonenumber'])).first()
-        id = db.session.execute(select(User.id_user).where(User.phone_number == '222222222')).first()
-
+        #id = db.session.execute(select(User.id_user).where(User.phone_number == '222222222')).first()
+        id = args['id_owner']
         new_property = Property(
             #id_property=property_id,
-            id_owner=id[0],
+            id_owner=id,
             title=args['title'],
             price=args['price'],
             square_metrage=args['square_metrage'],

@@ -1,41 +1,46 @@
 from flask import Blueprint, render_template, url_for, request, redirect, session, jsonify, flash
 from app import db
 import requests
+from flask_login import login_user, login_required, current_user, logout_user
+from models import User
+from werkzeug.security import check_password_hash, generate_password_hash
+from validators.userValidator import Validation
+
 
 base = "http://127.0.0.1:5000/"
 
 auth = Blueprint('auth', __name__, template_folder="templates", static_folder="static")
 
-@auth.route('/login', methods=["POST", "GET"])
+
+
+@auth.route('/loginview', methods=["POST", "GET"])
 def login():
     if request.method == "POST":
         phonenumber = request.form["phnum"]
         password = request.form["pswrd"]
       
         #tu przechwycone rzeczy do logowania
-
-
         print("nr tel: ", phonenumber)
         print("hasło: ", password)
+        
+        data = {
+            'phone_number': phonenumber,
+            'password': password
+        }
 
-        session.permanent = True
-        session["phonenumber"] = phonenumber
-
-        return redirect(url_for("views.user"))
+        response = requests.post("http://127.0.0.1:5000/login", json=data)
+        print(response)
+        return redirect(url_for('views.user'))      
     else:
-        if "phonenumber" in session:
-            return redirect(url_for("views.user"))
-
-        return render_template('login.html')
+        return render_template('login.html', user=current_user)
 
 
-@auth.route('/logout')
+@auth.route('/logoutview')
+@login_required
 def logout():
-    if "phonenumber" in session:
-        session.pop("phonenumber", None)
-        return render_template('logout.html')
-    else:
-        return redirect(url_for("views.index"))
+    logout_user()
+    flash('Logged out.', category='success')
+    return redirect(url_for('auth.login'))
 
 
 @auth.route('/signup', methods=["POST", "GET"])
@@ -49,41 +54,67 @@ def signup():
         password = request.form["pswrd"]
         password_repeat = request.form["pswrdag"]
 
-        #sprawdzamy czy przechwycono dane z formularza
-
-        # print("name: ", name)
-        # print("surname: ", surname)
-        # print("phone number: ", phonenumber)
-        # print("email: ", email)
-        # print("usertype: ", usertype)
-        # print("password: ", password)
-        # print("password again: ", password_repeat)
-
         '''
         jak będzie front to domyslnie będzie ustawienie usertype = private user
         '''
-
-        data = {
-            'name': name,
-            'surname': surname,
-            'phone_number': phonenumber,
-            'password': password,
-            'password_repeat': password_repeat,
-            'email': email,
-            'usertype': usertype
-        }
+        user = User.query.filter_by(phone_number=phonenumber).first()       
+       
+        validator = Validation()
         
-        response = requests.post(base + 'post', json=data)
+         # test walidacji]
+        """ 
+        print('name val:',validator.name_surname_validation(name))
+        print('phone val:',validator.phone_number_validation(phonenumber))
+        print('email val:',validator.email_validation(email))
+        print('passw len val:',validator.password_len_validation(password))
+        print('compare passw val:',validator.compare_password_validation(password, password_repeat))
+        print('email uniq val:',validator.is_email_unique(email))
+        print('phonenum uniq val:',validator.is_phone_number_unique(phone_number=phonenumber))"""
+        
+        # jak tu cos jest nie tak to wyrzuca w przegladarce unauthorized i kod bledu 401
+        if (validator.name_surname_validation(name) and
+            validator.name_surname_validation(surname) and
+            validator.phone_number_validation(phonenumber) and
+            validator.email_validation(email) and
+            validator.is_email_unique(email) and
+            validator.is_phone_number_unique(phonenumber) and
+            validator.password_len_validation(password) and 
+            validator.compare_password_validation(password, password_repeat)):
+        
 
-        if response.status_code == 401 or response.status_code == 501:
-            message = response.json()["message"]
-            flash(message, 'error')
-            return redirect(url_for('auth.signup'))
+            hashed_password = generate_password_hash(password=password, method='pbkdf2:sha256')
+            print("hash passw:", hashed_password)
 
-        flash("Konto zostało utworzone!", 'info')
-        return redirect(url_for("auth.login"))
-    else:
-        return render_template('signup.html')
+            new_user = User(
+                name=name,
+                surname=surname,
+                phone_number=phonenumber,
+                password=hashed_password,
+                email=email,
+                usertype=usertype,
+                is_active=False
+            )
+            print("new user name: ", new_user.name)
+            db.session.add(new_user)
+            db.session.commit()
+            login_user(new_user, remember=True)
+
+            print("Konto utworzone")
+            flash('Account created!', category='success')
+            return redirect(url_for('views.user'))
+        
+        else:
+            print("validator wyrzuca")
+            flash('Validation problem.', category='error')
+            return redirect(url_for('views.signup'))
+        
+    return render_template('signup.html', user=current_user)
+                    
+                
+        
+        
+        
+      
 
 
 @auth.route('/companyinfo', methods=["POST", "GET"])

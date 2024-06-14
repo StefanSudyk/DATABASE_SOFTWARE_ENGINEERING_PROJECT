@@ -1,0 +1,82 @@
+/*.offer-box {
+  border: 1px solid #000;
+  padding: 20px;
+  margin-bottom: 1vh;
+  width: 100vh;
+}
+
+.offer-box h2, .offer-box p {
+  margin: 0 0 10px 0;
+}
+
+.offer-box button {
+  margin-right: 10px;
+}
+
+/* For devices with screen width greater than 600px */
+/*
+@media (min-width: 600px) {
+  .offer-box {
+    width: 300px;
+  }
+}
+*/
+
+.offer-box {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 10px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+}
+
+.offer-box h2 {
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.offer-box p {
+  margin-bottom: 5px;
+  color: #555;
+}
+.profile-button-style{
+  background-color: #53708e;
+  color: white;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.8rem; 
+  margin-bottom: 10px;
+  width: 80%;
+  transition: background-color 0.3s ease;
+    /* responsive width */
+    @media (max-width: 480px) {
+      font-size: 0.4rem; /* smaller font size for small screens */
+      width: 100%; /* full width for small screens */
+    }
+    @media (min-width: 768px) {
+      font-size: 0.6rem; /* larger font size for medium screens */
+      width: 90%; /* 90% width for medium screens */
+    }
+    @media (min-width: 1200px) {
+      font-size: 0.8rem; /* even larger font size for large screens */
+      width: 80%; /* 80% width for large screens */
+    }
+  }
+
+  .profile-button-style:hover {
+    background-color: #405d6a; /* Change to the color you want when hovered */
+  }
+
+.offer-box .button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.offer-box .button-container button {
+  margin: 0 5px;
+}
