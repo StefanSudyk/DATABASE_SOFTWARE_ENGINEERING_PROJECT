@@ -9,21 +9,23 @@ const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [advancedSearch, setAdvancedSearch] = useState({
     type: '',
-    priceFrom: '',
-    priceTo: '',
+    price_from: '',
+    price_to: '',
     metrageFrom: '',
     metrageTo: '',
-    floors: '',
+    nr_floors: '',
     parking: '',
     heating: '',
     finish: '',
     market: '',
-    rooms: '',
+    nr_rooms: '',
     bathrooms: '',
-    garages: '',
-    balconies: '',
+    nr_garages: '',
+    nr_balconies: '',
     voivodeship: '',
     municipality: '',
+    nr_bathrooms: '',
+    district: '',
   });
   const navigate = useNavigate();
 
@@ -57,16 +59,13 @@ const SearchBar = () => {
       params.append('locality', searchQuery);
     }
     if (advancedSearch.priceFrom) {
-      params.append('priceFrom', advancedSearch.priceFrom);
+      params.append('price_from', advancedSearch.price_from);
     }
     if (advancedSearch.priceTo) {
-      params.append('priceTo', advancedSearch.priceTo);
-    }
-    if (advancedSearch.nr_garages) {
-      params.append('nr_garages', advancedSearch.nr_garages);
+      params.append('price_to', advancedSearch.price_to);
     }
     Object.keys(advancedSearch).forEach((key) => {
-      if (key !== 'priceFrom' && key !== 'priceTo' && key !== 'nr_garages' && advancedSearch[key]) {
+      if (key !== 'priceFrom' && key !== 'priceTo' && advancedSearch[key]) {
         params.append(key, advancedSearch[key]);
       }
     });
@@ -98,6 +97,7 @@ const SearchBar = () => {
               value="Mieszkanie"
               checked={selectedOption === 'Mieszkanie'}
               onChange={handleOptionChange}
+              
             />
             Mieszkanie
           </label>
@@ -177,16 +177,36 @@ const SearchBar = () => {
               </div>
               <div className="form-group">
                 <label>Cena</label>
-                <input  type="number" placeholder="Od" min="0" />
-                <input type="number" placeholder="Do" min="0" />
+                <input
+                  type="number"
+                  placeholder="Od"
+                  min="0"
+                  name="price_from" 
+                  value={advancedSearch.price_from}
+                  onChange={handleAdvancedSearchChange}
+                />
+                <input
+                  type="number"
+                  placeholder="Do"
+                  min="0"
+                  name="price_to" 
+                  value={advancedSearch.price_to}
+                  onChange={handleAdvancedSearchChange}
+                />
               </div>
               <div className="form-group">
                 <label>Metraż w m²</label>
-                <input type="number" placeholder="Dowolne w m²" min="0" />
+                <input type="number" placeholder="Od w m²" min="0" />
+                <input type="number" placeholder="Do w m²" min="0" />
               </div>
               <div className="form-group">
                 <label>Ilość pięter</label>
-                <input type="number" placeholder="Dowolne" min="0" />
+                <input type="number" placeholder="Dowolne" min="0" 
+                name="nr_floors" // Dodaj nazwę pola, musi odpowiadać kluczowi w stanie advancedSearch
+                value={advancedSearch.nr_floors}
+                onChange={handleAdvancedSearchChange} // Obsługa zmiany
+                />
+                
               </div>
             </div>
             <div className="form-row">
@@ -238,25 +258,37 @@ const SearchBar = () => {
             <div className="form-row">
               <div className="form-group">
                 <label>Ilość pokoi</label>
-                <input type="number" placeholder="Dowolne" min="0" />
+                <input type="number" placeholder="Dowolne" min="0" 
+                name="nr_rooms" // Dodaj nazwę pola, musi odpowiadać kluczowi w stanie advancedSearch
+                value={advancedSearch.nr_rooms}
+                onChange={handleAdvancedSearchChange} // Obsługa zmiany
+                />
               </div>
               <div className="form-group">
                 <label>Ilość łazienek</label>
-                <input type="number" placeholder="Dowolne" min="0" />
+                <input type="number" placeholder="Dowolne" min="0" 
+                name="nr_bathrooms" // Dodaj nazwę pola, musi odpowiadać kluczowi w stanie advancedSearch
+                value={advancedSearch.nr_bathrooms}
+                onChange={handleAdvancedSearchChange} // Obsługa zmiany
+                />
               </div>
               <div className="form-group">
                 <label>Ilość garaży</label>
                 <input type="number" placeholder="Dowolne" min="0" 
-                name="garages" // Dodaj nazwę pola, musi odpowiadać kluczowi w stanie advancedSearch
-                value={advancedSearch.garages}
+                name="nr_garages" // Dodaj nazwę pola, musi odpowiadać kluczowi w stanie advancedSearch
+                value={advancedSearch.nr_garages}
                 onChange={handleAdvancedSearchChange} // Obsługa zmiany
                 />
               </div>
               <div className="form-group">
                 <label>Ilość balkonów</label>
                 
-                <input type="number" placeholder="Dowolne" min="0" />
-                  {/* Add more options as needed */}
+                <input type="number" placeholder="Dowolne" min="0" 
+                name="nr_balconies" // Dodaj nazwę pola, musi odpowiadać kluczowi w stanie advancedSearch
+                value={advancedSearch.nr_balconies}
+                onChange={handleAdvancedSearchChange} // Obsługa zmiany
+                />
+                  
                 
               </div>
             </div>
@@ -286,7 +318,11 @@ const SearchBar = () => {
               </div>
               <div className="form-group">
                 <label>Gmina</label>
-                <input type="text" placeholder="Dowolne" />
+                <input type="text" placeholder="Dowolne" 
+                name="district" // Dodaj nazwę pola, musi odpowiadać kluczowi w stanie advancedSearch
+                value={advancedSearch.district}
+                onChange={handleAdvancedSearchChange} // Obsługa zmiany
+                />
               </div>
             </div>
             <div className="form-row">

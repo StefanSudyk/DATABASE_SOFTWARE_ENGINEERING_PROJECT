@@ -214,6 +214,8 @@ class GetAllProperty(Resource):
             
             if nr_garages:
                 query = filter_by_nr_garages(query, nr_garages)
+            if district:
+                query = filter_by_district(query, district)
                 
             properties = query.all()
 
