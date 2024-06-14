@@ -7,6 +7,24 @@ const SearchBar = () => {
   const [expandBackground, setExpandBackground] = useState(false);
   const [showContent, setShowContent] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [advancedSearch, setAdvancedSearch] = useState({
+    type: '',
+    priceFrom: '',
+    priceTo: '',
+    metrageFrom: '',
+    metrageTo: '',
+    floors: '',
+    parking: '',
+    heating: '',
+    finish: '',
+    market: '',
+    rooms: '',
+    bathrooms: '',
+    garages: '',
+    balconies: '',
+    voivodeship: '',
+    municipality: '',
+  });
   const navigate = useNavigate();
 
   const handleOptionChange = (event) => {
@@ -24,11 +42,35 @@ const SearchBar = () => {
     setSearchQuery(event.target.value);
   };
 
+  const handleAdvancedSearchChange = (event) => {
+    const { name, value } = event.target;
+    setAdvancedSearch((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   const handleSearch = (event) => {
     event.preventDefault();
+    const params = new URLSearchParams();
     if (searchQuery.trim()) {
-      navigate('/results?query=${encodeURIComponent(searchQuery)}');
+      params.append('locality', searchQuery);
     }
+    if (advancedSearch.priceFrom) {
+      params.append('priceFrom', advancedSearch.priceFrom);
+    }
+    if (advancedSearch.priceTo) {
+      params.append('priceTo', advancedSearch.priceTo);
+    }
+    if (advancedSearch.nr_garages) {
+      params.append('nr_garages', advancedSearch.nr_garages);
+    }
+    Object.keys(advancedSearch).forEach((key) => {
+      if (key !== 'priceFrom' && key !== 'priceTo' && key !== 'nr_garages' && advancedSearch[key]) {
+        params.append(key, advancedSearch[key]);
+      }
+    });
+    navigate(`/results?${params.toString()}`);
   };
 
   const handleKeyDown = (event) => {
@@ -204,7 +246,11 @@ const SearchBar = () => {
               </div>
               <div className="form-group">
                 <label>Ilość garaży</label>
-                <input type="number" placeholder="Dowolne" min="0" />
+                <input type="number" placeholder="Dowolne" min="0" 
+                name="garages" // Dodaj nazwę pola, musi odpowiadać kluczowi w stanie advancedSearch
+                value={advancedSearch.garages}
+                onChange={handleAdvancedSearchChange} // Obsługa zmiany
+                />
               </div>
               <div className="form-group">
                 <label>Ilość balkonów</label>
