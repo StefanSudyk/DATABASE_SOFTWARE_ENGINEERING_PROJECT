@@ -6,3 +6,4 @@
 /flask-server/database_stuff/__pycache__
 *.pyc
 *.pyc
+ca.pem

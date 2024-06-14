@@ -5,13 +5,28 @@ from datetime import timedelta
 from flask_cors import CORS
 from flask_login import LoginManager
 from key import SECRET_KEY
+import pymysql
+import os
 
 db = SQLAlchemy()
 
-def create_app():
+pymysql.install_as_MySQLdb()
 
+
+def create_app():
+    print(os.path.join(os.getcwd(), 'ca.pem'))
     app = Flask(__name__, template_folder='templates')
-    app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:password@localhost/housedb"
+    app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://avnadmin:AVNS_zmlRMUb7T2cadhX76cH@mysql-flatsnhomes-flatsnhomes.j.aivencloud.com:21394/defaultdb"
+    
+    # Ustaw dodatkowe parametry połączenia dla pymysql, w tym SSL
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+        'connect_args': {
+            'ssl': {
+                'ca': os.path.join(os.getcwd(), 'ca.pem')
+            }
+        }
+    }
+
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     #app.config['WTF_CSRF_ENABLED'] = False
     app.secret_key = SECRET_KEY
