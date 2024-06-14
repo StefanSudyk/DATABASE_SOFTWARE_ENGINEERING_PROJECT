@@ -1,4 +1,4 @@
-from models import Property, Inside, Address
+from models import *
 
 
 #filtrowanie po cenie - wyswietla tylko properties z zakresu ceny
@@ -59,4 +59,38 @@ def filter_by_user(id_user):
 
 def filter_by_locality(locality):
     properties = Property.query.join(Address).filter(Address.locality == locality).all()
+    return properties
+# filtrowanie po ilości pięter
+def filter_by_nr_floors(nr_floors):
+    properties = Property.query.join(Inside).filter(Inside.nr_floors == nr_floors).all()
+    return properties
+
+# filtrowanie po miejscu parkingowym
+def filter_by_car_parking_space(car_parking_space):
+    properties = Property.query.join(Infrastructure).filter(Infrastructure.car_parking_space == car_parking_space).all()
+    return properties
+
+# filtrowanie po typie ogrzewania
+def filter_by_type_of_heating(type_of_heating):
+    properties = Property.query.join(Inside).filter(Inside.type_of_heating == type_of_heating).all()
+    return properties
+
+# filtrowanie po rynku (primary/secondary)
+def filter_by_market(market):
+    properties = Property.query.filter(Property.market == market).all()
+    return properties
+
+# filtrowanie po ilości łazienek
+def filter_by_nr_bathrooms(nr_bathrooms):
+    properties = Property.query.join(Inside).filter(Inside.nr_bathrooms == nr_bathrooms).all()
+    return properties
+
+# filtrowanie po ilości garaży
+def filter_by_nr_garages(nr_garages):
+    properties = Property.query.join(Inside).filter(Inside.nr_garages == nr_garages).all()
+    return properties
+
+# filtrowanie po ilości balkonów
+def filter_by_nr_balconies(nr_balconies):
+    properties = Property.query.join(Inside).filter(Inside.nr_balconies == nr_balconies).all()
     return properties
