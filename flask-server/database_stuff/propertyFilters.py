@@ -1,4 +1,4 @@
-from models import Property, Inside, Address
+from models import *
 
 
 #filtrowanie po cenie - wyswietla tylko properties z zakresu ceny
@@ -47,11 +47,6 @@ def filter_by_user(query, id_user):
 def filter_by_locality(query, locality):
     return query.join(Address).filter(Address.locality == locality)
 
-<<<<<<< Updated upstream
-def filter_by_locality(locality):
-    properties = Property.query.join(Address).filter(Address.locality == locality).all()
-    return properties
-=======
 # filtrowanie po ilości pięter
 def filter_by_nr_floors(query, nr_floors):
     return query.join(Inside).filter(Inside.nr_floors == nr_floors)
@@ -85,4 +80,3 @@ def filter_by_nr_garages(query, nr_garages):
 # filtrowanie po ilości balkonów
 def filter_by_nr_balconies(query, nr_balconies):
     return query.join(Inside).filter(Inside.nr_balconies == nr_balconies)
->>>>>>> Stashed changes

@@ -149,31 +149,15 @@ class GetAllProperty(Resource):
         district = request.args.get('district')
         condition = request.args.get('condition')
         user = request.args.get('user')
+        nr_floors = request.args.get('nr_floors')
+        car_parking_space = request.args.get('car_parking_space')
+        type_of_heating = request.args.get('type_of_heating')
+        market = request.args.get('market')
+        nr_bathrooms = request.args.get('nr_bathrooms')
+        nr_garages = request.args.get('nr_garages')
+        nr_balconies = request.args.get('nr_balconies')
         #tak btw finishing_standard to typ nieruchomosci a condition poziom wykonczenia xD
         try:
-<<<<<<< Updated upstream
-            if price_range:
-                price_from, price_to = map(float, price_range.split('-'))
-                properties = filter_by_price(price_from, price_to)
-            elif metrage_range:
-                metrage_from, metrage_to = map(float, metrage_range.split('-'))
-                properties = filter_by_square_metrage(metrage_from, metrage_to)
-            elif finishing_standard:
-                properties = filter_by_finishing_standard(finishing_standard)
-            elif nr_rooms:
-                properties = filter_by_nr_rooms(nr_rooms)
-            elif country:
-                properties = filter_by_address(country, locality, street, district)
-            elif condition:
-                properties = filter_by_condition(condition)
-            elif user:
-                properties = filter_by_user(user)
-            elif locality:
-                properties = filter_by_locality(locality)
-                print("hej")
-            else:
-                properties = Property.query.all()
-=======
             query = Property.query
 
             # Dynamicznie dodawanie warunków do zapytania
@@ -233,18 +217,13 @@ class GetAllProperty(Resource):
                 query = filter_by_nr_garages(query, nr_garages)
                 
             properties = query.all()
->>>>>>> Stashed changes
 
             
             
             if not properties:
                 return Response("No property", status=500, mimetype='application/json')
 
-<<<<<<< Updated upstream
-            # Pobieranie zdjęć przypisanych do właściwości
-=======
             
->>>>>>> Stashed changes
             photos = Photo.query.filter(Photo.id_property.in_([property.id_property for property in properties])).all()
             addresses = Address.query.filter(Address.id_property.in_([property.id_property for property in properties])).all()
             infrastructures = Infrastructure.query.filter(Infrastructure.id_property.in_([property.id_property for property in properties])).all()
