@@ -151,6 +151,7 @@ class GetAllProperty(Resource):
         user = request.args.get('user')
         #tak btw finishing_standard to typ nieruchomosci a condition poziom wykonczenia xD
         try:
+<<<<<<< Updated upstream
             if price_range:
                 price_from, price_to = map(float, price_range.split('-'))
                 properties = filter_by_price(price_from, price_to)
@@ -172,11 +173,78 @@ class GetAllProperty(Resource):
                 print("hej")
             else:
                 properties = Property.query.all()
+=======
+            query = Property.query
 
+            # Dynamicznie dodawanie warunków do zapytania
+            if price_range:
+                price_from, price_to = map(float, price_range.split('-'))
+                query = filter_by_price(query, price_from, price_to)
+                
+            if metrage_range:
+                metrage_from, metrage_to = map(float, metrage_range.split('-'))
+                query = filter_by_square_metrage(query, metrage_from, metrage_to)
+                
+            if finishing_standard:
+                query = filter_by_finishing_standard(query, finishing_standard)
+                
+            if nr_rooms:
+                query = filter_by_nr_rooms(query, nr_rooms)
+                
+            if country or locality or street or district:
+                subquery = Address.query
+                if country:
+                    subquery = subquery.filter(Address.country == country)
+                if locality:
+                    subquery = subquery.filter(Address.locality == locality)
+                if street:
+                    subquery = subquery.filter(Address.street == street)
+                if district:
+                    subquery = subquery.filter(Address.district == district)
+                
+                address_id = [address.id_property for address in subquery.all()]
+                query = query.filter(Property.id_property.in_(address_id))
+                
+            if condition:
+                query = filter_by_condition(query, condition)
+                
+            if user:
+                query = filter_by_user(query, user)
+
+            if nr_floors:
+                query = filter_by_nr_floors(query, nr_floors)
+            
+            if car_parking_space:
+                query = filter_by_car_parking_space(query, car_parking_space)
+
+            if type_of_heating:
+                query = filter_by_type_of_heating(query, type_of_heating)
+
+            if market:
+                query = filter_by_market(query, market)
+
+            if nr_bathrooms:
+                query = filter_by_nr_bathrooms(query, nr_bathrooms)
+            
+            if nr_balconies:
+                query = filter_by_nr_balconies(query, nr_balconies)
+            
+            if nr_garages:
+                query = filter_by_nr_garages(query, nr_garages)
+                
+            properties = query.all()
+>>>>>>> Stashed changes
+
+            
+            
             if not properties:
                 return Response("No property", status=500, mimetype='application/json')
 
+<<<<<<< Updated upstream
             # Pobieranie zdjęć przypisanych do właściwości
+=======
+            
+>>>>>>> Stashed changes
             photos = Photo.query.filter(Photo.id_property.in_([property.id_property for property in properties])).all()
             addresses = Address.query.filter(Address.id_property.in_([property.id_property for property in properties])).all()
             infrastructures = Infrastructure.query.filter(Infrastructure.id_property.in_([property.id_property for property in properties])).all()

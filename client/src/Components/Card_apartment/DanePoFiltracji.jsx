@@ -1,18 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Card_apartment from './Card_apartment';
 
-const DaneDoWczytania = () => {
-  const [propertiesData, setPropertiesData] = useState([]);
-
-  useEffect(() => {
-    fetch('http://127.0.0.1:5000/getallproperty') 
-      .then(response => response.json())
-      .then(data => setPropertiesData(data))
-      .catch(error => console.error('Data ', error));
-  }, []);
-
+const DanePoFiltracji = ({ propertiesData }) => {
   if (propertiesData.length === 0) {
-    return <div>Loading...</div>;
+    return <div>No results found</div>;
   }
 
   return (
@@ -33,4 +24,4 @@ const DaneDoWczytania = () => {
   );
 };
 
-export default DaneDoWczytania;
+export default DanePoFiltracji;
