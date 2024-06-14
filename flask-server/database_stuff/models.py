@@ -1,6 +1,6 @@
 from app import db
 import enum
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
 
 
 """
@@ -24,12 +24,26 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(20))
     surname = db.Column(db.String(20))
     phone_number = db.Column(db.String(9))
-    password = db.Column(db.String(20))
+    password = db.Column(db.String(150))
     email = db.Column(db.String(50))
     usertype = db.Column(db.Enum(UserType))
     is_active = False  # czy jest zalgowoany
     properties = db.relationship('Property', backref='owner', lazy=True)
     favourites = db.relationship('Favourite', backref='user', lazy=True)
+
+    @property 
+    def is_authenticated(self):
+        return True
+            
+    @property
+    def is_active(self):
+        """Zwraca True, jeśli użytkownik jest aktywny."""
+        return True
+    
+    @property
+    def is_anonymous(self):
+        """Zwraca True, jeśli użytkownik jest anonimowy."""
+        return False
 
     def get_id(self):
         return self.id_user
@@ -40,29 +54,26 @@ class User(db.Model, UserMixin):
             'name': self.name,
             'surname': self.surname,
             'phone_number': self.phone_number,
-            'password': self.password,
+            #'password': self.password,
             'email': self.email,
             'usertype': self.usertype,
             'is_active': self.is_active
         }
 
-    def __init__(self, name, surname, phone_number, password, email, usertype, is_active):
+    def __init__(self, name, surname, phone_number, password, email, usertype):
         self.name = name
         self.surname = surname
         self.phone_number = phone_number
         self.password = password
         self.email = email
         self.usertype = usertype
-        self.is_active = is_active
-
 
 class Favourite(db.Model):
     id_favourite = db.Column(db.Integer, unique=True, primary_key=True)
     id_user = db.Column(db.Integer, db.ForeignKey('user.id_user'))
     id_property = db.Column(db.Integer, db.ForeignKey('property.id_property'))
 
-    def __init__(self, id_favourite, id_user, id_property):
-        self.id_favourite = id_favourite
+    def __init__(self, id_user, id_property):
         self.id_user = id_user
         self.id_property = id_property
 
@@ -107,6 +118,11 @@ class Company(db.Model):
         self.house_number = house_number
         self.cp_type = cp_type
 
+class Finishing_standard(str, enum.Enum):
+    HOUSE = "House"
+    TERRACED_HOUSE = "Terraced house"
+    APARTMENT = "Apartment"
+    OTHER = "Other"
 
 class Property(db.Model):
     id_property = db.Column(db.Integer, unique=True, primary_key=True)
@@ -116,7 +132,7 @@ class Property(db.Model):
     price = db.Column(db.Float(precision=2))
     square_metrage = db.Column(db.Float)
     #surroundings = db.Column(db.String(20))
-    finishing_standard = db.Column(db.String(20))
+    finishing_standard = db.Column(db.Enum(Finishing_standard))
     #condition = db.Column(db.String(30))
     market = db.Column(db.String(20))
     publication_date = db.Column(db.Date)

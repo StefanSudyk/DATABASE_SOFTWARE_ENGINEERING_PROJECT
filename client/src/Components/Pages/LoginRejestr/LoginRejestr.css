@@ -1,9 +1,10 @@
 .login-all{
     display: flex;
+    
     justify-content: center; /* Wyśrodkowanie w poziomie */
     align-items: center; /* Wyśrodkowanie w pionie */
     height: 100vh; /* Możesz dostosować wysokość */
-    background: rgba(10,10,10,0.8);
+    background: rgba(224, 223, 223, 0.8);
 }
 .login-photo{
     background-image: url('../../../assets/dom_login.png');
@@ -15,6 +16,7 @@
 }
 .login-container{
     background-color: white;
+    padding-top: 50px;
     width: 800px;
     height: 700px; /* Wykorzystanie wysokości kontenera */
     display: flex;
@@ -45,6 +47,8 @@
     background-color: #b9b9b9;
     cursor: pointer;
     border-radius: 10px;
+    margin-bottom: 35px;
+    
 }
 .login-wybor-div{
     text-align: center;
@@ -52,6 +56,8 @@
     padding: 5px;
     border-radius: 10px;
     font-size: 24px;
+    padding-bottom: 5; 
+    
 }
 .granat{
     background-color: #3e4f67;
@@ -59,18 +65,20 @@
 }
 
 .input{
-    height: 80px;
-    width: 100%;
+    height: 70px; /* Zmieniamy wysokość na auto */
+    width: 400px;
     display: flex;
+    flex-direction: column; /* Ustawiamy kolumnowy układ flexbox */
     align-items: center;
+    
     
 }
 .input input{
-    margin-left: 10%;
+    margin-left: 5%;
     width: 80%;
-    height: 70%;
+    height: 60%;
     border-radius: 10px;
-    border: 2px solid #3e4f67;
+    border: 2px solid 3e4f67;
     font-size: 20px;
     padding-left: 10px;
 }
@@ -92,6 +100,7 @@
     font-weight: 400;
     padding-left: 10px;
     padding-right: 10px;
+    font-size: 30px;
 }
 .but-logrej{
     color: white;
@@ -103,6 +112,8 @@
     font-size: px;
     padding-top: 2px;
     padding-bottom: 2px;
+    width: 200px;
+    height: 50px;
 }
 button{
     background-color: white;
@@ -120,4 +131,50 @@ button{
     font-size: 16px;
     cursor: pointer;
     font-weight: 600;
+}
+.but-logrej:hover{
+    color: white;
+    font-weight: 400;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #374967;
+    height: 100%;
+    font-size: px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+.but-logrej:active{
+    color: white;
+    font-weight: 400;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #5a77a9;
+    height: 100%;
+    font-size: px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+.forgot-password1 {
+    font-size: 14px;
+    text-align: center;
+    font-weight: 600;
+    margin-top: 5px; /* Dodajemy trochę przestrzeni nad tekstem */
+    color: #504e4e; 
+    
+  }
+.input {
+    position: relative;
+  }
+  
+.input label {
+position: absolute;
+top: -45px; /* Odległość etykiety nad polem input */
+left: 20px; /* Odległość etykiety od lewej krawędzi pola input */
+font-size: 12px; /* Mniejsza czcionka dla etykiety */
+color: #000000; /* Kolor tekstu etykiety */
+padding-bottom: 0px;
+margin-left: 8%;
+margin-top: 6%;
+font-size: 14px;
+font-weight: 600;
 }
