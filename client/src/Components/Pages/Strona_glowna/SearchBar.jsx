@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import '../Strona_glowna/SearchBar.css';
 
 const SearchBar = () => {
   const [selectedOption, setSelectedOption] = useState('Wszystkie');
   const [expandBackground, setExpandBackground] = useState(false);
   const [showContent, setShowContent] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
@@ -17,9 +20,26 @@ const SearchBar = () => {
     }
   };
 
+  const handleInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    if (searchQuery.trim()) {
+      navigate('/results?query=${encodeURIComponent(searchQuery)}');
+    }
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch(event);
+    }
+  };
+
   return (
     <div className={`wyszukaj ${expandBackground ? 'expanded' : ''}`}>
-      <form className="search-form">
+      <form className="search-form" onSubmit={handleSearch}>
         <div className="radio-buttons">
           <label className={selectedOption === 'Wszystkie' ? 'active' : ''}>
             <input
@@ -76,6 +96,10 @@ const SearchBar = () => {
             type="text"
             className="search-input-with-icon"
             placeholder=" Wprowadź nazwę miasta"
+            value={searchQuery}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+
           />
           <button type="submit" className="search-button">
             <svg
