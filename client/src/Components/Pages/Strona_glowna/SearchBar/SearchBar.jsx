@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../Strona_glowna/SearchBar.css';
+import '../SearchBar/SearchBar.css';
 
 const SearchBar = () => {
   const [selectedOption, setSelectedOption] = useState('Wszystkie');
@@ -193,7 +193,7 @@ const SearchBar = () => {
                 </select>
               </div>
               <div className="form-group">
-                <label>Powiat</label>
+                <label>Gmina</label>
                 <select>
                   <option>Dowolne</option>
                   {/* Add more options as needed */}

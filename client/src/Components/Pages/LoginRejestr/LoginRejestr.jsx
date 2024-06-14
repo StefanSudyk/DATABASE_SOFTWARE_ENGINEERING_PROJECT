@@ -3,6 +3,7 @@ import axios from 'axios';
 import './LoginRejestr.css';
 import MainLogo from '../../../assets/main_logo.png';
 import Modal from './modal';
+import tlo_logowanie from '../../../assets/background_image_logrej.jpg';
 
 axios.defaults.withCredentials = true;
 
@@ -189,13 +190,13 @@ const LoginRejestr = () => {
   return (
     <div className="login-all">
       <Modal show={showModal} onClose={() => setShowModal(false)} message={error} />
-      <div className="login-container">
+      <div className={`login-container ${action === "Zaloguj" ? "login-container-small" : action === "Zarejestruj" ? "login-container-large" : ""}`}> 
         <div className="login-photo"></div>
         <div className="login-content">
           
           <div className="login-wybor">
-            <div className={action === "Zarejestruj" ? "login-wybor-div granat" : "login-wybor-div"} onClick={() => setAction("Zarejestruj")}>Zarejestruj</div>
-            <div className={action === "Zaloguj" ? "login-wybor-div granat" : "login-wybor-div"} onClick={() => setAction("Zaloguj")}>Zaloguj</div>
+            <div className={action === "Zarejestruj" ? "login-wybor-div granat" : "login-wybor-div szary"} onClick={() => setAction("Zarejestruj")}>Zarejestruj</div>
+            <div className={action === "Zaloguj" ? "login-wybor-div granat" : "login-wybor-div szary"} onClick={() => setAction("Zaloguj")}>Zaloguj</div>
           </div>
           {action === "Zarejestruj" ? (
             <RegisterForm setError={setError} setShowModal={setShowModal} />
