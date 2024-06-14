@@ -12,11 +12,17 @@ db = SQLAlchemy()
 
 pymysql.install_as_MySQLdb()
 
+def get_db_password():
+    with open(os.path.join(os.getcwd(), 'haslo.txt'), 'r') as file:
+        return file.read().strip()
 
 def create_app():
     print(os.path.join(os.getcwd(), 'ca.pem'))
     app = Flask(__name__, template_folder='templates')
-    app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://avnadmin:AVNS_zmlRMUb7T2cadhX76cH@mysql-flatsnhomes-flatsnhomes.j.aivencloud.com:21394/defaultdb"
+
+    password = get_db_password()
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://avnadmin:{password}@mysql-flatsnhomes-flatsnhomes.j.aivencloud.com:21394/defaultdb"
     
     # Ustaw dodatkowe parametry połączenia dla pymysql, w tym SSL
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
