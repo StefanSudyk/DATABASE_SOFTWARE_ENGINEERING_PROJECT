@@ -135,7 +135,6 @@ class GetProperty(Resource):
         
         except Exception as e:
             return Response('Error: user not find. '+str(e), status=501, mimetype='application/json')
-
 class GetAllProperty(Resource):
     def get(self):
         property_service = PropertyService()
@@ -149,55 +148,90 @@ class GetAllProperty(Resource):
         district = request.args.get('district')
         condition = request.args.get('condition')
         user = request.args.get('user')
-        #tak btw finishing_standard to typ nieruchomosci a condition poziom wykonczenia xD
+        nr_floors = request.args.get('nr_floors')
+        car_parking_space = request.args.get('car_parking_space')
+        type_of_heating = request.args.get('type_of_heating')
+        market = request.args.get('market')
+        nr_bathrooms = request.args.get('nr_bathrooms')
+        nr_garages = request.args.get('nr_garages')
+        nr_balconies = request.args.get('nr_balconies')
+
         try:
+            query = Property.query
+
             if price_range:
-                price_from, price_to = map(float, price_range.split('-'))
-                if price_from==None or price_from==0:
-                    price_from=0
-                if price_to==None or price_to==0:
-                    price_to=99999999999
-                properties = filter_by_price(price_from, price_to)
-            elif metrage_range:
-                metrage_from, metrage_to = map(float, metrage_range.split('-'))
-                properties = filter_by_square_metrage(metrage_from, metrage_to)
-            elif finishing_standard:
-                properties = filter_by_finishing_standard(finishing_standard)
-            elif nr_rooms:
-                properties = filter_by_nr_rooms(nr_rooms)
-            elif country:
-                properties = filter_by_address(country, locality, street, district)
-            elif condition:
-                properties = filter_by_condition(condition)
-            elif user:
-                properties = filter_by_user(user)
-            elif locality:
-                properties = filter_by_locality(locality)
-                print("hej")
-            else:
-                properties = Property.query.all()
+                try:
+                    price_from, price_to = map(float, price_range.split('-'))
+                    query = query.filter(Property.price.between(price_from, price_to))
+                except ValueError:
+                    return Response("Invalid price range format", status=400, mimetype='application/json')
+
+            if metrage_range:
+                try:
+                    metrage_from, metrage_to = map(float, metrage_range.split('-'))
+                    query = query.filter(Property.square_metrage.between(metrage_from, metrage_to))
+                except ValueError:
+                    return Response("Invalid metrage range format", status=400, mimetype='application/json')
+
+            if finishing_standard:
+                query = query.filter(Property.finishing_standard == finishing_standard)
+
+            if nr_rooms:
+                query = query.join(Inside).filter(Inside.nr_rooms == nr_rooms)
+
+            if country or locality or street or district:
+                query = query.join(Address)
+                if country:
+                    query = query.filter(Address.country == country)
+                if locality:
+                    query = query.filter(Address.locality == locality)
+                if street:
+                    query = query.filter(Address.street == street)
+                if district:
+                    query = query.filter(Address.district == district)
+
+            if condition:
+                query = query.join(Inside).filter(Inside.condition_ == condition)
+
+            if user:
+                query = query.filter(Property.id_owner == user)
+
+            if nr_floors:
+                query = query.join(Inside).filter(Inside.nr_floors == nr_floors)
+
+            if car_parking_space:
+                query = query.join(Infrastructure).filter(Infrastructure.car_parking_space == car_parking_space)
+
+            if type_of_heating:
+                query = query.join(Inside).filter(Inside.type_of_heating == type_of_heating)
+
+            if market:
+                query = query.filter(Property.market == market)
+
+            if nr_bathrooms:
+                query = query.join(Inside).filter(Inside.nr_bathrooms == nr_bathrooms)
+
+            if nr_garages:
+                query = query.join(Inside).filter(Inside.nr_garages == nr_garages)
+
+            if nr_balconies:
+                query = query.join(Inside).filter(Inside.nr_balconies == nr_balconies)
+
+            properties = query.all()
 
             if not properties:
-                return Response("No property", status=500, mimetype='application/json')
+                return Response("No property found", status=404, mimetype='application/json')
 
-            # Pobieranie zdjęć przypisanych do właściwości
-            photos = Photo.query.filter(Photo.id_property.in_([property.id_property for property in properties])).all()
-            addresses = Address.query.filter(Address.id_property.in_([property.id_property for property in properties])).all()
-            infrastructures = Infrastructure.query.filter(Infrastructure.id_property.in_([property.id_property for property in properties])).all()
-            insides = Inside.query.filter(Inside.id_property.in_([property.id_property for property in properties])).all()
+            property_ids = [property.id_property for property in properties]
+            photos = Photo.query.filter(Photo.id_property.in_(property_ids)).all()
+            addresses = Address.query.filter(Address.id_property.in_(property_ids)).all()
+            infrastructures = Infrastructure.query.filter(Infrastructure.id_property.in_(property_ids)).all()
+            insides = Inside.query.filter(Inside.id_property.in_(property_ids)).all()
 
-            if price_range is not None or metrage_range is not None or finishing_standard is not None or nr_rooms is not None or country is not None or condition is not None or user is not None or locality is not None:
-                return property_service.get_properties_and_photos(properties, photos, addresses, infrastructures, insides)
-            else:
-                addresses = Address.query.all()
-                insides = Inside.query.all()
-                infrastructures = Infrastructure.query.all()
-                rooms = Room.query.all()
-                return property_service.get_all_properties_with_all(properties, addresses, photos, insides, infrastructures, rooms)
+            return property_service.get_properties_and_photos(properties, photos, addresses, infrastructures, insides)
 
         except Exception as e:
             return Response('Error: no properties. ' + str(e), status=501, mimetype='application/json')
-
 
 class PostProperty(Resource):
 
