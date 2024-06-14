@@ -6,7 +6,7 @@ import { Popularne } from './Popularne/Popularne.jsx'
 import Postcard from '../../Postcard/Postcard.jsx'
 import Card_apartment from '../../Card_apartment/Card_apartment.jsx'
 import Footer from '../../Footer/Footer.jsx'
-import SearchBar from './SearchBar.jsx'
+import SearchBar from './SearchBar/SearchBar.jsx'
 
 const Strona_glowna = () => {
   return (
