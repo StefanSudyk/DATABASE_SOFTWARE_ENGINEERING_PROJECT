@@ -16,6 +16,8 @@ import SearchResults from './Components/Pages/Strona_glowna/SearchRes/SearchResu
 
 const App = () => {
   
+
+  
   const isLoggedIn = false;
   return (
      
