@@ -1,0 +1,20 @@
+.results-container {
+    display: flex;
+    height: 100vh; /* Wysokość na pełny ekran */
+  }
+  
+  .left-side {
+    flex: 1;
+    background-color: blue;
+    color: white; /* Dla lepszej czytelności tekstu na niebieskim tle */
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .right-side {
+    flex: 1;
+    background-color: yellow;
+    color: black; /* Dla lepszej czytelności tekstu na żółtym tle */
+    padding: 20px;
+    box-sizing: border-box;
+  }
