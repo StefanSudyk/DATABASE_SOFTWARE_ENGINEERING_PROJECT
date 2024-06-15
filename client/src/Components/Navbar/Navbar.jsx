@@ -20,7 +20,8 @@ const Navbar = () => {
       }
 
       try {
-        const response = await axios.get("http://127.0.0.1:5000/currentuser", {
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await axios.get(`${apiUrl}/currentuser`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

@@ -3,9 +3,10 @@ import Card_apartment from './Card_apartment';
 
 const DaneDoWczytania = () => {
   const [propertiesData, setPropertiesData] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
-    fetch('http://127.0.0.1:5000/getallproperty') 
+    fetch(`${apiUrl}/getallproperty`) 
       .then(response => response.json())
       .then(data => setPropertiesData(data))
       .catch(error => console.error('Data ', error));

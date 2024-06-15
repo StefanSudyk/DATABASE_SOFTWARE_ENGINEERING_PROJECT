@@ -39,7 +39,8 @@ const ProfileView = () => {
 useEffect(() => {
   const fetchCompanyData = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:5000/getcompany/${companyId}`);
+      const apiUrl = process.env.REACT_APP_API_URL;
+      const response = await axios.get(`${apiUrl}/getcompany/${companyId}`);
       const companyData = response.data;
 
       // Update state variables with the fetched company data
@@ -70,8 +71,8 @@ useEffect(() => {
           console.error('No token found');
           return;
         }
-        
-        const response = await axios.get("http://127.0.0.1:5000/currentuser", {
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await axios.get(`${apiUrl}/currentuser`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -96,7 +97,8 @@ useEffect(() => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:5000/get/${userId}`);
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await axios.get(`${apiUrl}/get/${userId}`);
         const userData = response.data;
 
         // Update state variables with the fetched user data

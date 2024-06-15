@@ -32,7 +32,8 @@ const EditProfilePasswordPopUp = ({ showPopup, setShowPopup, userId, setDataUpda
     };
   
     // Send a PATCH request to update the user data
-    axios.patch(`http://127.0.0.1:5000/patch/${userId}/password`, data)
+    const apiUrl = process.env.REACT_APP_API_URL;
+    axios.patch(`${apiUrl}/patch/${userId}/password`, data)
       .then(response => {
         console.log('Password updated successfully');
         setNotification('Password updated successfully');
