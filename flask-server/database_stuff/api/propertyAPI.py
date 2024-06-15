@@ -155,6 +155,7 @@ class GetAllProperty(Resource):
         nr_bathrooms = request.args.get('nr_bathrooms')
         nr_garages = request.args.get('nr_garages')
         nr_balconies = request.args.get('nr_balconies')
+        region = request.args.get('region')
         #tak btw finishing_standard to typ nieruchomosci a condition poziom wykonczenia xD
         try:
             query = Property.query
@@ -216,7 +217,9 @@ class GetAllProperty(Resource):
                 query = filter_by_nr_garages(query, nr_garages)
             if district:
                 query = filter_by_district(query, district)
-                
+            
+            if region:
+                query = filter_by_region(query, region)
             properties = query.all()
 
             
