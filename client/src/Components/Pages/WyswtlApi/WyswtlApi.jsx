@@ -17,8 +17,8 @@ const WyswietlApi = () => {
           console.error('No token found');
           return;
         }
-
-        const response = await axios.get("http://127.0.0.1:5000/currentuser", {
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await axios.get(`${apiUrl}/currentuser`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -34,7 +34,8 @@ const WyswietlApi = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post("http://127.0.0.1:5000/logout", null, {
+      const apiUrl = process.env.REACT_APP_API_URL;
+      await axios.post(`${apiUrl}/logout`, null, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }

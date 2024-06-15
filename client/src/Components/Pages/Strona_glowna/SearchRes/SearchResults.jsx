@@ -23,8 +23,8 @@ const SearchResults = () => {
 
     // Dodaj dodatkowe parametry jeśli są potrzebne
     // params.append('additional_param', 'value');
-
-    const url = `http://127.0.0.1:5000/getallproperty?${params.toString()}`;
+    const apiUrl = process.env.REACT_APP_API_URL;
+    const url = `${apiUrl}/getallproperty?${params.toString()}`;
 
     fetch(url)
       .then(response => response.json())

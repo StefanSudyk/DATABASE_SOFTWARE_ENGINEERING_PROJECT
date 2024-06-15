@@ -17,7 +17,6 @@ def get_db_password():
         return file.read().strip()
 
 def create_app():
-    print(os.path.join(os.getcwd(), 'ca.pem'))
     app = Flask(__name__, template_folder='templates')
 
     password = get_db_password()

@@ -6,13 +6,16 @@ import './OfferDetails.css';
 const OfferDetails = () => {
   const { property_id } = useParams();
   const [property, setProperty] = useState(null);
+  
 
 
   console.log(property_id)
   useEffect(() => {
     const fetchProperty = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:5000/getproperty/${property_id}`);
+        const apiUrl = process.env.REACT_APP_API_URL;
+        
+        const response = await axios.get(`${apiUrl}/getproperty/${property_id}`);
         console.log('API response:', response.data); 
         setProperty(response.data);
       } catch (error) {
