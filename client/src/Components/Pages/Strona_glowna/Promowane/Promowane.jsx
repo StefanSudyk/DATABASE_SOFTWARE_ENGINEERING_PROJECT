@@ -16,19 +16,6 @@ export const Promowane = () => {
         
         
       <DaneDoWczytaniaPromowane/>
-      
-      {/*<div className='ostatnie_zagniezdzenie_edycja_bloku'>
-      <DaneDoWczytania/>
-      </div>
-      <div className='ostatnie_zagniezdzenie_edycja_bloku'>
-      <DaneDoWczytania/>
-      </div>
-      <div className='ostatnie_zagniezdzenie_edycja_bloku'>
-      <DaneDoWczytania/>
-      </div>
-      <div className='ostatnie_zagniezdzenie_edycja_bloku'>
-      <DaneDoWczytania/>
-      </div>*/}
       </div>
       
       
