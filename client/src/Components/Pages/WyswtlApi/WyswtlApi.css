@@ -1,6 +1,35 @@
-.first_line{
-    padding-top: 110px;
+.wylog_zalog{
+    display:inline-block;
+    margin: 10px 20px;
+    font-size: 5 px;
 }
-.zdjecie{
+.navbar_use_wyloguj {
+    display:inline-block;
+    margin: 10px 8px;
+    font-size: 20px;
+}
+.navbar_use_wyloguj button{
+    margin-left:20px ;
+    margin-right: 0px;
+    font-size: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-weight: 700;
     
+}
+.navbar_use_wyloguj :hover{
+    margin-left:20px ;
+    font-size: 20px;
+    background: none;
+    border: none;
+    color: rgb(184, 184, 184);
+    font-weight: 700;
+    
+}
+.navbar_use_zaloguj{
+    margin: 5px;
+    display:inline-block;
+    margin: 10px 8px;
+    font-size: 20px;
 }
