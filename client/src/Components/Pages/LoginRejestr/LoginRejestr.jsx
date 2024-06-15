@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './LoginRejestr.css';
 import MainLogo from '../../../assets/main_logo.png';
 import Modal from './modal';
@@ -7,7 +8,23 @@ import tlo_logowanie from '../../../assets/background_image_logrej.jpg';
 
 axios.defaults.withCredentials = true;
 
-const RegisterForm = ({ setError, setShowModal }) => {
+const SuccessModal = ({ show, onClose }) => {
+  if (!show) {
+    return null;
+  }
+
+  return (
+    <div className="modal">
+      <div className="modal-content">
+        <span className="close" onClick={onClose}>&times;</span>
+        <p>Wprowadzono dane poprawnie!</p>
+      </div>
+    </div>
+  );
+};
+
+const RegisterForm = ({ setError, setShowModal, setShowSuccessModal }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     surname: '',
@@ -29,7 +46,8 @@ const RegisterForm = ({ setError, setShowModal }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://127.0.0.1:5000/post', formData, {
+      const apiUrl = process.env.REACT_APP_API_URL;
+      const response = await axios.post(`${apiUrl}/post`, formData, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -37,6 +55,11 @@ const RegisterForm = ({ setError, setShowModal }) => {
       console.log(response.data.message);
       setError('');
       setShowModal(false);
+      setShowSuccessModal(true); // Pokaż okno modalne z sukcesem
+      setTimeout(() => {
+        setShowSuccessModal(false);
+        navigate('/'); // Przekierowanie na stronę główną
+      }, 2000); // Ukryj modal po 2 sekundach
     } catch (error) {
       console.error('Upsi!', error);
       if (error.response) {
@@ -97,7 +120,8 @@ const RegisterForm = ({ setError, setShowModal }) => {
   );
 };
 
-const LoginForm = ({ setError, setShowModal }) => {
+const LoginForm = ({ setError, setShowModal, setShowSuccessModal }) => {
+  const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
     phone_number: '',
     password: ''
@@ -116,7 +140,8 @@ const LoginForm = ({ setError, setShowModal }) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://127.0.0.1:5000/login', loginData, {
+      const apiUrl = process.env.REACT_APP_API_URL;
+      const response = await axios.post(`${apiUrl}/login`, loginData, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -127,6 +152,11 @@ const LoginForm = ({ setError, setShowModal }) => {
       console.log(response.data.message);
       setError('');
       setShowModal(false);
+      setShowSuccessModal(true); // Pokaż okno modalne z sukcesem
+      setTimeout(() => {
+        setShowSuccessModal(false);
+        navigate('/'); // Przekierowanie na stronę główną
+      }, 2000); // Ukryj modal po 2 sekundach
     } catch (error) {
       console.error('Upsi!', error);
       if (error.response) {
@@ -186,10 +216,12 @@ const LoginRejestr = () => {
   const [action, setAction] = useState("Zarejestruj");
   const [error, setError] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   return (
     <div className="login-all">
       <Modal show={showModal} onClose={() => setShowModal(false)} message={error} />
+      <SuccessModal show={showSuccessModal} onClose={() => setShowSuccessModal(false)} />
       <div className={`login-container ${action === "Zaloguj" ? "login-container-small" : action === "Zarejestruj" ? "login-container-large" : ""}`}> 
         <div className="login-photo"></div>
         <div className="login-content">
@@ -199,9 +231,9 @@ const LoginRejestr = () => {
             <div className={action === "Zaloguj" ? "login-wybor-div granat" : "login-wybor-div szary"} onClick={() => setAction("Zaloguj")}>Zaloguj</div>
           </div>
           {action === "Zarejestruj" ? (
-            <RegisterForm setError={setError} setShowModal={setShowModal} />
+            <RegisterForm setError={setError} setShowModal={setShowModal} setShowSuccessModal={setShowSuccessModal} />
           ) : (
-            <LoginForm setError={setError} setShowModal={setShowModal} />
+            <LoginForm setError={setError} setShowModal={setShowModal} setShowSuccessModal={setShowSuccessModal} />
           )}
         </div>
       </div>

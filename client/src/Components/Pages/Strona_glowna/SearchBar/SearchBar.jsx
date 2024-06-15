@@ -1,12 +1,34 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import '../SearchBar/SearchBar.css';
+import './SearchBar.css';
 
-const SearchBar = () => {
+const SearchBar = ({ className }) => {
   const [selectedOption, setSelectedOption] = useState('Wszystkie');
   const [expandBackground, setExpandBackground] = useState(false);
   const [showContent, setShowContent] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [advancedSearch, setAdvancedSearch] = useState({
+    finishing_standard: '',
+    price_from: '',
+    price_to: '',
+    metrage_from: '',
+    metrage_to: '',
+    nr_floors: '',
+    car_parking_space: '',
+    heating: '',
+    finish: '',
+    market: '',
+    nr_rooms: '',
+    bathrooms: '',
+    nr_garages: '',
+    nr_balconies: '',
+    region: '',
+    municipality: '',
+    nr_bathrooms: '',
+    district: '',
+    condition: '',
+    type_of_heating: '',
+  });
   const navigate = useNavigate();
 
   const handleOptionChange = (event) => {
@@ -24,11 +46,34 @@ const SearchBar = () => {
     setSearchQuery(event.target.value);
   };
 
+  const handleAdvancedSearchChange = (event) => {
+    const { name, value } = event.target;
+    setAdvancedSearch((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   const handleSearch = (event) => {
     event.preventDefault();
+    const params = new URLSearchParams();
     if (searchQuery.trim()) {
-      navigate('/results?query=${encodeURIComponent(searchQuery)}');
+      params.append('locality', searchQuery);
     }
+    if (advancedSearch.price_from || advancedSearch.price_to) {
+      const priceRange = `${advancedSearch.price_from || ''}-${advancedSearch.price_to || ''}`;
+      params.append('price_range', priceRange);
+    }
+    if (advancedSearch.metrage_from || advancedSearch.metrage_to) {
+      const metrageRange = `${advancedSearch.metrage_from || ''}-${advancedSearch.metrage_to || ''}`;
+      params.append('metrage_range', metrageRange);
+    }
+    Object.keys(advancedSearch).forEach((key) => {
+      if (key !== 'price_from' && key !== 'price_to' && key !== 'metrages_from' && key !== 'metrages_to' && advancedSearch[key]) {
+        params.append(key, advancedSearch[key]);
+      }
+    });
+    navigate(`/results?${params.toString()}`);
   };
 
   const handleKeyDown = (event) => {
@@ -38,7 +83,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div className={`wyszukaj ${expandBackground ? 'expanded' : ''}`}>
+    <div className={`wyszukaj ${expandBackground ? 'expanded' : ''} ${className}`}>
       <form className="search-form" onSubmit={handleSearch}>
         <div className="radio-buttons">
           <label className={selectedOption === 'Wszystkie' ? 'active' : ''}>
@@ -56,6 +101,7 @@ const SearchBar = () => {
               value="Mieszkanie"
               checked={selectedOption === 'Mieszkanie'}
               onChange={handleOptionChange}
+              
             />
             Mieszkanie
           </label>
@@ -124,71 +170,126 @@ const SearchBar = () => {
             <div className="form-row">
               <div className="form-group">
                 <label>Typ</label>
-                <select>
-                  <option>Dowolne</option>
-                  <option value="Apartment"> Mieszkanie</option>
+                <select
+                  name="finishing_standard"
+                  value={advancedSearch.finishing_standard}
+                  onChange={handleAdvancedSearchChange}
+                >
+                  <option value="">Dowolne</option>
+                  <option value="Apartment">Mieszkanie</option>
                   <option value="House">Dom</option>
                   <option value="Terraced house">Szeregówka</option>
-                  <option value>Inne</option>
-                  {/* Add more options as needed */}
+                  <option value="Other">Inne</option>
                 </select>
               </div>
               <div className="form-group">
                 <label>Cena</label>
-                <input  type="number" placeholder="Od" min="0" />
-                <input type="number" placeholder="Do" min="0" />
+                <input
+                  type="number"
+                  placeholder="Od"
+                  min="0"
+                  name="price_from" 
+                  value={advancedSearch.price_from}
+                  onChange={handleAdvancedSearchChange}
+                />
+                <input
+                  type="number"
+                  placeholder="Do"
+                  min="0"
+                  name="price_to" 
+                  value={advancedSearch.price_to}
+                  onChange={handleAdvancedSearchChange}
+                />
               </div>
               <div className="form-group">
                 <label>Metraż w m²</label>
-                <input type="number" placeholder="Dowolne w m²" min="0" />
+                <input
+                  type="number"
+                  placeholder="Od"
+                  min="0"
+                  name="metrage_from" 
+                  value={advancedSearch.metrage_from}
+                  onChange={handleAdvancedSearchChange}
+                />
+                <input
+                  type="number"
+                  placeholder="Do"
+                  min="0"
+                  name="metrage_to" 
+                  value={advancedSearch.metrage_to}
+                  onChange={handleAdvancedSearchChange}
+                />
               </div>
+              
               <div className="form-group">
                 <label>Ilość pięter</label>
-                <input type="number" placeholder="Dowolne" min="0" />
+                <input type="number" placeholder="Dowolne" min="0" 
+                name="nr_floors" // Dodaj nazwę pola, musi odpowiadać kluczowi w stanie advancedSearch
+                value={advancedSearch.nr_floors}
+                onChange={handleAdvancedSearchChange} // Obsługa zmiany
+                />
+                
               </div>
             </div>
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="mniejszyText">Miejsce parkingowe</label>
-                <select>
-                  <option>Dowolne</option>
-                  <option>Tak</option>
-                  <option>Nie</option>
+                <select
+                name="car_parking_space"
+                value={advancedSearch.car_parking_space}
+                onChange={handleAdvancedSearchChange}
+                >
+                  <option value="">Dowolne</option>
+                  <option value="1">Tak</option>
+                  <option value="0">Nie</option>
                   {/* Add more options as needed */}
                 </select>
               </div>
               <div className="form-group">
                 <label htmlFor="mniejszyText">Rodzaj ogrzewania</label>
-                <select>
-                  <option>Dowolne</option>
-                  <option>Pompa ciepła</option>
-                  <option>Piec</option>
-                  <option>Piec na eko groszek</option>
-                  <option>Piec gazowy</option>
-                  <option>Ogrzewanie elektryczne</option>
-                  <option>Kolektory słoneczne</option>
+                <select
+                name="type_of_heating"
+                value={advancedSearch.type_of_heating}
+                onChange={handleAdvancedSearchChange}
+                >
+                  
+                  <option value="">Dowolne</option>
+                  <option value="Heat pump">Pompa ciepła</option>
+                  <option value="Furnace">Piec</option>
+                  <option value="Eco-pea stove">Piec na eko groszek</option>
+                  <option value="Gas furnace">Piec gazowy</option>
+                  <option value="Electric heating">Ogrzewanie elektryczne</option>
+                  <option value="Solar panels">Kolektory słoneczne</option>
+                  <option value="Lack">Brak</option>
                   {/* Add more options as needed */}
                 </select>
               </div>
               <div className="form-group">
                 <label>Wykończenie</label>
-                <select>
-                  <option>Dowolne</option>
-                  <option>Fromalności przed</option>
-                  <option>Stan zerowy</option>
-                  <option>Stan surowy otwarty</option>
-                  <option>Stan surowy otwarty</option>
-                  <option>Stan surowy zamknięty</option>
-                  <option>Prace wykończeniowe</option>
-                  <option>Gotowy</option>
+                <select
+                  name="condition"
+                  value={advancedSearch.condition}
+                  onChange={handleAdvancedSearchChange}
+                  >
+                  
+                  <option value="">Dowolne</option>
+                  <option value="Formalities">Fromalności przed</option>
+                  <option value="Zero condition">Stan zerowy</option>
+                  <option value="Open basic condition">Stan surowy otwarty</option>
+                  <option value="Close basic condition">Stan surowy zamknięty</option>
+                  <option value="Finishing works">Prace wykończeniowe</option>
+                  <option value="Finished">Gotowy</option>
                 </select>
               </div>
               <div className="form-group">
                 <label>Rynek</label>
-                <select>
-                  <option>Dowolny</option>
-                  <option>Wtórny</option>
-                  <option>Pierwotny</option>
+                <select
+                name="market"
+                value={advancedSearch.market}
+                onChange={handleAdvancedSearchChange}>
+                  <option value="">Dowolny</option>
+                  <option value="Wtórny">Wtórny</option>
+                  <option value="Pierwotny">Pierwotny</option>
                   {/* Add more options as needed */}
                 </select>
               </div>
@@ -196,21 +297,37 @@ const SearchBar = () => {
             <div className="form-row">
               <div className="form-group">
                 <label>Ilość pokoi</label>
-                <input type="number" placeholder="Dowolne" min="0" />
+                <input type="number" placeholder="Dowolne" min="0" 
+                name="nr_rooms" // Dodaj nazwę pola, musi odpowiadać kluczowi w stanie advancedSearch
+                value={advancedSearch.nr_rooms}
+                onChange={handleAdvancedSearchChange} // Obsługa zmiany
+                />
               </div>
               <div className="form-group">
                 <label>Ilość łazienek</label>
-                <input type="number" placeholder="Dowolne" min="0" />
+                <input type="number" placeholder="Dowolne" min="0" 
+                name="nr_bathrooms" // Dodaj nazwę pola, musi odpowiadać kluczowi w stanie advancedSearch
+                value={advancedSearch.nr_bathrooms}
+                onChange={handleAdvancedSearchChange} // Obsługa zmiany
+                />
               </div>
               <div className="form-group">
                 <label>Ilość garaży</label>
-                <input type="number" placeholder="Dowolne" min="0" />
+                <input type="number" placeholder="Dowolne" min="0" 
+                name="nr_garages" // Dodaj nazwę pola, musi odpowiadać kluczowi w stanie advancedSearch
+                value={advancedSearch.nr_garages}
+                onChange={handleAdvancedSearchChange} // Obsługa zmiany
+                />
               </div>
               <div className="form-group">
                 <label>Ilość balkonów</label>
                 
-                <input type="number" placeholder="Dowolne" min="0" />
-                  {/* Add more options as needed */}
+                <input type="number" placeholder="Dowolne" min="0" 
+                name="nr_balconies" // Dodaj nazwę pola, musi odpowiadać kluczowi w stanie advancedSearch
+                value={advancedSearch.nr_balconies}
+                onChange={handleAdvancedSearchChange} // Obsługa zmiany
+                />
+                  
                 
               </div>
             </div>
@@ -218,29 +335,38 @@ const SearchBar = () => {
              
               <div className="form-group">
                 <label>Województwo</label>
-                <select>
-                  <option>Dowolne</option>
-                  <option>Dolnośląskie</option>
-                  <option>Kujawsko-Pomorskie</option>
-                  <option>Lubelskie</option>
-                  <option>Lubuskie</option>
-                  <option>Łódzkie</option>
-                  <option>Małopolskie</option>
-                  <option>Mazowieckie</option>
-                  <option>Opolskie</option>
-                  <option>Podkarpackie</option>
-                  <option>Podlaskie</option>
-                  <option>Pomorskie</option>
-                  <option>Śląskie</option>
-                  <option>Świętokrzyskie</option>
-                  <option>Warmińsko-Mazurskie</option>
-                  <option>Wielkopolskie</option>
-                  <option>Zachodniopomorskie</option>
+                <select
+                name="region"
+                value={advancedSearch.region}
+                onChange={handleAdvancedSearchChange}
+                
+                >
+                  <option value="">Dowolne</option>
+                  <option value="Dolnośląskie">Dolnośląskie</option>
+                  <option value="Kujawsko-Pomorskie">Kujawsko-Pomorskie</option>
+                  <option value="Lubelskie">Lubelskie</option>
+                  <option value="Lubuskie">Lubuskie</option>
+                  <option value="Łódzkie">Łódzkie</option>
+                  <option value="Małopolskie">Małopolskie</option>
+                  <option value="Mazowieckie">Mazowieckie</option>
+                  <option value="Opolskie">Opolskie</option>
+                  <option value="Podkarpackie">Podkarpackie</option>
+                  <option value="Podlaskie">Podlaskie</option>
+                  <option value="Pomorskie">Pomorskie</option>
+                  <option value="Śląskie">Śląskie</option>
+                  <option value="Świętokrzyskie">Świętokrzyskie</option>
+                  <option value="Warmińsko-Mazurskie">Warmińsko-Mazurskie</option>
+                  <option value="Wielkopolskie">Wielkopolskie</option>
+                  <option value="Zachodniopomorskie">Zachodniopomorskie</option>
                 </select>
               </div>
               <div className="form-group">
                 <label>Gmina</label>
-                <input type="text" placeholder="Dowolne" />
+                <input type="text" placeholder="Dowolne" 
+                name="district" // Dodaj nazwę pola, musi odpowiadać kluczowi w stanie advancedSearch
+                value={advancedSearch.district}
+                onChange={handleAdvancedSearchChange} // Obsługa zmiany
+                />
               </div>
             </div>
             <div className="form-row">

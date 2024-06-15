@@ -1,28 +1,60 @@
-// components/SearchResults.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import '../SearchRes/SearchResults.css'
+import '../SearchRes/SearchResults.css';
+import DanePoFiltracji from '../../../Card_apartment/DanePoFiltracji.jsx';
+import ButtonBack from '../ButtonBack/ButtonBack.jsx';
+import MiniButtonFilters from '../MiniButtonFilters/MiniButtonFilters.jsx';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
 const SearchResults = () => {
-  const query = useQuery().get('query');
+  const query = useQuery();
+  const [propertiesData, setPropertiesData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Tutaj dodaj logikę wyszukiwania i wyświetlania wyników na podstawie query
+  useEffect(() => {
+    fetchProperties(query);
+  }, [query]);
+
+  const fetchProperties = (queryParams) => {
+    const params = new URLSearchParams(queryParams);
+
+    // Dodaj dodatkowe parametry jeśli są potrzebne
+    // params.append('additional_param', 'value');
+    const apiUrl = process.env.REACT_APP_API_URL;
+    const url = `${apiUrl}/getallproperty?${params.toString()}`;
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        setPropertiesData(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching data: ', error);
+        setLoading(false);
+      });
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
+    <>
+    <div className='gorny_tekst'> 
+      Oferty dobrane według filtrowania
+      <span className='przycisk_filtry'>
+      <MiniButtonFilters/>
+      </span>
+       <div className='Nawigacja'><ButtonBack/></div></div>
     <div className="results-container">
-      <div className="left-side">
-        <h1>Results for: {query}</h1>
-        {/* Tutaj dodaj logikę wyszukiwania i wyświetlania wyników na podstawie query */}
-      </div>
-      <div className="right-side">
-        <h1>Additional Information</h1>
-        {/* Tutaj możesz dodać dodatkowe informacje lub komponenty */}
-      </div>
+        <DanePoFiltracji propertiesData={propertiesData} className="kafelek" />
+
     </div>
+    </>
   );
 };
 

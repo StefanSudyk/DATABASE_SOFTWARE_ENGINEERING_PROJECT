@@ -1,7 +1,7 @@
 .container{
   display:flex;
   flex-direction: column;
-  padding-top: 18vh;
+  padding-top: 14vh;
 }
 
 .content-container {
@@ -85,4 +85,9 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+.przycisk{
+  top:100px;
+  margin-left: 50px;
+  margin-bottom: 5px;
 }
