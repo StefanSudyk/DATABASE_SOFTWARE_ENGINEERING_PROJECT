@@ -36,6 +36,10 @@ def filter_by_address(query, country, locality=None, street=None, district=None)
 def filter_by_district(query, district):
     
     return query.join(Address).filter(Address.district == district)
+
+def filter_by_region(query, region):
+    
+    return query.join(Address).filter(Address.region == region)
 #filtrowanie po finishing standard
 
 def filter_by_finishing_standard(query, finishing_standard):
@@ -83,3 +87,4 @@ def filter_by_nr_garages(query, nr_garages):
 # filtrowanie po ilości balkonów
 def filter_by_nr_balconies(query, nr_balconies):
     return query.join(Inside).filter(Inside.nr_balconies == nr_balconies)
+
