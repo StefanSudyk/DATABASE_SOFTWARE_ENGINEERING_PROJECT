@@ -12,9 +12,11 @@ import Regulamin from './Components/Pages/Strony_do_stopki/regulamin.jsx';
 import Obsluga_klienta from './Components/Pages/Strony_do_stopki/obsluga_klienta.jsx';
 import User_profile from './Components/Pages/User_profile/Profile_view.jsx'
 import OfferDetails from './Components/Offer_Details/OfferDetails.jsx';
-
+import SearchResults from './Components/Pages/Strona_glowna/SearchRes/SearchResults.jsx';
 
 const App = () => {
+  
+
   
   const isLoggedIn = false;
   return (
@@ -33,6 +35,7 @@ const App = () => {
       <Route path="Dodaj_ogloszenie" element={<Dodaj_ogloszenie/>}/>
       <Route path="/User_profile" element={<User_profile/>}/>
       <Route path="/property/:property_id" element={<OfferDetails/>} />
+      <Route path="/results" element={<SearchResults/>} />
     </Routes>
     
       </BrowserRouter>

@@ -1,17 +1,19 @@
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
+  position: fixed; /* Ustawia pozycję na stałą względem okna przeglądarki */
+  top: 0;
+  left: 0;
+  width: 100%; /* Szerokość na 100% okna */
+  height: 100%; /* Wysokość na 100% okna */
+  background-color: rgba(0, 0, 0, 0.5); /* Półprzezroczyste tło */
+  display: flex; /* Użycie flexbox do wyśrodkowania zawartości */
+  justify-content: center; /* Wyśrodkowanie w poziomie */
+  align-items: center; /* Wyśrodkowanie w pionie */
+  z-index: 1000; /* Wysoki z-index, aby element był nad innymi */
+}
+
   
   .modal {
+    position: fixed;
     background: white;
     padding: 20px;
     border-radius: 5px;
@@ -21,23 +23,28 @@
     font-size: 20px;
     size: 20px;
     min-width: 800px;
+    z-index: 1000;
   }
   
   .modal-header {
     margin-bottom: 10px;
+    font-weight: 900;
   }
   
   .modal-body {
     margin-bottom: 20px;
+    font-weight: 500;
     color: #000000;
-    font-weight: 400;
+    
     padding-left: 10px;
     padding-right: 10px;
     font-size: 20px;
     min-width: 800px;
+    
   }
   
   .modal-footer {
     text-align: right;
+    font-weight: 600;
   }
   
