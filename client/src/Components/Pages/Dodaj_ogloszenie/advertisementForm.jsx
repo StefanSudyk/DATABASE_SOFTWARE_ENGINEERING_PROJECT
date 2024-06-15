@@ -250,7 +250,7 @@ const handleSubmit = async (event) => {
         <div className='div-advertisement'>
           <p className='advertisement-paragraph'>Podstawowe dane</p>
           <label className='advertisement-label' htmlFor="title">Tytuł ogłoszenia:</label>
-          <input className='advertisement-input' type="text" name="title" required onChange={(e) => setTitle(e.target.value)} /><br /><br />
+          <input className='advertisement-input' type="text" name="title" required onChange={(e) => setTitle(e.target.value)} placeholder='max 100 znaków'/><br /><br />
 
           <div className="flex-container">
                 <div className="flex-item">
@@ -267,7 +267,6 @@ const handleSubmit = async (event) => {
                     </select>
                 </div>
             </div>
-
             <div className="flex-container">
                 <div className="flex-item">
                     <label className="advertisement-label" htmlFor="market">Rynek:</label>
@@ -278,14 +277,14 @@ const handleSubmit = async (event) => {
                 </div>
                 <div className="flex-item">
                     <label className="advertisement-label" htmlFor="price">Cena:</label>
-                    <input className="advertisement-input" type="number" name="price" required onChange={(e) => setPrice(e.target.value)} placeholder='PLN'/> 
+                    <input className="advertisement-input cena" type="number" name="price" required onChange={(e) => setPrice(e.target.value)} placeholder='PLN'/> 
                 </div>
             </div>
       </div>
       <div className='div-advertisement'>
       <p className="advertisement-paragraph">Adres</p>
 
-      <label className="advertisement-label" htmlFor="country">Kraj:</label>
+      <label className="advertisement-label" htmlFor="country">Dzielnica:</label>
       <input className="advertisement-input" type="text" name="country" required onChange={(e) => setCountry(e.target.value)} />
 
       <div className="flex-container">
@@ -528,7 +527,6 @@ const handleSubmit = async (event) => {
       
       <label className='advertisement-label'>Dodaj promowanie oferty</label>
       <input type="checkbox" className='infoCheckbox' name="promotion" value="1" onChange={(e) => setSponsored(e.target.checked)} />
-      
       
       <label className='advertisement-label'>Akceptuje regulamin strony</label>
       <input type="checkbox" className='infoCheckbox' name="agreement" required /><br /><br />
