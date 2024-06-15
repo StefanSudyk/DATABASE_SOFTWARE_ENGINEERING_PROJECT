@@ -135,7 +135,6 @@ class GetProperty(Resource):
         
         except Exception as e:
             return Response('Error: user not find. '+str(e), status=501, mimetype='application/json')
-
 class GetAllProperty(Resource):
     def get(self):
         property_service = PropertyService()
@@ -149,51 +148,92 @@ class GetAllProperty(Resource):
         district = request.args.get('district')
         condition = request.args.get('condition')
         user = request.args.get('user')
+        nr_floors = request.args.get('nr_floors')
+        car_parking_space = request.args.get('car_parking_space')
+        type_of_heating = request.args.get('type_of_heating')
+        market = request.args.get('market')
+        nr_bathrooms = request.args.get('nr_bathrooms')
+        nr_garages = request.args.get('nr_garages')
+        nr_balconies = request.args.get('nr_balconies')
         #tak btw finishing_standard to typ nieruchomosci a condition poziom wykonczenia xD
         try:
+            query = Property.query
+
+            # Dynamicznie dodawanie warunków do zapytania
             if price_range:
                 price_from, price_to = map(float, price_range.split('-'))
-                properties = filter_by_price(price_from, price_to)
-            elif metrage_range:
+                query = filter_by_price(query, price_from, price_to)
+                
+            if metrage_range:
                 metrage_from, metrage_to = map(float, metrage_range.split('-'))
-                properties = filter_by_square_metrage(metrage_from, metrage_to)
-            elif finishing_standard:
-                properties = filter_by_finishing_standard(finishing_standard)
-            elif nr_rooms:
-                properties = filter_by_nr_rooms(nr_rooms)
-            elif country:
-                properties = filter_by_address(country, locality, street, district)
-            elif condition:
-                properties = filter_by_condition(condition)
-            elif user:
-                properties = filter_by_user(user)
-            elif locality:
-                properties = filter_by_locality(locality)
-                print("hej")
-            else:
-                properties = Property.query.all()
+                query = filter_by_square_metrage(query, metrage_from, metrage_to)
+                
+            if finishing_standard:
+                query = filter_by_finishing_standard(query, finishing_standard)
+                
+            if nr_rooms:
+                query = filter_by_nr_rooms(query, nr_rooms)
+                
+            if country or locality or street or district:
+                subquery = Address.query
+                if country:
+                    subquery = subquery.filter(Address.country == country)
+                if locality:
+                    subquery = subquery.filter(Address.locality == locality)
+                if street:
+                    subquery = subquery.filter(Address.street == street)
+                if district:
+                    subquery = subquery.filter(Address.district == district)
+                
+                address_id = [address.id_property for address in subquery.all()]
+                query = query.filter(Property.id_property.in_(address_id))
+                
+            if condition:
+                query = filter_by_condition(query, condition)
+                
+            if user:
+                query = filter_by_user(query, user)
 
+            if nr_floors:
+                query = filter_by_nr_floors(query, nr_floors)
+            
+            if car_parking_space:
+                query = filter_by_car_parking_space(query, car_parking_space)
+
+            if type_of_heating:
+                query = filter_by_type_of_heating(query, type_of_heating)
+
+            if market:
+                query = filter_by_market(query, market)
+
+            if nr_bathrooms:
+                query = filter_by_nr_bathrooms(query, nr_bathrooms)
+            
+            if nr_balconies:
+                query = filter_by_nr_balconies(query, nr_balconies)
+            
+            if nr_garages:
+                query = filter_by_nr_garages(query, nr_garages)
+            if district:
+                query = filter_by_district(query, district)
+                
+            properties = query.all()
+
+            
+            
             if not properties:
-                return Response("No property", status=500, mimetype='application/json')
+                return Response("No property found", status=404, mimetype='application/json')
 
-            # Pobieranie zdjęć przypisanych do właściwości
+            
             photos = Photo.query.filter(Photo.id_property.in_([property.id_property for property in properties])).all()
             addresses = Address.query.filter(Address.id_property.in_([property.id_property for property in properties])).all()
             infrastructures = Infrastructure.query.filter(Infrastructure.id_property.in_([property.id_property for property in properties])).all()
             insides = Inside.query.filter(Inside.id_property.in_([property.id_property for property in properties])).all()
 
-            if price_range is not None or metrage_range is not None or finishing_standard is not None or nr_rooms is not None or country is not None or condition is not None or user is not None or locality is not None:
-                return property_service.get_properties_and_photos(properties, photos, addresses, infrastructures, insides)
-            else:
-                addresses = Address.query.all()
-                insides = Inside.query.all()
-                infrastructures = Infrastructure.query.all()
-                rooms = Room.query.all()
-                return property_service.get_all_properties_with_all(properties, addresses, photos, insides, infrastructures, rooms)
+            return property_service.get_properties_and_photos(properties, photos, addresses, infrastructures, insides)
 
         except Exception as e:
             return Response('Error: no properties. ' + str(e), status=501, mimetype='application/json')
-
 
 class PostProperty(Resource):
 
