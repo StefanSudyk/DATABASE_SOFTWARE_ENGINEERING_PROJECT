@@ -40,14 +40,13 @@ const OfferDetails = () => {
         <h2>{property.title}</h2>
         <p>Cena: {property.price} PLN</p>
         <p>Metraż: {property.square_metrage} m²</p>
-        <p>Rodzaj nieruchomości: {property.type}</p>
-        <p>Lokalizacja: {property.location}</p>
+        <p>Rodzaj nieruchomości: {property.finishing_standard}</p>
         <p>Rynek: {property.market}</p>
         <p>Liczba pokoi: {property.nr_rooms}</p>
         <p>Balkonów: {property.nr_balconies}</p>
         <p>Piętro: {property.nr_floors}</p>
         <p>Liczba garaży: {property.nr_garages}</p>
-        <p>City: {property.locality}</p>
+        <p>Miasto: {property.locality}</p>
       </div>    
     </div>
   );

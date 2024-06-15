@@ -6,6 +6,7 @@ from randomEntryGenerator import *
 
 db.drop_all()
 db.create_all()
+
 with db.engine.connect() as connection:
     connection.execute(text('ALTER TABLE photo MODIFY COLUMN photo MEDIUMBLOB'))
 add_random_users(50)
