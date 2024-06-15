@@ -29,6 +29,7 @@ const DaneDoWczytaniaPromowane = ({ locality = "Rzeszów" }) => {
       {propertiesData.map(propertyData => (
         <Card_apartment 
           key={propertyData.property.id_property}
+          property_id={propertyData.property.id_property}
           NazwaOkolicy={propertyData.address.county} 
           CenaMieszkania={propertyData.property.price}
           IloscMetrow={propertyData.property.square_metrage}
