@@ -5,19 +5,39 @@ from datetime import timedelta
 from flask_cors import CORS
 from flask_login import LoginManager
 from key import SECRET_KEY
+import pymysql
+import os
 
 db = SQLAlchemy()
 
-def create_app():
+pymysql.install_as_MySQLdb()
 
+def get_db_password():
+    with open(os.path.join(os.getcwd(), 'haslo.txt'), 'r') as file:
+        return file.read().strip()
+
+def create_app():
     app = Flask(__name__, template_folder='templates')
-    app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:password@localhost/housedb"
+
+    password = get_db_password()
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://avnadmin:{password}@mysql-flatsnhomes-flatsnhomes.j.aivencloud.com:21394/defaultdb"
+    
+    # Ustaw dodatkowe parametry połączenia dla pymysql, w tym SSL
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+        'connect_args': {
+            'ssl': {
+                'ca': os.path.join(os.getcwd(), 'ca.pem')
+            }
+        }
+    }
+
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     #app.config['WTF_CSRF_ENABLED'] = False
     app.secret_key = SECRET_KEY
     app.permanent_session_lifetime = timedelta(minutes=5)  # session data will be stored for given amount of time
     
-    CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}}, supports_credentials=True)
+    CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
     db.init_app(app)
     
     from views.views_container import views

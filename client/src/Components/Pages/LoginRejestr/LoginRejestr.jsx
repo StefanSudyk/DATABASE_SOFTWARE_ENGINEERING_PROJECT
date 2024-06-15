@@ -46,7 +46,8 @@ const RegisterForm = ({ setError, setShowModal, setShowSuccessModal }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://127.0.0.1:5000/post', formData, {
+      const apiUrl = process.env.REACT_APP_API_URL;
+      const response = await axios.post(`${apiUrl}/post`, formData, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -139,7 +140,8 @@ const LoginForm = ({ setError, setShowModal, setShowSuccessModal }) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://127.0.0.1:5000/login', loginData, {
+      const apiUrl = process.env.REACT_APP_API_URL;
+      const response = await axios.post(`${apiUrl}/login`, loginData, {
         headers: {
           'Content-Type': 'application/json'
         }
