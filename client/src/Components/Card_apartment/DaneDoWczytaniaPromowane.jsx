@@ -9,12 +9,13 @@ const DaneDoWczytaniaPromowane = ({ locality = "Rzeszów" }) => {
   }, [locality]);
 
   const fetchProperties = (location) => {
-    const url = `http://127.0.0.1:5000/getallproperty?locality=${location}`;
+    const apiUrl = process.env.REACT_APP_API_URL;
+    const url = `${apiUrl}/getallproperty?locality=${location}`;
 
     fetch(url)
       .then(response => response.json())
       .then(data => {
-        const limitedData = data.slice(0, 4);
+        const limitedData = data.slice(0, 5);
         setPropertiesData(limitedData);
       })
       .catch(error => console.error('cos srednio', error));
@@ -32,9 +33,9 @@ const DaneDoWczytaniaPromowane = ({ locality = "Rzeszów" }) => {
           property_id={propertyData.property.id_property}
           NazwaOkolicy={propertyData.address.county} 
           CenaMieszkania={propertyData.property.price}
-          IloscMetrow={propertyData.property.square_metrage}
+          IloscMetrow={Math.round(propertyData.property.square_metrage)}
           Miasto={propertyData.address.locality} 
-          CenaMetrow={propertyData.property.p_p_meter}
+          CenaMetrow={Math.round(propertyData.property.p_p_meter)}
           Zdjecie={`data:image/png;base64, ${propertyData.photos.length > 0 ? propertyData.photos[0].photo : ''}`}
         />
       ))}
