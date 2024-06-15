@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import '../SearchRes/SearchResults.css';
 import DanePoFiltracji from '../../../Card_apartment/DanePoFiltracji.jsx';
+import ButtonBack from '../ButtonBack/ButtonBack.jsx';
+import MiniButtonFilters from '../MiniButtonFilters/MiniButtonFilters.jsx';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -22,7 +24,7 @@ const SearchResults = () => {
     // Dodaj dodatkowe parametry jeśli są potrzebne
     // params.append('additional_param', 'value');
 
-    const url = 'http://127.0.0.1:5000/getallproperty?${params.toString()}';
+    const url = `http://127.0.0.1:5000/getallproperty?${params.toString()}`;
 
     fetch(url)
       .then(response => response.json())
@@ -42,10 +44,14 @@ const SearchResults = () => {
 
   return (
     <>
-    <div className='gorny_tekst'> Oferty dobrane według filtrowania</div>
+    <div className='gorny_tekst'> 
+      Oferty dobrane według filtrowania
+      <span className='przycisk_filtry'>
+      <MiniButtonFilters/>
+      </span>
+       <div className='Nawigacja'><ButtonBack/></div></div>
     <div className="results-container">
-
-        <DanePoFiltracji propertiesData={propertiesData} />
+        <DanePoFiltracji propertiesData={propertiesData} className="kafelek" />
 
     </div>
     </>

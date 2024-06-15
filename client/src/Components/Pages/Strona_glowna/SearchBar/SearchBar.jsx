@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import '../SearchBar/SearchBar.css';
+import './SearchBar.css';
 
-const SearchBar = () => {
+const SearchBar = ({ className }) => {
   const [selectedOption, setSelectedOption] = useState('Wszystkie');
   const [expandBackground, setExpandBackground] = useState(false);
   const [showContent, setShowContent] = useState(false);
@@ -79,7 +79,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div className={`wyszukaj ${expandBackground ? 'expanded' : ''}`}>
+    <div className={`wyszukaj ${expandBackground ? 'expanded' : ''} ${className}`}>
       <form className="search-form" onSubmit={handleSearch}>
         <div className="radio-buttons">
           <label className={selectedOption === 'Wszystkie' ? 'active' : ''}>

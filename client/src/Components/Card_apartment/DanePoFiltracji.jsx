@@ -1,5 +1,6 @@
 import React from 'react';
 import Card_apartment from './Card_apartment';
+import './DanePoFiltracji.css';
 
 const DanePoFiltracji = ({ propertiesData }) => {
   if (propertiesData.length === 0) {
