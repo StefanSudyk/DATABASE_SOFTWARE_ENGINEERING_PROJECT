@@ -78,7 +78,7 @@ body {
 
 .form-group {
   flex-basis: 23%;
-  margin-bottom: 10px;
+  margin-bottom: 1px;
 }
 
 .form-group label {
@@ -218,3 +218,4 @@ body {
 .radio-buttons label img {
     vertical-align: middle; /* Wyrównanie ikony do środka tekstu */
   }
+
