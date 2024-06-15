@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Importowanie useNavigate
+import '../WyswtlApi/WyswtlApi.css';
 
 axios.defaults.withCredentials = true;
 
 const WyswietlApi = () => {
   const [userData, setUserData] = useState(null);
+  const navigate = useNavigate(); // Inicjalizacja hooka useNavigate
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,8 +17,8 @@ const WyswietlApi = () => {
           console.error('No token found');
           return;
         }
-        
-        const response = await axios.get("http://127.0.0.1:5000/currentuser", {
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await axios.get(`${apiUrl}/currentuser`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -31,7 +34,8 @@ const WyswietlApi = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post("http://127.0.0.1:5000/logout", null, {
+      const apiUrl = process.env.REACT_APP_API_URL;
+      await axios.post(`${apiUrl}/logout`, null, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
@@ -39,27 +43,22 @@ const WyswietlApi = () => {
       localStorage.removeItem('token');
       setUserData(null);
       console.log('Logged out successfully');
+      navigate('/'); // Przekierowanie do strony głównej
     } catch (error) {
       console.error('Error logging out:', error);
     }
   };
 
   return (
-    <div>
-      <div className='first_line'>
-        To jest pierwsza linijka
-      </div>
+    <div className='wylog_zalog'>
       {userData ? (
-        <div>
-          <h2>Dane użytkownika:</h2>
-          <p>Witaj, {userData.name}</p>
-          {/* Wyświetl inne informacje o użytkowniku */}
+        <div className='navbar_use_wyloguj'>
+          Witaj, {userData.name}
           <button onClick={handleLogout}>Wyloguj</button>
         </div>
       ) : (
-        <div>
-          <h2>Nie jesteś zalogowany</h2>
-        <p>Zaloguj się!</p>
+        <div className='navbar_use_zaloguj'>
+          Zaloguj się!
         </div>
       )}
     </div>
@@ -67,4 +66,3 @@ const WyswietlApi = () => {
 };
 
 export default WyswietlApi;
-

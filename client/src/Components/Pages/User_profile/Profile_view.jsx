@@ -7,6 +7,7 @@ import EditCompanyPopup from './editCompanyPopUp.jsx';
 import EditPasswordPopUp from './editProfilePasswordPopUp.jsx';
 import AddCompanyPopUp from './addCompanyPopUp.jsx';
 import OfferList from './Offerlist.jsx';
+import ButtonBack from '../Strona_glowna/ButtonBack/ButtonBack.jsx';
 
 const ProfileView = () => {
   
@@ -38,7 +39,8 @@ const ProfileView = () => {
 useEffect(() => {
   const fetchCompanyData = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:5000/getcompany/${companyId}`);
+      const apiUrl = process.env.REACT_APP_API_URL;
+      const response = await axios.get(`${apiUrl}/getcompany/${companyId}`);
       const companyData = response.data;
 
       // Update state variables with the fetched company data
@@ -69,8 +71,8 @@ useEffect(() => {
           console.error('No token found');
           return;
         }
-        
-        const response = await axios.get("http://127.0.0.1:5000/currentuser", {
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await axios.get(`${apiUrl}/currentuser`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -95,7 +97,8 @@ useEffect(() => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:5000/get/${userId}`);
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await axios.get(`${apiUrl}/get/${userId}`);
         const userData = response.data;
 
         // Update state variables with the fetched user data
@@ -119,10 +122,17 @@ useEffect(() => {
   }, [userId, dataUpdated]); 
 
   return (
+    
     <div className="container">
+      <div className='przycisk'>
+      <ButtonBack/> 
+      </div>
       <div className="content-container">
+      
         <div className="form-container">
-          <label htmlFor="" className="title-of-form">Twoje dane:</label>
+        
+          <label htmlFor="" className="title-of-form">Twoje dane: </label>
+          
           <form className='profile-form'>
             <label className='profile-form-label' htmlFor="firstName">Imię: </label>
             <input className='profile-input'
@@ -161,6 +171,7 @@ useEffect(() => {
 
         <div className="form-container">
         <label className="title-of-form">Dane firmy:</label>
+        
         <form className='profile-form'>
           <label className='profile-form-label' htmlFor="companyName">Nazwa Firmy: </label>
           <input className='profile-input'
@@ -172,6 +183,7 @@ useEffect(() => {
 
           <label className='profile-form-label' htmlFor="regonNumber">Numer REGON:</label>
           <input className='profile-input'
+          
             type="text"
             id="regonNumber"
             value={regonNumber}
@@ -179,6 +191,7 @@ useEffect(() => {
           />
 
           <label className='profile-form-label' htmlFor="nipNumber">NIP:</label>
+          
           <input className='profile-input'
             type="text"
             id="nipNumber"
@@ -195,6 +208,7 @@ useEffect(() => {
           />
 
           <label className='profile-form-label' htmlFor="city">Miasto:</label>
+          
           <input className='profile-input'
             type="text"
             id="city"
@@ -228,7 +242,7 @@ useEffect(() => {
         </form>
         </div>
         <div className='content-column'>
-
+            
             <button className='profile-button-style' onClick={() => setShowPopup(true)}>
             Edytuj dane
             </button>

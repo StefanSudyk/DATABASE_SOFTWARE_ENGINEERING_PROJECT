@@ -11,7 +11,8 @@ const EditProfilePopup = ({ showPopup, setShowPopup, userId, setDataUpdated}) =>
   // Fetch data from your API when the popup opens
   useEffect(() => {
     if (showPopup) {
-      axios.get(`http://127.0.0.1:5000/get/${userId}`) // Fetch user data
+      const apiUrl = process.env.REACT_APP_API_URL;
+      axios.get(`${apiUrl}/get/${userId}`) // Fetch user data
         .then(response => {
           const userData = response.data;
           setFirstName(userData.name || '');
@@ -34,10 +35,10 @@ const EditProfilePopup = ({ showPopup, setShowPopup, userId, setDataUpdated}) =>
       phone_number: phoneNumber,
       // Add other fields as needed
     };
-  
+    const apiUrl = process.env.REACT_APP_API_URL;
     // Send a PATCH request to update each user data field
     Object.keys(data).forEach((field) => {
-      axios.patch(`http://127.0.0.1:5000/patch/${userId}/${field}`, { [field]: data[field] })
+      axios.patch(`${apiUrl}/patch/${userId}/${field}`, { [field]: data[field] })
         .then(response => {
           console.log(`Data ${field} saved successfully`);
           setDataUpdated(true);

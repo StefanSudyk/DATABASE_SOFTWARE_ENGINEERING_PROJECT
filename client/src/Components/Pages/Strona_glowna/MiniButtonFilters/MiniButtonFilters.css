@@ -1,0 +1,35 @@
+
+.mini-button-filters {
+  display: flex;
+  align-items: center;
+  padding: 5px 21px;
+  border: 2px solid #3e4f67;
+  border-radius: 10px;
+  color: white;
+  background-color: #3e4f67;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  transition: background-color 0.3s, color 0.3s;
+  cursor: pointer;
+  
+}
+
+.mini-button-filters:hover {
+  background-color: #2e3a4f;
+  color: white;
+}
+
+.mini-button-icon {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+.mini-button-filters-container .wyszukaj{
+    
+   
+    top: 170px;
+    margin-left: 650px;
+    margin-top: -45px;
+    
+}

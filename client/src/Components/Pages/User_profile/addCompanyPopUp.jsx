@@ -22,8 +22,8 @@ const AddCompanyPopUp = ({ showAddPopupCompany, setShowAddPopupCompany, setDataU
           console.error('No token found');
           return;
         }
-        
-        const response = await axios.get("http://127.0.0.1:5000/currentuser", {
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await axios.get(`${apiUrl}/currentuser`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -56,7 +56,8 @@ const AddCompanyPopUp = ({ showAddPopupCompany, setShowAddPopupCompany, setDataU
   
     try {
       console.log('Sending POST request to http://127.0.0.1:5000/postcompany'); // Debug message
-      const response = await axios.post('http://127.0.0.1:5000/postcompany', formData);
+      const apiUrl = process.env.REACT_APP_API_URL;
+      const response = await axios.post(`${apiUrl}/postcompany`, formData);
   
       console.log('Response:', response); // Debug message
   

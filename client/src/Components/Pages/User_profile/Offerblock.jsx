@@ -29,7 +29,8 @@ function OfferBlock({ offer, setRefresh}) {
   const handleConfirm = async () => {
     // Delete the property here
     // You might need to adjust the URL and the method according to your backend
-    await axios.delete(`http://127.0.0.1:5000/deleteproperty/${property.id_property}`);
+    const apiUrl = process.env.REACT_APP_API_URL;
+    await axios.delete(`${apiUrl}/deleteproperty/${property.id_property}`);
     setRefresh(true); // Set dataUpdated to true after deleting the property
     // Close the confirmation popup
     setConfirmIsOpen(false);
