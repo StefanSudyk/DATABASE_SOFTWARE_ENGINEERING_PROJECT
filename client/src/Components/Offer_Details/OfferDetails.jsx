@@ -53,14 +53,8 @@ const OfferDetails = () => {
         });
         const userData = response.data;
 
-        // Update state variables with the fetched user data
-        setFirstName(userData.name || '');
-        setLastName(userData.surname || '');
-        setEmail(userData.email || '');
-        setPhoneNumber(userData.phone_number || '');
-        // Assuming the user data includes a userId field
-        setUserId(userData.id_user);
-        setCompanyId(userData.id_company); 
+     
+        setUserFavourite(userData.id_user);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
