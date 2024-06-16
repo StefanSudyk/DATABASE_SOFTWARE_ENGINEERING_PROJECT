@@ -95,8 +95,6 @@
   width: 100%; 
   border-radius: 10px;
   background: linear-gradient(to right, #3C4E67, rgba(60, 78, 103, 0.75));
-  position: absolute;
-  bottom: 1.8vh;
 }
 
 .offer-details-information {
