@@ -25,20 +25,21 @@ const DaneDoWczytania = () => {
   
   return (
     <>
-      {propertiesData.map(propertyData =>{
-        console.log('property_id:', propertyData.property.id_property)
+      {propertiesData.map(propertyData => {
+        console.log('property_id:', propertyData.property.id_property); // Added semicolon here
         return (
-        <Card_apartment 
-          key={propertyData.property.id_property}
-          property_id={propertyData.property.id_property}
-          NazwaOkolicy={propertyData.address.county} 
-          CenaMieszkania={propertyData.property.price}
-          IloscMetrow={propertyData.property.square_metrage}
-          Miasto={propertyData.address.locality} 
-          CenaMetrow={propertyData.property.p_p_meter}
-          Zdjecie={`data:image/png;base64, ${propertyData.photos.length > 0 ? propertyData.photos[0].photo : ''}`}
-        />
-      ))}
+          <Card_apartment 
+            key={propertyData.property.id_property}
+            property_id={propertyData.property.id_property}
+            NazwaOkolicy={propertyData.address.county} 
+            CenaMieszkania={propertyData.property.price}
+            IloscMetrow={propertyData.property.square_metrage}
+            Miasto={propertyData.address.locality} 
+            CenaMetrow={propertyData.property.p_p_meter}
+            Zdjecie={`data:image/png;base64, ${propertyData.photos.length > 0 ? propertyData.photos[0].photo : ''}`}
+          />
+        );
+      })}
     </>
   );
   
