@@ -486,7 +486,7 @@ const handleSubmit = async (event) => {
       <div className="popup-notify">
         <div className="popup-inner-notify">
           {notification}
-          {notification.startsWith('Advertisement added successfully') && <Link to="/" >Go back to home</Link>}  
+          {notification.startsWith('Advertisement added successfully') && <Link to="/" element={<Strona_glowna/>} >Go back to home</Link>}  
           <button onClick={handleClose} className="close-button">Close</button>
         </div>
       </div>

@@ -1,0 +1,221 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+.wyszukaj {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  transition: max-height 0.3s ease-in-out; /* Add transition for smooth resizing */
+}
+
+.wyszukaj.expanded {
+  max-height: 800px; /* Set to desired height when expanded */
+}
+
+.search-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.radio-buttons {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.radio-buttons label {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  cursor: pointer;
+  position: relative;
+}
+
+.radio-buttons input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  margin-right: 8px;
+}
+
+.radio-buttons .active {
+  font-weight: bold;
+}
+
+.advanced-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 20px;
+  opacity: 0;
+  transition: opacity 0s ease-in-out; /* Add transition for smooth appearance */
+}
+
+.wyszukaj.expanded .advanced-form {
+  opacity: 1;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.form-group {
+  flex-basis: 23%;
+  margin-bottom: 1px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 0px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 5px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.search-input-with-icon {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  padding-left: 35px; /* Adjust padding to make space for the icon */
+  font-size: 16px;
+  border-radius: 25px 0 0 25px;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+  width: calc(100% - 60px);
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="16" height="16" viewBox="0 0 50 50"><path d="M 24.962891 1.0546875 A 1.0001 1.0001 0 0 0 24.384766 1.2636719 L 1.3847656 19.210938 A 1.0005659 1.0005659 0 0 0 2.6152344 20.789062 L 4 19.708984 L 4 46 A 1.0001 1.0001 0 0 0 5 47 L 18.832031 47 A 1.0001 1.0001 0 0 0 19.158203 47 L 30.832031 47 A 1.0001 1.0001 0 0 0 31.158203 47 L 45 47 A 1.0001 1.0001 0 0 0 46 46 L 46 19.708984 L 47.384766 20.789062 A 1.0005657 1.0005657 0 1 0 48.615234 19.210938 L 41 13.269531 L 41 6 L 35 6 L 35 8.5859375 L 25.615234 1.2636719 A 1.0001 1.0001 0 0 0 24.962891 1.0546875 z M 25 3.3222656 L 44 18.148438 L 44 45 L 32 45 L 32 26 L 18 26 L 18 45 L 6 45 L 6 18.148438 L 25 3.3222656 z M 37 8 L 39 8 L 39 11.708984 L 37 10.146484 L 37 8 z M 20 28 L 30 28 L 30 45 L 20 45 L 20 28 z"></path></svg>') no-repeat 10px center;
+  background-size: 16px 16px; /* Adjust size of the icon */
+}
+
+.search-button {
+  background-color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 0 25px 25px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-button svg {
+  width: 20px;
+  height: 20px;
+  stroke: #333;
+}
+
+.search-button:hover svg {
+  stroke: #000;
+}
+
+.reset-button {
+    background-color: #ffffff;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: 470;
+    color: #3E5067;
+    width: 150px;
+    height: 40px;
+    border-style: solid   ;
+    border-color: #3E5067;
+    border-radius: 0px;
+
+}
+.reset-button:hover {
+    background-color: #3E5067;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: 530;
+    width: 150px;
+    height: 40px;
+    border-style: solid   ;
+    border-color: #3E5067;
+    border-radius: 0px;
+
+}
+
+.submit-button {
+    background-color: #3E5067;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: 470;
+    color: white;
+    width: 150px;
+    height: 40px;
+    border-style: solid   ;
+    border-color: #3E5067;
+    border-radius: 2px;
+}
+.submit-button:hover {
+    background-color: #3E5067;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: 530;
+    color: white;
+    width: 150px;
+    height: 40px;
+    border-style: solid   ;
+    border-color: #3E5067;
+    border-radius: 2px;
+}
+.form-group select,
+.form-group select option {
+  font-size: 14px; /* Dopasuj wielkość tekstu */
+  border-radius: 0;
+}
+
+/* Zmniejszenie wielkości tekstu w inputach */
+.form-group input {
+   border-radius: 0;
+   font-size: 14px; /* Dopasuj wielkość tekstu */
+}
+
+.form-group label[for="mniejszyText"] {
+  font-size: 13px; /* Zmniejszenie wielkości tekstu */
+}
+
+.radio-buttons label img {
+    vertical-align: middle; /* Wyrównanie ikony do środka tekstu */
+  }
+

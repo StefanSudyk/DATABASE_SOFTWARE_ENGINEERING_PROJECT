@@ -1,0 +1,39 @@
+.results-container {
+  padding-top: 50px;
+  padding-left: 10px;
+  padding-top: 10px;
+  display: flex;
+  flex-wrap: wrap; /* Pozwala kafelkom zawijać się do nowego wiersza */
+  background-color: white;
+  height: 100vh; /* Wysokość na pełny ekran */
+  justify-content: center; /* Wyśrodkuj kafelki w poziomie */
+  gap: 10px; /* Odstępy między kafelkami */
+  row-gap: 20px; /* Większy odstęp między wierszami */
+}
+.gorny_tekst {
+  background-color: rgb(255, 255, 255);
+  padding-top: 15vh;
+  padding-left: 40px;
+  width: 100%;
+  font-weight: 600;
+  display: flex;
+  align-items: center; /* Wyśrodkuj pionowo */
+  justify-content: space-between; /* Rozdziel elementy po całej szerokości */
+}
+
+.kafelek{
+  padding-bottom: 50px;
+}
+
+.Nawigacja{
+  max-width: 200px;
+  padding-right: 70px;
+  margin-bottom: 10px;
+  padding-left: 5px;
+}
+.przycisk_filtry{
+   display: flex;
+   margin-left: auto;
+   
+
+}
