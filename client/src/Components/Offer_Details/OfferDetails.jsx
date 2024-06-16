@@ -17,6 +17,7 @@ const OfferDetails = () => {
   const [isFavourite, setIsFavourite] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [userFavourite, setUserFavourite] = useState(null)
 
   const translations = {
     "Formalities": "Formalności przed",
@@ -56,12 +57,35 @@ const OfferDetails = () => {
 
   const apiUrl = process.env.REACT_APP_API_URL;
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          console.error('No token found');
+          return;
+        }
+     
+        const response = await axios.get(`${apiUrl}/currentuser`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        const userData = response.data;
+        setUserFavourite(userData.id_user);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
   const handleAddToFavourites = async () => {
     if (isLoggedIn()) {
       setIsFavourite(!isFavourite);
       console.log('Add to favourites clicked');
       try {
-        const response = await axios.post(`${apiUrl}/postfavourite/${property_id}`);
+        const response = await axios.post(`${apiUrl}/postfavourite/${userFavourite}/${property_id}`);
         console.log('Added to favourites:', response.data); // Debug message
       } catch (error) {
         console.error('Failed to add to favourites:', error);
