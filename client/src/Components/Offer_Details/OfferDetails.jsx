@@ -73,8 +73,10 @@ const OfferDetails = () => {
   useEffect(() => {
     const fetchProperty = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:5000/getproperty/${property_id}`);
-        console.log('Property fetched:', response.data); // Debug message
+        const apiUrl = process.env.REACT_APP_API_URL;
+        
+        const response = await axios.get(`${apiUrl}/getproperty/${property_id}`);
+        console.log('API response:', response.data); 
         setProperty(response.data);
       } catch (error) {
         console.error('Failed to fetch property:', error);

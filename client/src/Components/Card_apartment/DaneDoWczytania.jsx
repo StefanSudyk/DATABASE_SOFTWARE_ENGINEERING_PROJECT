@@ -6,16 +6,11 @@ const DaneDoWczytania = () => {
   const [propertiesData, setPropertiesData] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:5000/getallproperty');
-        setPropertiesData(response.data);
-      } catch (error) {
-        console.error('Data ', error);
-      }
-    };
-  
-    fetchData();
+    const apiUrl = process.env.REACT_APP_API_URL;
+    fetch(`${apiUrl}/getallproperty`) 
+      .then(response => response.json())
+      .then(data => setPropertiesData(data))
+      .catch(error => console.error('Data ', error));
   }, []);
   
 
@@ -25,21 +20,18 @@ const DaneDoWczytania = () => {
   
   return (
     <>
-      {propertiesData.map(propertyData => {
-        console.log('property_id:', propertyData.property.id_property); // Added semicolon here
-        return (
-          <Card_apartment 
-            key={propertyData.property.id_property}
-            property_id={propertyData.property.id_property}
-            NazwaOkolicy={propertyData.address.county} 
-            CenaMieszkania={propertyData.property.price}
-            IloscMetrow={propertyData.property.square_metrage}
-            Miasto={propertyData.address.locality} 
-            CenaMetrow={propertyData.property.p_p_meter}
-            Zdjecie={`data:image/png;base64, ${propertyData.photos.length > 0 ? propertyData.photos[0].photo : ''}`}
-          />
-        );
-      })}
+      {propertiesData.map(propertyData => (
+        <Card_apartment 
+          key={propertyData.property.id_property}
+          property_id={propertyData.property.id_property}
+          NazwaOkolicy={propertyData.address.county} 
+          CenaMieszkania={propertyData.property.price}
+          IloscMetrow={Math.round(propertyData.property.square_metrage)}
+          Miasto={propertyData.address.locality} 
+          CenaMetrow={Math.round(propertyData.property.p_p_meter)}
+          Zdjecie={`data:image/png;base64, ${propertyData.photos.length > 0 ? propertyData.photos[0].photo : ''}`}
+        />
+      ))}
     </>
   );
   

@@ -1,0 +1,27 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "client/package.json",
+        "use": "@vercel/static-build",
+        "config": {
+          "distDir": "client/build"
+        }
+      },
+      {
+        "src": "flask-server/database_stuff/run.py",
+        "use": "@vercel/python"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "flask-server/database_stuff/run.py"
+      },
+      {
+        "src": "/",
+        "dest": "client/build/index.html"
+      }
+    ]
+  }
+  

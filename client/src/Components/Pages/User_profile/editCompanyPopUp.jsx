@@ -19,7 +19,8 @@ const EditCompanyPopup = ({ showPopupCompany, setShowPopupCompany, companyId, da
     const fetchUserData = async () => {
     
       try {
-        const response = await axios.get(`http://127.0.0.1:5000/get/${userId}`);
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await axios.get(`${apiUrl}/get/${userId}`);
         const userData = response.data;
 
         // Update state variables with the fetched user data
@@ -48,7 +49,8 @@ const EditCompanyPopup = ({ showPopupCompany, setShowPopupCompany, companyId, da
         return;
       }
       try {
-        const response = await axios.get(`http://127.0.0.1:5000/getcompany/${companyId}`);
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await axios.get(`${apiUrl}/getcompany/${companyId}`);
         const companyData = response.data;
 
         // Update state variables with the fetched company data
@@ -86,7 +88,8 @@ const EditCompanyPopup = ({ showPopupCompany, setShowPopupCompany, companyId, da
   
     try {
       console.log(`Sending PUT request to http://127.0.0.1:5000/updatecompany/${companyId}`); // Debug message
-      const response = await axios.put(`http://127.0.0.1:5000/updatecompany/${companyId}`, formData);
+      const apiUrl = process.env.REACT_APP_API_URL;
+      const response = await axios.put(`${apiUrl}/updatecompany/${companyId}`, formData);
     
       console.log('Response:', response); // Debug message
     
