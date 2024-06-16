@@ -36,7 +36,36 @@ const OfferDetails = () => {
     "Solar panels": "Kolektory słoneczne"
   };
   const navigate = useNavigate();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          console.error('No token found');
+          return;
+        }
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await axios.get(`${apiUrl}/currentuser`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        const userData = response.data;
 
+        // Update state variables with the fetched user data
+        setFirstName(userData.name || '');
+        setLastName(userData.surname || '');
+        setEmail(userData.email || '');
+        setPhoneNumber(userData.phone_number || '');
+        // Assuming the user data includes a userId field
+        setUserId(userData.id_user);
+        setCompanyId(userData.id_company); 
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+    fetchData();
+  }, []);
   const handleRegisterLogin = () => {
     navigate('/Zaloguj');
   };
@@ -61,7 +90,7 @@ const OfferDetails = () => {
       setIsFavourite(!isFavourite);
       console.log('Add to favourites clicked');
       try {
-        const response = await axios.post(`${apiUrl}/postfavourite/${property_id}`);
+        const response = await axios.post(`${apiUrl}/postfavourite/${userData.id_user}/${property_id}`);
         console.log('Added to favourites:', response.data); // Debug message
       } catch (error) {
         console.error('Failed to add to favourites:', error);
