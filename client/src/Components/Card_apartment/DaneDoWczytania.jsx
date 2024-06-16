@@ -36,9 +36,9 @@ const DaneDoWczytania = () => {
           IloscMetrow={propertyData.property.square_metrage}
           Miasto={propertyData.address.locality} 
           CenaMetrow={propertyData.property.p_p_meter}
-          Zdjecie={`data:image/png;base64, ${propertyData.photo.photo}`}
-        /> 
-      )})}
+          Zdjecie={`data:image/png;base64, ${propertyData.photos.length > 0 ? propertyData.photos[0].photo : ''}`}
+        />
+      ))}
     </>
   );
   

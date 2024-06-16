@@ -29,7 +29,7 @@
 
 ul li{
     display:inline-block;
-    margin: 10px 20px;
+    margin: 10px 0px;
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
@@ -78,3 +78,4 @@ a{
 a:hover{
     color:rgb(236, 236, 236);
 }
+
