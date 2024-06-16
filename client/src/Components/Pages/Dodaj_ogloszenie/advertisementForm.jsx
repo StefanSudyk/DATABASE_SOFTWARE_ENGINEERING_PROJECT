@@ -174,7 +174,7 @@ const handleSubmit = async (event) => {
     'market' : market,
     'publication_date': publicationDate,
     'p_p_meter': pricePerMeter,
-    'sponsored': sponsored,
+    'sponsored': sponsored || 0,
 
     'county': country,
     'region': region,
@@ -200,7 +200,7 @@ const handleSubmit = async (event) => {
     'condition_':conditionInside,
     'description':description,
 
-   'shop_distance': shopDistance || "0",
+    'shop_distance': shopDistance || "0",
     'park_distance': parkDistance || "0",
     'playground_distance': playgroundDistance || "0",
     'kindergarden_distance': kindergardenDistance || "0",
@@ -478,7 +478,7 @@ const handleSubmit = async (event) => {
       <br /><br />
       
       <label>Akceptuje regulamin strony:</label>
-      <input type="checkbox" name="agreement" required /><br /><br />
+      <input type="checkbox" name="agreement" required/><br /><br />
 
       <button type="submit">Wyślij</button>
 
@@ -486,7 +486,7 @@ const handleSubmit = async (event) => {
       <div className="popup-notify">
         <div className="popup-inner-notify">
           {notification}
-          {notification.startsWith('Advertisement added successfully') && <Link to="/">Go back to home</Link>}  
+          {notification.startsWith('Advertisement added successfully') && <Link to="/" >Go back to home</Link>}  
           <button onClick={handleClose} className="close-button">Close</button>
         </div>
       </div>
