@@ -125,12 +125,13 @@ const advertisementForm = () => {
       const fetchData = async () => {
         try {
           const token = localStorage.getItem('token');
+          const apiUrl = process.env.REACT_APP_API_URL;
           if (!token) {
             console.error('No token found');
             return;
           }
           
-          const response = await axios.get("http://127.0.0.1:5000/currentuser", {
+          const response = await axios.get(`${apiUrl}/currentuser`, {
             headers: {
               Authorization: `Bearer ${token}`
             }
@@ -221,8 +222,9 @@ const handleSubmit = async (event) => {
   console.log('Form data:', formData); // Debug message
 
   try {
+    const apiUrl = process.env.REACT_APP_API_URL;
     console.log('Sending POST request to http://127.0.0.1:5000/postproperty'); // Debug message
-    const response = await axios.post('http://127.0.0.1:5000/postproperty', formData);
+    const response = await axios.post(`${apiUrl}/postproperty`, formData);
 
     console.log('Response:', response); // Debug message
 

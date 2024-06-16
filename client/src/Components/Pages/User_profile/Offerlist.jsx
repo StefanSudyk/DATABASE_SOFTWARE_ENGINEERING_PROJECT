@@ -16,8 +16,8 @@ function OfferList() {
           console.error('No token found');
           return;
         }
-        
-        const response = await axios.get("http://127.0.0.1:5000/currentuser", {
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await axios.get(`${apiUrl}/currentuser`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -36,7 +36,8 @@ function OfferList() {
   
   useEffect(() => {
     console.log(`Fetching properties for user ${userId}`); // Debug message
-    axios.get(`http://127.0.0.1:5000/getallproperty?user=${userId}`)
+    const apiUrl = process.env.REACT_APP_API_URL;
+    axios.get(`${apiUrl}/getallproperty?user=${userId}`)
       .then(response => {
         console.log('Response data:', response.data); // Debug message
         setOffers(response.data);
