@@ -54,12 +54,14 @@ const OfferDetails = () => {
     }
   };
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   const handleAddToFavourites = async () => {
     if (isLoggedIn()) {
       setIsFavourite(!isFavourite);
       console.log('Add to favourites clicked');
       try {
-        const response = await axios.post(`http://127.0.0.1:5000/postfavourite/${property_id}`);
+        const response = await axios.post(`${apiUrl}/postfavourite/${property_id}`);
         console.log('Added to favourites:', response.data); // Debug message
       } catch (error) {
         console.error('Failed to add to favourites:', error);
@@ -72,9 +74,7 @@ const OfferDetails = () => {
 
   useEffect(() => {
     const fetchProperty = async () => {
-      try {
-        const apiUrl = process.env.REACT_APP_API_URL;
-        
+      try {       
         const response = await axios.get(`${apiUrl}/getproperty/${property_id}`);
         console.log('API response:', response.data); 
         setProperty(response.data);
@@ -90,7 +90,7 @@ const OfferDetails = () => {
     const fetchUser = async () => {
       try {
         if (property && property.id_owner) {
-          const response = await axios.get(`http://127.0.0.1:5000/get/${property.id_owner}`);
+          const response = await axios.get(`${apiUrl}/get/${property.id_owner}`);
           console.log('User fetched:', response.data); // Debug message
           setUser(response.data);
         }
