@@ -1,31 +1,261 @@
 .Offer-Details-container{
   padding-top: 16vh;
-  display: flex;
-  border: 1px solid #ccc;
-  margin: 10px;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
+.offer-details-title{
+  display: flex; /* Use flex layout */
+  justify-content: center; /* Space between title and button */
+  align-items: center; /* Align items vertically */
+  font-size:1.6rem;
+  padding-left: 2vh;
+  margin: 0vh 0vh 2vh 0vh;
+}
+.title-details{
+  padding: 2px 4px; /* Add some padding to make it look nicer */
+  font-size: 1.1rem;  
+  color: white;
+  background-color: #384A67;
+  border-radius: 10px;
+}
 
-.property-image {
-  width: 50%;
-  position: relative;
+.offer-details-box {
+  padding: 0vh 2vh 0vh 2vh;
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}
+
+.offer-details-column {
+  flex: 1;
+  padding: 0px 20px 20px 20px;
 }
 
 .property-image img {
   width: 100%;
-  height: auto;
+  height: 300px;
+  object-fit: cover;
 }
 
-.property-contact {
+.property-image-container{
+  position: relative;
+}
+
+.button-favourite {
+  border-radius: 50%; /* Makes the button round */
+  width: 40px; /* Set the width of the button */
+  height: 40px; /* Set the height of the button */
+  display: flex; /* Use flex layout */
+  justify-content: center; /* Center the icon horizontally */
+  align-items: center; /* Center the icon vertically */
+  background-color: white; /* White background color for the circle */
+  border: none; /* No border */
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */
+  cursor: pointer; /* Changes cursor to pointer on hover */
+  transition: background-color 0.3s; /* Smooth transition for background color */
   position: absolute;
-  bottom: 10px;
-  left: 10px;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 5px;
+  top:2vh;
+  right:2vh;
+}
+
+.property-info-container{
+  display: flex;
+  justify-content: space-between; 
 }
 
 .property-details {
-  width: 50%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* This will create space between your two columns */
+  margin-bottom: 20px; /* Adjust as needed */
+  width: 100%;
+  margin: auto;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  padding: 20px;
+  
+}
+
+
+.offer-details-p {
+  flex-basis: calc(50% - 10px); /* Adjust width for each p to fit two in a row, accounting for margin */
+  margin-bottom: 10px; /* Space between rows */
   padding: 10px;
+  background-color: #f8f9fa; /* Light grey background */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 0.8rem;  
+}
+
+.property-information {
+  color:white;
+  background-color: #3C4E67;
+  width: 100%; 
+  border-radius: 10px;
+  background: linear-gradient(to right, #3C4E67, rgba(60, 78, 103, 0.75));
+  position: absolute;
+  bottom: 1.8vh;
+}
+
+.offer-details-information {
+  display: flex;
+  align-items: center; /* This will vertically center your text */
+  justify-content: center; /* This will horizontally center your text */
+  font-size: 0.7rem;  
+}
+
+.property-contact {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: right;
+  margin-top: 20px;
+}
+
+.title-property{
+  font-size: 1.0rem;
+  background-color: #384A67;
+  color: white;
+  padding-left: 1vh;
+  border-radius: 10px;
+}
+
+.offer-details-contact{
+  font-size: 0.8rem;
+}
+
+.property-info-container{
+  width: 100%;
+  border-radius: 10px;
+}
+
+.public-date {
+  text-align: right;
+  margin-top: 20px;
+  font-size: 12px;
+  color: gray;
+}
+
+.button-offer {
+  color: #4CAF50; 
+  border: none;
+  display: inline-block;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.alert-popup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.alert-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  width: 80%;
+  max-width: 400px;
+  max-height: 80%;
+  overflow: auto;
+  align-items: center;
+  font-size: 0.7rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.close-notification{
+  margin-top:2vh;
+  background-color: #53708e;
+  color: white;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.8rem; 
+  margin-bottom: 10px;
+  width: 80%;
+  transition: background-color 0.3s ease;
+  
+    @media (max-width: 480px) {
+      font-size: 0.4rem; 
+      width: 100%; 
+    }
+    @media (min-width: 768px) {
+      font-size: 0.6rem; 
+      width: 90%; 
+    }
+    @media (min-width: 1200px) {
+      font-size: 0.8rem; 
+      width: 80%; 
+    }
+  }
+
+  .close-notification:hover {
+    background-color: #384A67; 
+  }
+  
+  /* Increase space between buttons */
+  .close-notification + .close-notification {
+    margin-top: 20px; /* Adjust this value to your liking */
+  }
+
+.additional-information-container{
+  padding: 0vh 4vh 0vh 4vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+}
+
+.offer-description-title{
+  margin-top:2vh;
+  font-size: 1rem;
+  background-color: #384A67;
+  color: white;
+  padding-left: 1vh;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  width:100%;
+ 
+}
+.Offer-description-container {
+  width: 100%;
+  margin: 10px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.offer-description-text {
+  font-size: 1.6vw; /* Adjust as needed */
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.title-information{
+  font-size: 0.8;
+  background-color: #384A67;
+  color: white;
+  padding-left: 1vh;
+  border-radius: 10px;
+}
+
+.additional-information-box{
+  width: 100%;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
 }
