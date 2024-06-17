@@ -20,7 +20,7 @@
   border: 1px solid black;
 }
 
-.confirmation-notification-button{
+.button-popupWindow-Company{
   background-color: #53708e;
   color: white;
   padding: 4px 8px;
@@ -46,11 +46,11 @@
     }
   }
 
-.confirmation-notification-button:hover {
+  .button-popupWindow-Company:hover {
   background-color: #405d6a; /* Change to the color you want when hovered */
 }
 
-.confirmation-button-container{
+.popup-company-button-container{
   display: flex;
   justify-content: center;
   align-items: center;

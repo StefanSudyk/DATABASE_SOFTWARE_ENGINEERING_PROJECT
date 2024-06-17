@@ -76,8 +76,10 @@ const EditProfilePasswordPopUp = ({ showPopup, setShowPopup, userId, setDataUpda
             value={confirmPassword}
             onChange={e => setConfirmPassword(e.target.value)}
           />
+          <div className='popup-password-button-container'>
           <button className='button-popupWindow-Password' onClick={handleSave}>Zapisz</button>
           <button className='button-popupWindow-Password' onClick={handleClose}>Close</button>
+          </div>
         </form>
       </div>
     </div>
