@@ -8,8 +8,6 @@ import './DaneDoWczytania'
 const Card_apartment = (props) => {
   const { property_id, NazwaOkolicy, CenaMieszkania, IloscMetrow,CenaMetrow, Miasto, Zdjecie } = props;
 
-  console.log(property_id)
-
   return (
     <Link to={`/property/${property_id}`} className='link-card-apartment'>
     <div className='card_apartment_calosc' >

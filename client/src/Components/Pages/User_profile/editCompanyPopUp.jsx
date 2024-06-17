@@ -87,7 +87,7 @@ const EditCompanyPopup = ({ showPopupCompany, setShowPopupCompany, companyId, da
     console.log('Form data:', formData); // Debug message
   
     try {
-      console.log(`Sending PUT request to http://127.0.0.1:5000/updatecompany/${companyId}`); // Debug message
+      console.log(`Sending PUT request to ${apiUrl}/updatecompany/${companyId}`); // Debug message
       const apiUrl = process.env.REACT_APP_API_URL;
       const response = await axios.put(`${apiUrl}/updatecompany/${companyId}`, formData);
     
@@ -169,9 +169,10 @@ const EditCompanyPopup = ({ showPopupCompany, setShowPopupCompany, companyId, da
             <option value="Developer">Developer</option>
             <option value="Estate agency">Estate Agency</option>
           </select>
-
+          <div className="popup-company-button-container">
           <button className='button-popupWindow-Company' type='submit' >Zapisz</button>
           <button className='button-popupWindow-Company' onClick={() => setShowPopupCompany(false)}>Close</button>
+          </div>
         </form>
     </div>
   </div>
