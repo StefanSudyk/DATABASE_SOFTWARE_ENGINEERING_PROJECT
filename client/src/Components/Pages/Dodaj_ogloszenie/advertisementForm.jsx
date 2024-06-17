@@ -2,10 +2,13 @@ import { Link } from 'react-router-dom'
 import React,{useState, useEffect} from 'react'
 import './advertisementForm.css'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
+
 
 //price per metrage is calculate in submit handle
 
 const advertisementForm = () => { 
+  const navigate = useNavigate();
 
   //Podstawowe
    const [title, setTitle] = useState(" ");
@@ -534,16 +537,8 @@ const handleSubmit = async (event) => {
       <input type="checkbox" className='infoCheckbox' name="agreement" required /><br /><br />
       
       <button type="submit" className='sendButton'>Wyślij</button>
-
-      {showPopup && (
-      <div className="popup-notify">
-        <div className="popup-inner-notify">
-          {notification}
-          {notification.startsWith('Advertisement added successfully') && <Link to="/" element={<Strona_glowna/>} >Go back to home</Link>}  
-          <button onClick={handleClose} className="close-button">Close</button>
-        </div>
-      </div>
-      )}
+      <button onClick={handleClose} className="close-button">Close</button>
+      
     </form>
   </div>
   );

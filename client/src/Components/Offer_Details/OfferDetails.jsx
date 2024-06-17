@@ -18,6 +18,10 @@ const OfferDetails = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [userFavourite, setUserFavourite] = useState(null)
+  const [fetchedUserData, setFetchedUserData] = useState(null);
+
+  const navigate = useNavigate();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const translations = {
     "Formalities": "Formalności przed",
@@ -36,35 +40,49 @@ const OfferDetails = () => {
     "Electric heating": "Ogrzewanie elektryczne",
     "Solar panels": "Kolektory słoneczne"
   };
-  const navigate = useNavigate();
 
+  const checkFavouriteStatus = async () => {
+    try {
+      console.log('Checking favourite status for user:', fetchedUserData.id_user);
+      const response = await axios.get(`${apiUrl}/getfavourite/${fetchedUserData.id_user}`);
+      // Assuming response.data is an array of favourite properties
+      setIsFavourite(response.data.some(property => property.id === property.property_id));
+      console.log('Is favourite after check:', response.data.some(property => property.id === property_id));
+      console.log('Favourite status:', response.data);
+      console.log(`Checking property with id: ${property.id} against property_id: ${property_id}`);
+      return property.id === property_id;
+    } catch (error) {
+      console.error('Failed to check favourite status:', error);
+    }
+  };
+  
+  // Fetch current user data
   useEffect(() => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem('token');
+        console.log('Fetching user data with token:', token);
         if (!token) {
           console.error('No token found');
           return;
         }
-        const apiUrl = process.env.REACT_APP_API_URL;
         const response = await axios.get(`${apiUrl}/currentuser`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
         const userData = response.data;
-
-     
-        setUserFavourite(userData.id_user);
+        console.log('User data fetched:', userData);
+        setUserFavourite(userData.id_user); // Assuming this is where you get the user ID
+        setFetchedUserData(userData); // Store fetched user data
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
     };
     fetchData();
   }, []);
-  const handleRegisterLogin = () => {
-    navigate('/Zaloguj');
-  };
+  
+ 
 
   const isLoggedIn = () => {
     const token = localStorage.getItem('token');
@@ -79,71 +97,18 @@ const OfferDetails = () => {
     }
   };
 
-  const apiUrl = process.env.REACT_APP_API_URL;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          console.error('No token found');
-          return;
-        }
-     
-        const response = await axios.get(`${apiUrl}/currentuser`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const apiUrl = process.env.REACT_APP_API_URL;
-        const response = await axios.get(`${apiUrl}/get/${userFavourite}`);
-        
-        const userData = response.data;
-        setUserFavourite(userData.id_user);
-
-      } catch (error) {
-        console.error(`Error fetching user data: ${error}`);
-      }
-      
-    };
-  }, [userFavourite]); 
-
-  const checkFavouriteStatus = async () => {
-    try {
-      const response = await axios.get(`${apiUrl}/getfavourite/${userFavourite}`);
-      setIsFavourite(response.data.some(property => property.id === property_id));
-    } catch (error) {
-      console.error('Failed to check favourite status:', error);
-    }
-  };
-
-  useEffect(() => {
-    if (userFavourite) {
-      checkFavouriteStatus();
-    }
-  }, [userFavourite]);
+  console.log(fetchedUserData)
 
   const handleAddToFavourites = async () => {
     if (isLoggedIn()) {
       try {
         if (isFavourite) {
           // If it's already a favourite, remove it
-          await axios.delete(`${apiUrl}/deletefavourite/${userFavourite}/${property_id}`);
+          await axios.delete(`${apiUrl}/deletefavourite/${fetchedUserData.id_user}/${property_id}`);
           setIsFavourite(false); // Update state to reflect removal
         } else {
           // If it's not a favourite, add it
-          await axios.post(`${apiUrl}/postfavourite/${userFavourite}/${property_id}`);
+          await axios.post(`${apiUrl}/postfavourite/${fetchedUserData.id_user}/${property_id}`);
           setIsFavourite(true); // Update state to reflect addition
         }
       } catch (error) {
@@ -155,6 +120,9 @@ const OfferDetails = () => {
     }
   };
   
+  const handleRegisterLogin = () => {
+    navigate('/Zaloguj');
+  };
 
   useEffect(() => {
     const fetchProperty = async () => {
@@ -186,6 +154,14 @@ const OfferDetails = () => {
     fetchUser();
   }, [property]);
  
+    // Check favourite status after user data is fetched
+    useEffect(() => {
+      if (fetchedUserData && fetchedUserData.id_user != null && property_id != null) {
+        console.log('User data and property ID available, checking favourite status...');
+        checkFavouriteStatus();
+      }
+    }, [fetchedUserData, property_id]); // Make sure to include property_id in the dependency array
+
   const dateOnly = property ? property.publication_date.split(' ').slice(0, 4).join(' ') : '';
 
   if (!property || !user) {
@@ -210,10 +186,12 @@ const OfferDetails = () => {
             <img src={`data:image/png;base64,${property.photo}`} alt="Property" className='property-img-details'/>
             <button 
               className={`button-favourite ${isFavourite ? 'filled' : 'not-filled'}`} 
-              onClick={handleAddToFavourites}>
-             <FontAwesomeIcon 
+              onClick={handleAddToFavourites}
+            > 
+              <FontAwesomeIcon 
                 icon={isFavourite ? fasHeart : farHeart} 
-                style={{ color: isFavourite ? 'red' : 'grey' }} />
+                style={{ color: isFavourite ? 'red' : 'grey' }}
+              />
             </button>
             <Popup 
             isOpen={isPopupOpen} 
