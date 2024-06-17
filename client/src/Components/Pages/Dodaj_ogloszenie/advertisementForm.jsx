@@ -533,12 +533,20 @@ const handleSubmit = async (event) => {
       <label className='advertisement-label'>Dodaj promowanie oferty</label>
       <input type="checkbox" className='infoCheckbox' name="promotion" value="1" onChange={(e) => setSponsored(e.target.checked)} />
       
-      <label className='advertisement-label'>Akceptuje regulamin strony</label>
+      <label className='advertisement-label'>Akceptuje regulamin strony:</label>
       <input type="checkbox" className='infoCheckbox' name="agreement" required /><br /><br />
-      
+
       <button type="submit" className='sendButton'>Wyślij</button>
-      <button onClick={handleClose} className="close-button">Close</button>
-      
+
+      {showPopup && (
+      <div className="popup-notify">
+        <div className="popup-inner-notify">
+          {notification}
+          {notification.startsWith('Advertisement added successfully') && <Link to="/" element={<Strona_glowna/>} >Go back to home</Link>}  
+          <button onClick={handleClose} className="close-button">Close</button>
+        </div>
+      </div>
+      )}
     </form>
   </div>
   );
