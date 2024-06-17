@@ -51,6 +51,8 @@ function OfferBlock({ offer, setRefresh}) {
     setConfirmIsOpen(false);
   };
 
+  
+
   return (
     <div className="offer-box">
       <h2>{title}</h2>
@@ -61,8 +63,8 @@ function OfferBlock({ offer, setRefresh}) {
         <button className='profile-button-style' onClick={handleDelete}>Usuń</button>
       </div>
       <ConfirmationPopup isOpen={confirmIsOpen} onConfirm={handleConfirm} onClose={handleClose} />
-      <EditPropertyPopUp isOpen={editIsOpen} property={currentProperty} onClose={() => setEditIsOpen(false)} 
-      setRefresh={setRefresh} />
+      <EditPropertyPopUp isOpen={editIsOpen} property={currentProperty} onClose={() => setEditIsOpen(false)}
+        setEditIsOpen={setEditIsOpen} setRefresh={setRefresh} />
     </div>
   );
 }

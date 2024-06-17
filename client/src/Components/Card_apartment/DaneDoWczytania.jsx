@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Card_apartment from './Card_apartment';
+import axios from 'axios';
 
 const DaneDoWczytania = () => {
   const [propertiesData, setPropertiesData] = useState([]);
@@ -11,11 +12,12 @@ const DaneDoWczytania = () => {
       .then(data => setPropertiesData(data))
       .catch(error => console.error('Data ', error));
   }, []);
+  
 
   if (propertiesData.length === 0) {
     return <div>Loading...</div>;
   }
-
+  
   return (
     <>
       {propertiesData.map(propertyData => (
@@ -32,6 +34,7 @@ const DaneDoWczytania = () => {
       ))}
     </>
   );
+  
 };
 
 export default DaneDoWczytania;

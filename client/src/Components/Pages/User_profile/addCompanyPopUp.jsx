@@ -134,7 +134,7 @@ const AddCompanyPopUp = ({ showAddPopupCompany, setShowAddPopupCompany, setDataU
             <option value="Developer">Developer</option>
             <option value="Estate agency">Estate Agency</option>
           </select>
-
+          <div className='company-popupWindow-container'>
           <button className='button-popupWindow-Company' type="submit" >Zapisz</button>
           <button className='button-popupWindow-Company' onClick={() => 
             {
@@ -142,6 +142,7 @@ const AddCompanyPopUp = ({ showAddPopupCompany, setShowAddPopupCompany, setDataU
             }}
             
             >Close</button>
+          </div>
         </form>
       </div>
     </div>
