@@ -37,6 +37,7 @@ const OfferDetails = () => {
     "Solar panels": "Kolektory słoneczne"
   };
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -94,8 +95,7 @@ const OfferDetails = () => {
             Authorization: `Bearer ${token}`
           }
         });
-        const userData = response.data;
-        setUserFavourite(userData.id_user);
+        
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -103,21 +103,58 @@ const OfferDetails = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await axios.get(`${apiUrl}/get/${userFavourite}`);
+        
+        const userData = response.data;
+        setUserFavourite(userData.id_user);
+
+      } catch (error) {
+        console.error(`Error fetching user data: ${error}`);
+      }
+      
+    };
+  }, [userFavourite]); 
+
+  const checkFavouriteStatus = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/getfavourite/${userFavourite}`);
+      setIsFavourite(response.data.some(property => property.id === property_id));
+    } catch (error) {
+      console.error('Failed to check favourite status:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (userFavourite) {
+      checkFavouriteStatus();
+    }
+  }, [userFavourite]);
+
   const handleAddToFavourites = async () => {
     if (isLoggedIn()) {
-      setIsFavourite(!isFavourite);
-      console.log('Add to favourites clicked');
       try {
-        const response = await axios.post(`${apiUrl}/postfavourite/${userFavourite}/${property_id}`);
-        console.log('Added to favourites:', response.data); // Debug message
+        if (isFavourite) {
+          // If it's already a favourite, remove it
+          await axios.delete(`${apiUrl}/deletefavourite/${userFavourite}/${property_id}`);
+          setIsFavourite(false); // Update state to reflect removal
+        } else {
+          // If it's not a favourite, add it
+          await axios.post(`${apiUrl}/postfavourite/${userFavourite}/${property_id}`);
+          setIsFavourite(true); // Update state to reflect addition
+        }
       } catch (error) {
-        console.error('Failed to add to favourites:', error);
+        console.error('Failed to update favourites:', error);
       }
     } else {
-        console.log('Not logged in, showing alert');
-        setIsPopupOpen(!isPopupOpen);
-      }
+      console.log('Not logged in, showing alert');
+      setIsPopupOpen(!isPopupOpen);
+    }
   };
+  
 
   useEffect(() => {
     const fetchProperty = async () => {
@@ -174,9 +211,9 @@ const OfferDetails = () => {
             <button 
               className={`button-favourite ${isFavourite ? 'filled' : 'not-filled'}`} 
               onClick={handleAddToFavourites}>
-              <FontAwesomeIcon 
+             <FontAwesomeIcon 
                 icon={isFavourite ? fasHeart : farHeart} 
-                style={{ color: isFavourite ? 'grey' : 'grey' }} />
+                style={{ color: isFavourite ? 'red' : 'grey' }} />
             </button>
             <Popup 
             isOpen={isPopupOpen} 
