@@ -250,70 +250,77 @@ const handleSubmit = async (event) => {
     <div className="form-container">
       <form className='form-advertisement-data' onSubmit={handleSubmit}>
         <div className='div-advertisement'>
-          <p className='advertimest-paragraph'>Podstawowe dane</p>
+          <p className='advertisement-paragraph'>Podstawowe dane</p>
           <label className='advertisement-label' htmlFor="title">Tytuł ogłoszenia:</label>
-          <input className='advertisement-input' type="text" name="title" required onChange={(e) => setTitle(e.target.value)} /><br /><br />
+          <input className='advertisement-input' type="text" name="title" required onChange={(e) => setTitle(e.target.value)} placeholder='max 100 znaków'/><br /><br />
 
-          <label className='advertisement-label' htmlFor="area">Powierzchnia:</label>
-          <input className='advertisement-input' type="number" min='0' name="area" required onChange={(e) => setSquareMetrage(e.target.value)} /> m²<br /><br />
-
-          <label className='advertisement-label' htmlFor="standard">Standard wykończenia:</label>
-          <select className='advertisement-select' name="standard" required onChange={(e) => setFinishingStandard(e.target.value)}>
-            <option value="HOUSE">Dom</option>
-            <option value="TERRACED_HOUSE">Dom szeregowy</option>
-            <option value="APARTMENT">Apartament</option>
-            <option value="OTHER">Inne</option>
-          </select><br /><br />
-
-          <label className='advertisement-label' htmlFor="market">Rynek:</label>
-          <select className='advertisement-select' name="market" 
-          required onChange={(e) => setMarket(e.target.value)}>
-            <option value="primary">Rynek pierwotny</option>
-            <option value="secondary">Rynek wtórny</option>
-          </select><br /><br />
-      
-          <label className='advertisement-label' htmlFor="price">Cena:</label>
-          <input className='advertisement-input' type="number" name="price" 
-          required onChange={(e) => setPrice(e.target.value)} /> PLN
-          <br /><br />
+          <div className="flex-container">
+                <div className="flex-item">
+                    <label className="advertisement-label" htmlFor="area">Powierzchnia:</label>
+                    <input className="advertisement-input" type="number" min="0" name="area" required onChange={(e) => setSquareMetrage(e.target.value)} placeholder='m²'/> 
+                </div>
+                <div className="flex-item">
+                    <label className="advertisement-label" htmlFor="standard">Standard wykończenia:</label>
+                    <select className="advertisement-select" name="standard" required onChange={(e) => setFinishingStandard(e.target.value)}>
+                        <option value="HOUSE">Dom</option>
+                        <option value="TERRACED_HOUSE">Dom szeregowy</option>
+                        <option value="APARTMENT">Apartament</option>
+                        <option value="OTHER">Inne</option>
+                    </select>
+                </div>
+            </div>
+            <div className="flex-container">
+                <div className="flex-item">
+                    <label className="advertisement-label" htmlFor="market">Rynek:</label>
+                    <select className="advertisement-select" name="market" required onChange={(e) => setMarket(e.target.value)}>
+                        <option value="primary">Rynek pierwotny</option>
+                        <option value="secondary">Rynek wtórny</option>
+                    </select>
+                </div>
+                <div className="flex-item">
+                    <label className="advertisement-label" htmlFor="price">Cena:</label>
+                    <input className="advertisement-input cena" type="number" name="price" required onChange={(e) => setPrice(e.target.value)} placeholder='PLN'/> 
+                </div>
+            </div>
       </div>
       <div className='div-advertisement'>
-        <p className='advertimest-paragraph'>Adres</p>
+      <p className="advertisement-paragraph">Adres</p>
 
-        <label className='advertisement-label' htmlFor="country">Kraj:</label>
-        <input className='advertisement-input' type="text" name="country" 
-        required onChange={(e) => setCountry(e.target.value)} 
-        /><br /><br />
+      <label className="advertisement-label" htmlFor="country">Dzielnica:</label>
+      <input className="advertisement-input" type="text" name="country" required onChange={(e) => setCountry(e.target.value)} />
 
-        <label className='advertisement-label' htmlFor="province">Województwo:</label>
-        <input className='advertisement-input' type="text" name="province" 
-        required onChange={(e) => setRegion(e.target.value)} />
-        <br /><br />
+      <div className="flex-container">
+          <div className="flex-item">
+              <label className="advertisement-label" htmlFor="province">Województwo:</label>
+              <input className="advertisement-input" type="text" name="province" required onChange={(e) => setRegion(e.target.value)} />
+          </div>
+          <div className="flex-item">
+              <label className="advertisement-label" htmlFor="commune">Gmina:</label>
+              <input className="advertisement-input" type="text" name="commune" required onChange={(e) => setDistrict(e.target.value)} />
+          </div>
+      </div>
 
-        <label className='advertisement-label' htmlFor="commune">Gmina:</label>
-        <input className='advertisement-input' type="text" name="commune" 
-        required onChange={(e) => setDistrict(e.target.value)} />
-        <br /><br />
+      <div className="flex-container">
+          <div className="flex-item">
+              <label className="advertisement-label" htmlFor="city">Miejscowość:</label>
+              <input className="advertisement-input" type="text" name="city" required onChange={(e) => setLocality(e.target.value)} />
+          </div>
+          <div className="flex-item">
+              <label className="advertisement-label" htmlFor="street">Ulica:</label>
+              <input className="advertisement-input" type="text" name="street" required onChange={(e) => setStreet(e.target.value)} />
+          </div>
+      </div>
 
-        <label className='advertisement-label' htmlFor="city">Miejscowość:</label>
-        <input className='advertisement-input' type="text" name="city" 
-        required onChange={(e) => setLocality(e.target.value)} />
-        <br /><br />
-
-        <label className='advertisement-label' htmlFor="street">Ulica:</label>
-        <input className='advertisement-input' type="text" name="street" 
-        required onChange={(e) => setStreet(e.target.value)} />
-        <br /><br />
-
-        <label className='advertisement-label' htmlFor="postal_code">Kod pocztowy:</label>
-        <input className='advertisement-input' type="text" name="postal_code" required onChange={(e) => 
-        setPostalCode(e.target.value)} 
-        /><br /><br />
-
-        <label className='advertisement-label' htmlFor="house_number">Numer domu:</label>
-        <input className='advertisement-input' type="text" name="house_number" 
-        required onChange={(e) => setHouseNumber(e.target.value)} 
-        /><br /><br />
+      <div className="flex-container">
+          <div className="flex-item">
+              <label className="advertisement-label" htmlFor="postal_code">Kod pocztowy:</label>
+              <input className="advertisement-input" type="text" name="postal_code" required onChange={(e) => setPostalCode(e.target.value)} />
+          </div>
+          <div className="flex-item">
+              <label className="advertisement-label" htmlFor="house_number">Numer domu:</label>
+              <input className="advertisement-input" type="text" name="house_number" required onChange={(e) => setHouseNumber(e.target.value)} />
+          </div>
+      </div>
 
       {/*
         <label className='advertisement-label' htmlFor="coordinates">Koordynaty:</label>
@@ -325,141 +332,186 @@ const handleSubmit = async (event) => {
       </div>
 
       <div className="div-advertisement">
-        <p className='advertimest-paragraph'>Wnętrze:</p>
+        <p className='advertisement-paragraph'>Wnętrze</p>
 
         <label className='advertisement-label' htmlFor="rooms">Liczba pokoi:</label>
         <input className='advertisement-input' type="number" min='0' name="rooms" 
         required onChange={(e) => setNrRooms(e.target.value)} />
         <br /><br />
-        
-        <button type="button" onClick={() => setRooms([...rooms, { index: rooms.length + 1, metrage: "" }])}>
-        Dodaj pokój</button><br /><br />
-        
-        {rooms.map((room, i) => (
-        <div key={i}>
-          <label className='advertisement-label' htmlFor={`room_index_${i}`}>Indeks pokoju {i + 1}:</label>
-          <input className='advertisement-input' type="number" min='1' name={`room_index_${i}`} value={room.index}
-           required readOnly /><br /><br />
 
-          <label className='advertisement-label' htmlFor={`room_metrage_${i}`}>Metraż pokoju {i + 1}:</label>
-          <input className='advertisement-input' type="number" min='0' step="0.01" name={`room_metrage_${i}`} value={room.metrage}
-          required onChange={(e) => handleRoomMetrageChange(e, i)} /> m²<br /><br />
+        {rooms.map((room, i) => (
+          <div key={i}>
+        <div className="flex-container">
+
+          
+            <div className="flex-item">
+              <label className='advertisement-label' htmlFor={`room_index_${i}`}>Indeks pokoju {i + 1}:</label>
+              <input className='advertisement-input' type="number" min='1' name={`room_index_${i}`} value={room.index}
+              required readOnly /><br /><br />
+            </div>
+            <div className="flex-item">
+              <label className='advertisement-label' htmlFor={`room_metrage_${i}`}>Metraż pokoju {i + 1}:</label>
+              <input className='advertisement-input' type="number" min='0' step="0.01" name={`room_metrage_${i}`} value={room.metrage}
+              required onChange={(e) => handleRoomMetrageChange(e, i)} placeholder='m²'/> <br /><br />
+            </div>
+          </div>
         </div>
       ))}
-
-        <label className='advertisement-label' htmlFor="bathrooms">Ilość łazienek:</label>
-        <input className='advertisement-input' type="number" min='0' name="bathrooms" 
-        required onChange={(e) => setNrBathrooms(e.target.value)} />
-        <br /><br />
-
-        <label className='advertisement-label' htmlFor="heating">Rodzaj ogrzewania:</label>
-        <select className='advertisement-select' name="heating" required onChange={(e) => setTypeOfHeating(e.target.value)}>
-          <option value="">Wybierz</option>
-          <option value="LACK">Brak</option>
-          <option value="HEAT_PUMP">Pompa cieplna</option>
-          <option value="FURNACE">Piec</option>
-          <option value="ECO_PEA_STOVE">Eko-groszek</option>
-          <option value="GAS_FURNACE">Gazowe</option>
-          <option value="ELECTRIC_HEATING">Elektryczne</option>
-          <option value="SOLAR_PANELS">Fotowoltaika(Panele Słoczneczne)</option>
-        </select><br /><br />
-
-        <label className='advertisement-label' htmlFor="condition">Stan:</label>
-        <select className='advertisement-select' name="condition" required onChange={(e) => setConditionInside(e.target.value)}>
-          <option value="">Wybierz</option>
-          <option value="FORMALITIES">Formalności</option>
-          <option value="ZERO_CONDITION">Stan zerowy</option>
-          <option value="OPEN_BASIC_CONDITION">Stan otwarty</option>
-          <option value="CLOSE_BASIC_CONDITION">Stan zamknięty</option>
-          <option value="FINISHING_WORKS">Prace wykończeniowe</option>
-          <option value="FINISHED">Gotowe do zamieszkania</option>
-        </select><br /><br />
-
-        <label className='advertisement-label' htmlFor="basement">Piwnica:</label>
-        <select className='advertisement-select' name="basement" 
-        required onChange={(e) => setBasement(e.target.value)}>
-          <option value="1">Tak</option>
-          <option value="0">Nie</option>
-        </select><br /><br />
-
-        <label className='advertisement-label' htmlFor="nr_balconies">Liczba balkonów:</label>
-        <input className='advertisement-input' type="number" min='0' name="nr_balconies" 
-        required onChange={(e) => setNrBalconies(e.target.value)} />
-        <br /><br />
-
-        <label className='advertisement-label' htmlFor="attic">Strych:</label>
-        <select className='advertisement-select' name="attic" 
-        required onChange={(e) => setAttic(e.target.value)}>  
-          <option value="1">Tak</option>
-          <option value="0">Nie</option>
-        </select><br /><br />
-
-        <label className='advertisement-label' htmlFor="floors">Ilość pięter:</label>
-        <input className='advertisement-input' type="number" min='0' name="floors" 
-        required onChange={(e) => setNrFloors(e.target.value)} />
-        <br /><br />
-
-        <label className='advertisement-label' htmlFor="garages">Ilość garaży:</label>
-        <input className='advertisement-input' type="number" min='0' name="garages" 
-        required onChange={(e) => setNrGarages(e.target.value)} />
-        <br /><br />
-        
-        <label className='advertisement-label' htmlFor="bicycleRack">Stojak na rowery:</label>
-        <select className='advertisement-select' name="bicycleRack" required onChange={(e) => setBicycleRack(e.target.value)}>  
-          <option value="1">Tak</option>
-          <option value="0">Nie</option>
-        </select><br /><br />
-
-        <label className='advertisement-label' htmlFor="carParkingSpace">Miejsce parkingowe:</label>
-        <select className='advertisement-select' name="carParkingSpace" required onChange={(e) => setCarParkingSpace(e.target.value)}>  
-          <option value="1">Tak</option>
-          <option value="0">Nie</option>
-        </select><br /><br />
+            <button type="button" className="AddRoom"onClick={() => setRooms([...rooms, { index: rooms.length + 1, metrage: "" }])}>
+              Dodaj pokój</button><br /><br />
+      </div>
+      <div className="div-advertisement">
+        <div className="flex-container">
+          <div className="flex-item">
+            <label className='advertisement-label' htmlFor="bathrooms">Ilość łazienek:</label>
+            <input className='advertisement-input' type="number" min='0' name="bathrooms" 
+            required onChange={(e) => setNrBathrooms(e.target.value)} />
+            <br /><br />
+          </div>
+          <div className="flex-item">
+            <label className='advertisement-label' htmlFor="heating">Rodzaj ogrzewania:</label>
+            <select className='advertisement-select' name="heating" required onChange={(e) => setTypeOfHeating(e.target.value)}>
+              <option value="">Wybierz</option>
+              <option value="LACK">Brak</option>
+              <option value="HEAT_PUMP">Pompa cieplna</option>
+              <option value="FURNACE">Piec</option>
+              <option value="ECO_PEA_STOVE">Eko-groszek</option>
+              <option value="GAS_FURNACE">Gazowe</option>
+              <option value="ELECTRIC_HEATING">Elektryczne</option>
+              <option value="SOLAR_PANELS">Fotowoltaika(Panele Słoczneczne)</option>
+            </select><br /><br />
+          </div>
+        </div>
+        <div className="flex-container">
+          <div className="flex-item">
+            <label className='advertisement-label' htmlFor="condition">Stan:</label>
+            <select className='advertisement-select' name="condition" required onChange={(e) => setConditionInside(e.target.value)}>
+              <option value="">Wybierz</option>
+              <option value="FORMALITIES">Formalności</option>
+              <option value="ZERO_CONDITION">Stan zerowy</option>
+              <option value="OPEN_BASIC_CONDITION">Stan otwarty</option>
+              <option value="CLOSE_BASIC_CONDITION">Stan zamknięty</option>
+              <option value="FINISHING_WORKS">Prace wykończeniowe</option>
+              <option value="FINISHED">Gotowe do zamieszkania</option>
+            </select><br /><br />
+          </div>
+          <div className="flex-item">
+            <label className='advertisement-label' htmlFor="basement">Piwnica:</label>
+            <select className='advertisement-select' name="basement" 
+            required onChange={(e) => setBasement(e.target.value)}>
+              <option value="1">Tak</option>
+              <option value="0">Nie</option>
+            </select><br /><br />
+          </div>
+        </div>
+        <div className="flex-container">
+          <div className="flex-item">
+            <label className='advertisement-label' htmlFor="nr_balconies">Liczba balkonów:</label>
+            <input className='advertisement-input' type="number" min='0' name="nr_balconies" 
+            required onChange={(e) => setNrBalconies(e.target.value)} />
+            <br /><br />
+          </div>
+          <div className="flex-item">
+            <label className='advertisement-label' htmlFor="attic">Strych:</label>
+            <select className='advertisement-select' name="attic" 
+            required onChange={(e) => setAttic(e.target.value)}>  
+              <option value="1">Tak</option>
+              <option value="0">Nie</option>
+            </select><br /><br />
+          </div>
+        </div>
+        <div className="flex-container">
+          <div className="flex-item">
+            <label className='advertisement-label' htmlFor="floors">Ilość pięter:</label>
+            <input className='advertisement-input' type="number" min='0' name="floors" 
+            required onChange={(e) => setNrFloors(e.target.value)} />
+            <br /><br />
+          </div>
+          <div className="flex-item">
+            <label className='advertisement-label' htmlFor="garages">Ilość garaży:</label>
+            <input className='advertisement-input' type="number" min='0' name="garages" 
+            required onChange={(e) => setNrGarages(e.target.value)} />
+            <br /><br />
+          </div>  
+        </div>
+        <div className="flex-container">
+          <div className="flex-item">
+            <label className='advertisement-label' htmlFor="bicycleRack">Stojak na rowery:</label>
+            <select className='advertisement-select' name="bicycleRack" required onChange={(e) => setBicycleRack(e.target.value)}>  
+              <option value="1">Tak</option>
+              <option value="0">Nie</option>
+            </select><br /><br />
+          </div>
+          <div className="flex-item">
+            <label className='advertisement-label' htmlFor="carParkingSpace">Miejsce parkingowe:</label>
+            <select className='advertisement-select' name="carParkingSpace" required onChange={(e) => setCarParkingSpace(e.target.value)}>  
+              <option value="1">Tak</option>
+              <option value="0">Nie</option>
+            </select><br /><br />
+          </div>
+        </div>
       </div>
 
       <div className="div-advertisement-container">
-      <p className='advertisement-paragraph'>Informacje dodatkowe:</p>
-        <label className='advertisement-label' htmlFor="description">Opis: </label>
-        <input className='advertisement-input' type="text" name="description" 
-        required onChange={(e) => setDescription(e.target.value)} 
-        /><br /><br />
-
-      <label className='advertisement-label' htmlFor="showAdditionalInfo">Dodaj dodatkowe informacje:</label>
-      <input type="checkbox" id="showAdditionalInfo" name="showAdditionalInfo" 
-      onChange={() => setShowAdditionalInfo(!showAdditionalInfo)} />
-
+      <div className="div-advertisement">  
+        
+        <p className='advertisement-paragraph'>Informacje dodatkowe:</p>
+          <label className='advertisement-label' htmlFor="description">Opis: </label>
+          <input className='advertisement-input' type="text" name="description" 
+          required onChange={(e) => setDescription(e.target.value)} placeholder='max 200 znaków'
+          /><br /><br />
+        <div className="flex-container">
+          <label className='advertisement-label' htmlFor="showAdditionalInfo">Dodaj dodatkowe informacje:</label>
+          <input type="checkbox" className='infoCheckbox' id="showAdditionalInfo" name="showAdditionalInfo" 
+          onChange={() => setShowAdditionalInfo(!showAdditionalInfo)} />
+        </div>
+      </div>
       {showAdditionalInfo && (
         <div className="div-advertisement">
 
-
-        <label className='advertisement-label' htmlFor="shopDistance">Odległość od sklepu (metry):</label>
-        <input className='advertisement-input' type="number" min='0' name="shopDistance" 
-        onChange={(e) => setShopDistance(e.target.value)} />
-        <br /><br />
-
-        <label className='advertisement-label' htmlFor="parkDistance">Odległość od parku (metry):</label>
-        <input className='advertisement-input' type="number" min='0' name="parkDistance" 
-        onChange={(e) => setParkDistance(e.target.value)} />
-        <br /><br />
-
-        <label className='advertisement-label' htmlFor="playgroundDistance">Odległość od placu zabaw (metry):</label>
-        <input className='advertisement-input' type="number" min='0' name="playgroundDistance" 
-        onChange={(e) => setPlaygroundDistance(e.target.value)} />
-        <br /><br />
-
-        <label className='advertisement-label' htmlFor="kindergardenDistance">Odległość od przedszkola (metry):</label>
-        <input className='advertisement-input' type="number" min='0' name="kindergardenDistance" 
-         onChange={(e) => setKindergardenDistance(e.target.value)} />
-        <br /><br />
-
-        <label className='advertisement-label' htmlFor="schoolDistance">Odległość od szkoły (metry):</label>
-        <input className='advertisement-input' type="number" min='0' name="schoolDistance" 
-         onChange={(e) => setSchoolDistance(e.target.value)} />
-        <br /><br />
+        <div className="flex-container">  
+          <div className="flex-item">
+            <label className='advertisement-label' htmlFor="shopDistance">Odległość od sklepu:</label>
+            <input className='advertisement-input' type="number" min='0' name="shopDistance" 
+            onChange={(e) => setShopDistance(e.target.value)} placeholder='w metrach'/>
+            <br /><br />
+          </div>
+          <div className="flex-item">
+            <label className='advertisement-label' htmlFor="parkDistance">Odległość od parku:</label>
+            <input className='advertisement-input' type="number" min='0' name="parkDistance" 
+            onChange={(e) => setParkDistance(e.target.value)} placeholder='w metrach'/>
+            <br /><br />
+          </div>
+        </div>
+        <div className="flex-container"> 
+          <div className="flex-item">
+            <label className='advertisement-label' htmlFor="playgroundDistance">Odległość od placu zabaw:</label>
+            <input className='advertisement-input' type="number" min='0' name="playgroundDistance" 
+            onChange={(e) => setPlaygroundDistance(e.target.value)} placeholder='w metrach'/>
+            <br /><br />
+          </div>
+          <div className="flex-item">
+            <label className='advertisement-label' htmlFor="kindergardenDistance">Odległość od przedszkola:</label>
+            <input className='advertisement-input' type="number" min='0' name="kindergardenDistance" 
+            onChange={(e) => setKindergardenDistance(e.target.value)} placeholder='w metrach'/>
+            <br /><br />
+          </div>
+        </div>
+        <div className="flex-container-mid">
+          <div className="flex-item-mid">
+            
+            <label className='advertisement-label' htmlFor="schoolDistance">Odległość od szkoły:</label>
+            <input className='advertisement-input' type="number" min='0' name="schoolDistance" 
+            onChange={(e) => setSchoolDistance(e.target.value)} placeholder='w metrach'/>
+            
+            <br /><br />
+          
+          </div>
+        </div>
         </div>
         )}
       </div>
-
+      <div className="div-advertisement">
       <p className='advertisement-paragraph'>Multimedia</p>
 
       <input type="file" required onChange={handleImageChange} />
@@ -473,16 +525,15 @@ const handleSubmit = async (event) => {
 
       <button type="button" onClick={addImage}>Dodaj zdjęcie</button><br /><br />
       */}
-
-      <p className='advetimest-paragraph'>Dodatkowe:</p>
-      <label>Dodaj promowanie oferty:</label>
-      <input type="checkbox" name="promotion" value="1" onChange={(e) => setSponsored(e.target.checked)} />
-      <br /><br />
+      </div>
       
-      <label>Akceptuje regulamin strony:</label>
-      <input type="checkbox" name="agreement" required/><br /><br />
-
-      <button type="submit">Wyślij</button>
+      <label className='advertisement-label'>Dodaj promowanie oferty</label>
+      <input type="checkbox" className='infoCheckbox' name="promotion" value="1" onChange={(e) => setSponsored(e.target.checked)} />
+      
+      <label className='advertisement-label'>Akceptuje regulamin strony</label>
+      <input type="checkbox" className='infoCheckbox' name="agreement" required /><br /><br />
+      
+      <button type="submit" className='sendButton'>Wyślij</button>
 
       {showPopup && (
       <div className="popup-notify">
